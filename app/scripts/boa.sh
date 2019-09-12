@@ -1,0 +1,1 @@
+java -p core-api.jar:core.jar:app.jar -m com.reitler.boa.app/com.reitler.boa.app.Application
