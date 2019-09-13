@@ -2,7 +2,7 @@ package com.reitler.boa.core;
 
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongAssignment;
-import com.reitler.boa.core.interfaces.ISongAssignmentFactory;
+import com.reitler.boa.core.interfaces.factory.ISongAssignmentFactory;
 
 public class SongAssignmentFactory implements ISongAssignmentFactory {
 

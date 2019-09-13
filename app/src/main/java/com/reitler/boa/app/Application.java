@@ -1,5 +1,6 @@
 package com.reitler.boa.app;
 
+import java.lang.System.Logger.Level;
 import java.util.Optional;
 import java.util.ServiceLoader;
 
@@ -16,13 +17,15 @@ public class Application {
 		ServiceLoader<ISongManager> loader = ServiceLoader.load(ISongManager.class);
 
 		if (loader == null) {
-			System.err.println("No Song Manager could be instantiated");
+			System.getLogger(Application.class.getCanonicalName()).log(Level.ERROR,
+					"No Song Manager could be instantiated");
 			return false;
 		}
 
 		Optional<ISongManager> first = loader.findFirst();
 		if (!first.isPresent()) {
-			System.err.println("No Song Manager could be instantiated");
+			System.getLogger(Application.class.getCanonicalName()).log(Level.ERROR,
+					"No Song Manager could be instantiated");
 			return false;
 		}
 

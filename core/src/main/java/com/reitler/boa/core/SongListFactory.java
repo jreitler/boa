@@ -1,7 +1,7 @@
 package com.reitler.boa.core;
 
 import com.reitler.boa.core.interfaces.ISongList;
-import com.reitler.boa.core.interfaces.ISongListFactory;
+import com.reitler.boa.core.interfaces.factory.ISongListFactory;
 
 public class SongListFactory implements ISongListFactory {
 
