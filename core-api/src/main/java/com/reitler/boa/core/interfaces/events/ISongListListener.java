@@ -1,12 +1,11 @@
 package com.reitler.boa.core.interfaces.events;
 
-import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
 
 public interface ISongListListener {
 
-	void assignmentAdded(ISongList source, ISongAssignment addedSong);
+	void songListAdded(ISongList list);
 
-	void assignmentRemoved(ISongList source, ISongAssignment removedSong);
+	void songListRemoved(ISongList list);
 
 }

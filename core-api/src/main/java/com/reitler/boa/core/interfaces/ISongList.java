@@ -2,7 +2,7 @@ package com.reitler.boa.core.interfaces;
 
 import java.util.List;
 
-import com.reitler.boa.core.interfaces.events.ISongListListener;
+import com.reitler.boa.core.interfaces.events.ISongAssignmentListener;
 
 public interface ISongList {
 
@@ -14,7 +14,7 @@ public interface ISongList {
 
 	String getName();
 
-	void addSongListListener(ISongListListener listener);
+	void addSongAssignmentListener(ISongAssignmentListener listener);
 
-	void removeSongListListener(ISongListListener listener);
+	void removeSongAssignmentListener(ISongAssignmentListener listener);
 }

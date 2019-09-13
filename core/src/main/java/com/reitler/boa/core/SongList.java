@@ -9,11 +9,11 @@ import java.util.function.Function;
 
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
-import com.reitler.boa.core.interfaces.events.ISongListListener;
+import com.reitler.boa.core.interfaces.events.ISongAssignmentListener;
 
 public class SongList implements ISongList {
 
-	private final Set<ISongListListener> listeners = new HashSet<>();
+	private final Set<ISongAssignmentListener> listeners = new HashSet<>();
 	private final String name;
 
 	private final List<ISongAssignment> assignments = new ArrayList<>();
@@ -35,7 +35,7 @@ public class SongList implements ISongList {
 	@Override
 	public void add(final ISongAssignment assignment) {
 		if (this.assignments.add(assignment)) {
-			for (ISongListListener l : this.listeners) {
+			for (ISongAssignmentListener l : this.listeners) {
 				l.assignmentAdded(this, assignment);
 			}
 		}
@@ -48,7 +48,7 @@ public class SongList implements ISongList {
 
 	public void remove(final ISongAssignment assignment) {
 		if (this.assignments.remove(assignment)) {
-			for (ISongListListener l : this.listeners) {
+			for (ISongAssignmentListener l : this.listeners) {
 				l.assignmentRemoved(this, assignment);
 			}
 		}
@@ -63,14 +63,14 @@ public class SongList implements ISongList {
 	}
 
 	@Override
-	public void addSongListListener(final ISongListListener listener) {
+	public void addSongAssignmentListener(final ISongAssignmentListener listener) {
 		if (listener != null) {
 			this.listeners.add(listener);
 		}
 	}
 
 	@Override
-	public void removeSongListListener(final ISongListListener listener) {
+	public void removeSongAssignmentListener(final ISongAssignmentListener listener) {
 		if (listener != null) {
 			this.listeners.remove(listener);
 		}

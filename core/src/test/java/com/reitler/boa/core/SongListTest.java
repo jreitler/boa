@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
-import com.reitler.boa.core.interfaces.events.ISongListListener;
+import com.reitler.boa.core.interfaces.events.ISongAssignmentListener;
 
 public class SongListTest {
 
@@ -45,7 +45,7 @@ public class SongListTest {
 	public void testNotification() {
 		Listener l = new Listener();
 		SongList list = new SongList("testList");
-		list.addSongListListener(l);
+		list.addSongAssignmentListener(l);
 
 		try {
 			Song song = new Song(1);
@@ -66,11 +66,11 @@ public class SongListTest {
 
 			list.remove(assignment1);
 		} finally {
-			list.removeSongListListener(l);
+			list.removeSongAssignmentListener(l);
 		}
 	}
 
-	private class Listener implements ISongListListener {
+	private class Listener implements ISongAssignmentListener {
 
 		private final List<ISongAssignment> assignments = new ArrayList<>();
 
