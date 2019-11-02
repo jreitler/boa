@@ -22,4 +22,6 @@ public interface ISongList {
 	void addSongAssignmentListener(ISongAssignmentListener listener);
 
 	void removeSongAssignmentListener(ISongAssignmentListener listener);
+
+	int getId();
 }

@@ -1,29 +1,37 @@
 package com.reitler.boa.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
 
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongManager;
+import com.reitler.boa.core.interfaces.events.ISongListener;
 
 public class SongManager implements ISongManager {
 
-	private final SortedSet<Song> songs = new TreeSet<>((a, b) -> a.getId() - b.getId());
-	private int currentId = 1;
+	private final Set<ISongListener> listeners = new HashSet<>();
+	private final SongStorage storage;
+
+	public SongManager(final SongStorage storage) {
+		this.storage = storage;
+	}
 
 	@Override
 	public ISong createSong(final String title) {
-		Song song = new Song(newId());
+		Song song = new Song(IdManager.newSongId());
 		song.setTitle(title);
-		this.songs.add(song);
+		this.storage.addSong(song);
+		for (ISongListener l : this.listeners) {
+			l.songAdded(song);
+		}
 		return song;
 	}
 
 	@Override
 	public List<ISong> getAllSongs() {
-		return new ArrayList<>(this.songs);
+		return new ArrayList<>(this.storage.getSongs());
 	}
 
 	@Override
@@ -35,13 +43,21 @@ public class SongManager implements ISongManager {
 
 	@Override
 	public void deleteSong(final int id) {
-		this.songs.removeIf(s -> s.getId() == id);
+		Song song = this.storage.getSong(id);
+		this.storage.removeSong(song);
+		IdManager.removeSongId(id);
+		for (ISongListener l : this.listeners) {
+			l.songRemoved(song);
+		}
 	}
 
-	private int newId() {
-		int id = this.currentId;
-		this.currentId++;
-		return id;
+	@Override
+	public void addSongListener(final ISongListener listener) {
+		this.listeners.add(listener);
 	}
 
+	@Override
+	public void removeSongListener(final ISongListener listener) {
+		this.listeners.remove(listener);
+	}
 }

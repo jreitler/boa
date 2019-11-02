@@ -1,25 +1,34 @@
 package com.reitler.boa.core;
 
-import com.reitler.boa.core.interfaces.ISongListManager;
-import com.reitler.boa.core.interfaces.ISongManager;
-
 public class DataManager {
 
 	private static DataManager INSTANCE = new DataManager();
 
-	private final ISongManager songManager = new SongManager();
-	private final ISongListManager songListManager = new SongListManager();
+	private final SongStorage storage;
+	private final SongManager songManager;
+	private final SongListManager songListManager;
 
 	public static DataManager getInstance() {
 		return DataManager.INSTANCE;
 	}
 
-	public ISongManager getSongManager() {
+	private DataManager() {
+		this.storage = new SongStorage();
+		this.songListManager = new SongListManager(this.storage);
+		this.songManager = new SongManager(this.storage);
+		this.songManager.addSongListener(this.songListManager);
+	}
+
+	public SongManager getSongManager() {
 		return this.songManager;
 	}
 
-	public ISongListManager getSongListManager() {
+	public SongListManager getSongListManager() {
 		return this.songListManager;
+	}
+
+	public SongStorage getStorage() {
+		return this.storage;
 	}
 
 	static synchronized void reset() {

@@ -17,11 +17,13 @@ public class SongList implements ISongList {
 
 	private final Set<ISongAssignmentListener> listeners = new HashSet<>();
 	private final String name;
+	private final int id;
 
 	private final List<ISongAssignment> assignments = new ArrayList<>();
 
-	public SongList(final String name) {
+	public SongList(final int id, final String name) {
 		this.name = name;
+		this.id = id;
 	}
 
 	@Override
@@ -86,6 +88,11 @@ public class SongList implements ISongList {
 		for (ISongAssignment as : list) {
 			remove(as);
 		}
+	}
+
+	@Override
+	public int getId() {
+		return id;
 	}
 
 }

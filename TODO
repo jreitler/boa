@@ -1,0 +1,12 @@
+GUI:
+- MenuBar
+- change song title
+
+
+CORE:
+- change song title
+
+
+GENERAL:
+- localization
+- init of core automatically
