@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
@@ -46,6 +48,7 @@ public class SongList implements ISongList {
 		return this.name;
 	}
 
+	@Override
 	public void remove(final ISongAssignment assignment) {
 		if (this.assignments.remove(assignment)) {
 			for (ISongAssignmentListener l : this.listeners) {
@@ -75,6 +78,14 @@ public class SongList implements ISongList {
 			this.listeners.remove(listener);
 		}
 
+	}
+
+	@Override
+	public void removeIf(final Predicate<ISongAssignment> predicate) {
+		List<ISongAssignment> list = this.assignments.stream().filter(predicate).collect(Collectors.toList());
+		for (ISongAssignment as : list) {
+			remove(as);
+		}
 	}
 
 }

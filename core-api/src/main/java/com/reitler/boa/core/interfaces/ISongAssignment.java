@@ -5,4 +5,6 @@ public interface ISongAssignment {
 	String getPage();
 
 	ISong getSong();
+
+	void setPage(String page);
 }
