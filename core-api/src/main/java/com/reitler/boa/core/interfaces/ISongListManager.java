@@ -16,4 +16,6 @@ public interface ISongListManager extends ISongListFactory {
 	void addSongListListener(ISongListListener listener);
 
 	void removeSongListListener(ISongListListener listener);
+
+	void assign(final ISong song, final ISongList list, final String page);
 }

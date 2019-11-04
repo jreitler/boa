@@ -1,0 +1,11 @@
+GUI:
+- dialog to display all songs, create new songs, delete and update existing ones
+- dialog to create new song 
+
+
+CORE:
+
+
+GENERAL:
+- localization
+- init of core automatically

@@ -7,9 +7,11 @@ public class SongAssignment implements ISongAssignment {
 
 	private final ISong song;
 	private String page;
+	private final int id;
 
-	public SongAssignment(final ISong song) {
+	public SongAssignment(final int id, final ISong song) {
 		this.song = song;
+		this.id = id;
 	}
 
 	@Override
@@ -25,6 +27,10 @@ public class SongAssignment implements ISongAssignment {
 	@Override
 	public void setPage(final String page) {
 		this.page = page;
+	}
+
+	public int getId() {
+		return this.id;
 	}
 
 }
