@@ -45,15 +45,18 @@ public class SongManager implements ISongManager {
 	public void deleteSong(final int id) {
 		Song song = this.storage.getSong(id);
 		this.storage.removeSong(song);
+		IdManager.removeSongId(id);
 		for (ISongListener l : this.listeners) {
 			l.songRemoved(song);
 		}
 	}
 
+	@Override
 	public void addSongListener(final ISongListener listener) {
 		this.listeners.add(listener);
 	}
 
+	@Override
 	public void removeSongListener(final ISongListener listener) {
 		this.listeners.remove(listener);
 	}

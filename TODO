@@ -1,9 +1,10 @@
 GUI:
-- dialog to display all songs, create new songs, delete and update existing ones
-- dialog to create new song 
+- MenuBar
+- change song title
 
 
 CORE:
+- change song title
 
 
 GENERAL:

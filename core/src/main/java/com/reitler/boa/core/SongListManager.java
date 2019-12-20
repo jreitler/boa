@@ -82,6 +82,14 @@ public class SongListManager implements ISongListManager, ISongListener {
 	}
 
 	@Override
+	public void unassign(final ISong song, final ISongList list) {
+		if (list instanceof SongList) {
+			SongList songList = (SongList) list;
+			songRemoved(songList, song);
+		}
+	}
+
+	@Override
 	public void songAdded(final ISong addedSong) {
 		// nothing to do
 

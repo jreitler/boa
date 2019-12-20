@@ -24,7 +24,6 @@ public class SongAssignment implements ISongAssignment {
 		return this.page;
 	}
 
-	@Override
 	public void setPage(final String page) {
 		this.page = page;
 	}
