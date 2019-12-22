@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongListManager;
 import com.reitler.boa.core.interfaces.ISongManager;
+import com.reitler.boa.pdfgen.PdfGenerator;
 
 public class SongListEditContainer extends Container {
 
@@ -50,11 +52,11 @@ public class SongListEditContainer extends Container {
 
 		Container buttonContainer = new Container();
 
-		buttonContainer.setLayout(new GridLayout(2, 1));
-		JButton addButton = new JButton();
-		addButton.setAction(new AddSongAction());
-		buttonContainer.add(addButton);
+		buttonContainer.setLayout(new GridLayout(3, 1));
+		buttonContainer.add(new JButton(new AddSongAction()));
 		buttonContainer.add(new JButton(new RemoveSongAction(table)));
+		buttonContainer.add(new JButton(new PrintSongListAction(this.songList)));
+
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
 	}
@@ -101,5 +103,24 @@ public class SongListEditContainer extends Container {
 			toRemove.forEach(
 					s -> SongListEditContainer.this.songListManager.unassign(s, SongListEditContainer.this.songList));
 		}
+	}
+
+	private final class PrintSongListAction extends AbstractAction {
+
+		private static final long serialVersionUID = 7664446593744493627L;
+		private static final String TITLE = "Generate Pdf..";
+		private final ISongList list;
+
+		private PrintSongListAction(final ISongList list) {
+			super(PrintSongListAction.TITLE);
+			this.list = list;
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent e) {
+			PdfGenerator generator = new PdfGenerator();
+			generator.generate(this.list, new File("/home/jan/temp/test/test3.pdf"));
+		}
+
 	}
 }

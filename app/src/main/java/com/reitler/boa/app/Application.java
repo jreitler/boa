@@ -17,6 +17,7 @@ public class Application {
 
 		ServiceLoader<ISongListManager> service = ServiceLoader.load(ISongListManager.class);
 		ISongListManager songListManager = service.findFirst().get();
+
 		new MainFrame(iSongManager, songListManager);
 
 	}
