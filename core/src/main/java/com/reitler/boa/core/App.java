@@ -6,7 +6,9 @@ import java.io.IOException;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
-import com.reitler.boa.core.persistence.PersistenceHandler;
+import com.reitler.boa.core.interfaces.ISongListManager;
+import com.reitler.boa.core.interfaces.persistence.IPersistenceHandler;
+import com.reitler.boa.core.service.PersistenceHandlerServiceProvider;
 
 /**
  * Hello world!
@@ -17,9 +19,9 @@ public class App {
 		System.out.println("Hello World!");
 
 		SongStorage store = DataManager.getInstance().getStorage();
-		try (PersistenceHandler h = new PersistenceHandler()) {
-			h.open(new File("/home/jan/temp/test.db3"), store);
-			SongListManager listManager = DataManager.getInstance().getSongListManager();
+		try (IPersistenceHandler h = PersistenceHandlerServiceProvider.provider()) {
+			h.open(new File("/home/jan/temp/test.db3"));
+			ISongListManager listManager = DataManager.getInstance().getSongListManager();
 			listManager.setSongAssignmentListener(h);
 			listManager.addSongListListener(h);
 			SongManager songManager = DataManager.getInstance().getSongManager();

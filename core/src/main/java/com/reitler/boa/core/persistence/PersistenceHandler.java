@@ -1,6 +1,5 @@
 package com.reitler.boa.core.persistence;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -14,23 +13,27 @@ import com.reitler.boa.core.SongStorage;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
-import com.reitler.boa.core.interfaces.events.ISongAssignmentListener;
-import com.reitler.boa.core.interfaces.events.ISongListListener;
-import com.reitler.boa.core.interfaces.events.ISongListener;
+import com.reitler.boa.core.interfaces.persistence.IPersistenceHandler;
 
-public class PersistenceHandler implements Closeable, ISongListListener, ISongAssignmentListener, ISongListener {
+public class PersistenceHandler implements IPersistenceHandler {
 
+	private final SongStorage storage;
 	private Connection connection;
 
-	public boolean open(final File file, final SongStorage storage) {
+	public PersistenceHandler(final SongStorage storage) {
+		this.storage = storage;
+	}
+
+	@Override
+	public boolean open(final File file) {
 		DatabaseInitializer initializer = new DatabaseInitializer();
 		boolean init = initializer.init(file);
 		if (!init) {
 			return false;
 		}
 		this.connection = initializer.getConnection();
-		initializer.getSongs().forEach(storage::addSong);
-		initializer.getSongLists().forEach(storage::addSongList);
+		initializer.getSongs().forEach(this.storage::addSong);
+		initializer.getSongLists().forEach(this.storage::addSongList);
 		return true;
 	}
 
