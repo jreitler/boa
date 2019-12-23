@@ -53,8 +53,15 @@ public class Queries {
 	private static final String DELETE_ASSIGNMENT_BY_ID_QUERY = String.format("DELETE from %s where %s=='%%d';",
 			Queries.TABLE_NAME_ASSIGNMENTS, Queries.ASSIGNMENT_ID_ATTRIBUTE);
 
-	public static String prepareInsertSongQuery(final int songId, final String songName) {
-		return String.format(Queries.INSERT_SONG_QUERY, songId, songName);
+	private static final String UPDATE_SONG_QUERY = String.format("UPDATE %s set %s='%%s' where %s='%%d';",
+			Queries.TABLE_NAME_SONGS, Queries.SONG_TITLE_ATTIRBUTE, Queries.SONG_ID_ATTRIBUTE);
+
+	public static String prepareUpdateSongQuery(final int songId, final String title) {
+		return String.format(Queries.UPDATE_SONG_QUERY, title, songId);
+	}
+
+	public static String prepareInsertSongQuery(final int songId, final String title) {
+		return String.format(Queries.INSERT_SONG_QUERY, songId, title);
 	}
 
 	public static String prepareDeleteSongQuery(final int songId) {

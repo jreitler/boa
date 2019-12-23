@@ -55,8 +55,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 	@Override
 	public void songChanged(final ISong oldValue, final ISong newValue) {
 		if (isInitialized()) {
-			deleteSong(oldValue);
-			saveSong(newValue);
+			updateSong(newValue);
 		}
 	}
 
@@ -92,6 +91,16 @@ public class PersistenceHandler implements IPersistenceHandler {
 		try (Statement statement = this.connection.createStatement()) {
 			statement.setQueryTimeout(30);
 			statement.executeUpdate(Queries.prepareInsertSongQuery(song.getId(), song.getTitle()));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void updateSong(final ISong song) {
+		try (Statement statement = this.connection.createStatement()) {
+			statement.setQueryTimeout(30);
+			statement.executeUpdate(Queries.prepareUpdateSongQuery(song.getId(), song.getTitle()));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
