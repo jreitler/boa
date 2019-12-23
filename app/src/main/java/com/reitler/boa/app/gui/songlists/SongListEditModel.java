@@ -8,11 +8,11 @@ import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongListManager;
-import com.reitler.boa.core.interfaces.events.ISongAssignmentListener;
+import com.reitler.boa.core.interfaces.events.ISongListListener;
 
 public class SongListEditModel extends AbstractTableModel {
 
-	private final ISongAssignmentListener assignmentListener = new SongAssignmentListener();
+	private final ISongListListener listener = new SongListListener();
 	private final ISongListManager manager;
 	private List<ISongAssignment> assignments;
 	private ISongList songList;
@@ -24,12 +24,12 @@ public class SongListEditModel extends AbstractTableModel {
 
 	public void setSongList(final ISongList list) {
 		if (this.songList != null) {
-			this.songList.removeSongAssignmentListener(this.assignmentListener);
+			this.songList.removeListener(this.listener);
 		}
 		if (list != null) {
 			this.assignments = new ArrayList<>(list.getByPage());
 			this.songList = list;
-			list.addSongAssignmentListener(this.assignmentListener);
+			list.addListener(this.listener);
 		}
 	}
 
@@ -85,7 +85,7 @@ public class SongListEditModel extends AbstractTableModel {
 		super.update();
 	}
 
-	private class SongAssignmentListener implements ISongAssignmentListener {
+	private class SongListListener implements ISongListListener {
 
 		@Override
 		public void assignmentAdded(final ISongList source, final ISongAssignment addedSong) {
@@ -94,6 +94,16 @@ public class SongListEditModel extends AbstractTableModel {
 
 		@Override
 		public void assignmentRemoved(final ISongList source, final ISongAssignment removedSong) {
+			update();
+		}
+
+		@Override
+		public void songListCreated(final ISongList list) {
+			update();
+		}
+
+		@Override
+		public void songListDeleted(final ISongList list) {
 			update();
 		}
 

@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
+import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongListManager;
 import com.reitler.boa.core.interfaces.ISongManager;
@@ -40,7 +41,7 @@ public class SongListManagementContainer extends Container {
 
 	@Override
 	public void removeNotify() {
-		this.manager.removeSongListListener(this.listener);
+		this.manager.removeListener(this.listener);
 		super.removeNotify();
 	}
 
@@ -79,7 +80,7 @@ public class SongListManagementContainer extends Container {
 		buttonContainer.add(new JButton(new DeleteSongListAction(this.table)));
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
-		this.manager.addSongListListener(this.listener);
+		this.manager.addListener(this.listener);
 	}
 
 	private void editSongList(final int selectedRow) {
@@ -120,7 +121,7 @@ public class SongListManagementContainer extends Container {
 		private final JTable table;
 
 		DeleteSongListAction(final JTable table) {
-			super(TITLE);
+			super(DeleteSongListAction.TITLE);
 			this.table = table;
 		}
 
@@ -142,7 +143,7 @@ public class SongListManagementContainer extends Container {
 		private static final String TITLE = "Create";
 
 		CreateSongListAction() {
-			super(TITLE);
+			super(CreateSongListAction.TITLE);
 		}
 
 		@Override
@@ -155,12 +156,22 @@ public class SongListManagementContainer extends Container {
 	private final class SongListListener implements ISongListListener {
 
 		@Override
-		public void songListAdded(final ISongList list) {
+		public void songListCreated(final ISongList list) {
 			update();
 		}
 
 		@Override
-		public void songListRemoved(final ISongList list) {
+		public void songListDeleted(final ISongList list) {
+			update();
+		}
+
+		@Override
+		public void assignmentAdded(final ISongList list, final ISongAssignment assignment) {
+			update();
+		}
+
+		@Override
+		public void assignmentRemoved(final ISongList list, final ISongAssignment assignment) {
 			update();
 		}
 

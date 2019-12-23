@@ -7,7 +7,8 @@ import com.reitler.boa.core.persistence.PersistenceHandler;
 public class PersistenceHandlerServiceProvider {
 
 	public static IPersistenceHandler provider() {
-		return new PersistenceHandler(DataManager.getInstance().getStorage());
+		DataManager dataManager = DataManager.getInstance();
+		return new PersistenceHandler(dataManager.getSongManager(), dataManager.getSongListManager());
 	}
 
 }

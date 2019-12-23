@@ -8,9 +8,9 @@ import com.reitler.boa.core.interfaces.ISong;
 
 public class SongManagementModel extends AbstractTableModel {
 
-	private List<ISong> songs;
+	private final List<ISong> songs;
 
-	public SongManagementModel(List<ISong> songs) {
+	public SongManagementModel(final List<ISong> songs) {
 		this.songs = new LinkedList<>(songs);
 	}
 
@@ -25,7 +25,7 @@ public class SongManagementModel extends AbstractTableModel {
 	}
 
 	@Override
-	public String getColumnName(int columnIndex) {
+	public String getColumnName(final int columnIndex) {
 		if (columnIndex == 0) {
 			return "title";
 		}
@@ -33,7 +33,7 @@ public class SongManagementModel extends AbstractTableModel {
 	}
 
 	@Override
-	public Class<?> getColumnClass(int columnIndex) {
+	public Class<?> getColumnClass(final int columnIndex) {
 		if (columnIndex == 0) {
 			return String.class;
 		}
@@ -41,12 +41,12 @@ public class SongManagementModel extends AbstractTableModel {
 	}
 
 	@Override
-	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return false;
+	public boolean isCellEditable(final int rowIndex, final int columnIndex) {
+		return columnIndex == 0;
 	}
 
 	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
+	public Object getValueAt(final int rowIndex, final int columnIndex) {
 		if (columnIndex == 0) {
 			return this.songs.get(rowIndex).getTitle();
 		}
@@ -54,11 +54,11 @@ public class SongManagementModel extends AbstractTableModel {
 	}
 
 	@Override
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		//
+	public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
+		this.songs.get(rowIndex).setTitle(String.valueOf(aValue));
 	}
 
-	public ISong getSong(int r) {
+	public ISong getSong(final int r) {
 		return this.songs.get(r);
 	}
 

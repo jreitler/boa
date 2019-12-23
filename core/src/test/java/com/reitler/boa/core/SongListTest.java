@@ -1,13 +1,6 @@
 package com.reitler.boa.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
-
-import com.reitler.boa.core.interfaces.ISongAssignment;
-import com.reitler.boa.core.interfaces.ISongList;
-import com.reitler.boa.core.interfaces.events.ISongAssignmentListener;
 
 public class SongListTest {
 
@@ -65,22 +58,6 @@ public class SongListTest {
 //		} finally {
 //			list.removeSongAssignmentListener(l);
 //		}
-	}
-
-	private class Listener implements ISongAssignmentListener {
-
-		private final List<ISongAssignment> assignments = new ArrayList<>();
-
-		@Override
-		public void assignmentAdded(final ISongList source, final ISongAssignment addedSong) {
-			this.assignments.add(addedSong);
-		}
-
-		@Override
-		public void assignmentRemoved(final ISongList source, final ISongAssignment removedSong) {
-			this.assignments.remove(removedSong);
-		}
-
 	}
 
 }

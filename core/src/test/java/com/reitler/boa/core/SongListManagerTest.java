@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.events.ISongListListener;
 
@@ -40,13 +41,25 @@ public class SongListManagerTest {
 		private final List<ISongList> lists = new ArrayList<>();
 
 		@Override
-		public void songListAdded(final ISongList list) {
+		public void songListCreated(final ISongList list) {
 			this.lists.add(list);
 		}
 
 		@Override
-		public void songListRemoved(final ISongList list) {
-			this.lists.remove(this.lists);
+		public void songListDeleted(final ISongList list) {
+			this.lists.remove(list);
+		}
+
+		@Override
+		public void assignmentAdded(final ISongList list, final ISongAssignment assignment) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void assignmentRemoved(final ISongList list, final ISongAssignment assignment) {
+			// TODO Auto-generated method stub
+
 		}
 
 	}

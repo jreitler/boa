@@ -17,16 +17,24 @@ import java.util.TreeMap;
 
 import org.sqlite.SQLiteConfig;
 
-import com.reitler.boa.core.IdManager;
 import com.reitler.boa.core.Song;
-import com.reitler.boa.core.SongAssignment;
 import com.reitler.boa.core.SongList;
+import com.reitler.boa.core.SongListManager;
+import com.reitler.boa.core.SongManager;
 
 public class DatabaseInitializer {
 
 	private final Map<Integer, Song> songs = new TreeMap<>();
 	private final Map<Integer, SongList> songLists = new TreeMap<>();
+
+	private final SongManager songManager;
+	private final SongListManager listManager;
 	private Connection connection;
+
+	public DatabaseInitializer(final SongManager songManager, final SongListManager listManager) {
+		this.songManager = songManager;
+		this.listManager = listManager;
+	}
 
 	public boolean init(final File file) {
 		boolean init = false;
@@ -126,29 +134,24 @@ public class DatabaseInitializer {
 
 		Song song = this.songs.get(songId);
 		SongList list = this.songLists.get(listId);
-		SongAssignment assignment = new SongAssignment(assignmentId, song);
-		assignment.setPage(page);
-		list.add(assignment);
-		IdManager.addAssignmentId(assignmentId);
+
+		this.listManager.assign(assignmentId, song, list, page);
 	}
 
 	private void createSongList(final ResultSet songListResults) throws SQLException {
 		int id = songListResults.getInt(Queries.SONGLIST_ID_ATTRIBUTE);
 		String name = songListResults.getString(Queries.SONGLIST_NAME_ATTRIBUTE);
 
-		SongList list = new SongList(id, name);
+		SongList list = this.listManager.createSongList(id, name);
 		this.songLists.put(id, list);
-		IdManager.addSongListId(id);
 	}
 
 	private void createSong(final ResultSet songResults) throws SQLException {
 		int songId = songResults.getInt(Queries.SONG_ID_ATTRIBUTE);
 		String title = songResults.getString(Queries.SONG_TITLE_ATTIRBUTE);
 
-		Song song = new Song(songId);
-		song.setTitle(title);
+		Song song = this.songManager.createSong(songId, title);
 		this.songs.put(songId, song);
-		IdManager.addSongId(songId);
 	}
 
 	@SuppressWarnings("resource")
