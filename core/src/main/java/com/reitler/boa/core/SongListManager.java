@@ -19,12 +19,13 @@ public class SongListManager implements ISongListManager, ISongListener {
 	private final SongStorage storage;
 	private ISongAssignmentListener listener;
 
-	public void setSongAssignmentListener(final ISongAssignmentListener handler) {
-		this.listener = handler;
-	}
-
 	public SongListManager(final SongStorage storage) {
 		this.storage = storage;
+	}
+
+	@Override
+	public void setSongAssignmentListener(final ISongAssignmentListener handler) {
+		this.listener = handler;
 	}
 
 	@Override
