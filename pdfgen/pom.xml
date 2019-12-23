@@ -8,11 +8,33 @@
   <artifactId>pdfgen</artifactId>
   <name>pdfgen</name>
   <dependencies>
-  	<dependency>
+  	 <dependency>
   		<groupId>org.apache.xmlgraphics</groupId>
   		<artifactId>fop</artifactId>
-  		<version>2.3</version>
-  	</dependency>
+  		<version>2.4</version>
+  		<exclusions>
+                <exclusion>
+                  <groupId>xalan</groupId>
+                  <artifactId>serializer</artifactId>          
+                </exclusion>
+                 <exclusion>
+                  <groupId>xalan</groupId>
+                  <artifactId>xalan</artifactId>          
+                </exclusion>
+                <exclusion>
+                  <groupId>org.apache.xmlgraphics</groupId>
+                  <artifactId>batik-bridge</artifactId>
+                </exclusion>	
+                <exclusion>
+                  <groupId>org.apache.xmlgraphics</groupId>
+                  <artifactId>batik-script</artifactId>
+                </exclusion>
+                <exclusion>
+                  <groupId>xml-apis</groupId>
+                  <artifactId>xml-apis</artifactId>
+                </exclusion>
+              </exclusions> 
+  	</dependency> 
   	<dependency>
   		<groupId>com.reitler.boa</groupId>
   		<artifactId>core-api</artifactId>
