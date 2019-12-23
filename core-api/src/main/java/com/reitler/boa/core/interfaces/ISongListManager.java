@@ -2,11 +2,10 @@ package com.reitler.boa.core.interfaces;
 
 import java.util.List;
 
-import com.reitler.boa.core.interfaces.events.ISongAssignmentListener;
 import com.reitler.boa.core.interfaces.events.ISongListListener;
 import com.reitler.boa.core.interfaces.factory.ISongListFactory;
 
-public interface ISongListManager extends ISongListFactory {
+public interface ISongListManager extends ISongListFactory, IListenerSupport<ISongListListener> {
 
 	void deleteSongList(ISongList list);
 
@@ -14,13 +13,7 @@ public interface ISongListManager extends ISongListFactory {
 
 	List<ISongList> getAllSongLists();
 
-	void addSongListListener(ISongListListener listener);
-
-	void removeSongListListener(ISongListListener listener);
-
 	void assign(final ISong song, final ISongList list, final String page);
 
 	void unassign(final ISong song, final ISongList list);
-
-	void setSongAssignmentListener(final ISongAssignmentListener handler);
 }

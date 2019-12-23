@@ -1,17 +1,14 @@
 package com.reitler.boa.core;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongManager;
 import com.reitler.boa.core.interfaces.events.ISongListener;
 
-public class SongManager implements ISongManager {
+public class SongManager extends ListenerSupport<ISongListener> implements ISongManager {
 
-	private final Set<ISongListener> listeners = new HashSet<>();
 	private final SongStorage storage;
 
 	public SongManager(final SongStorage storage) {
@@ -20,11 +17,17 @@ public class SongManager implements ISongManager {
 
 	@Override
 	public ISong createSong(final String title) {
-		Song song = new Song(IdManager.newSongId());
+		return createSong(IdManager.newSongId(), title);
+	}
+
+	public Song createSong(final int id, final String title) {
+		IdManager.addSongId(id);
+		Song song = new Song(id);
 		song.setTitle(title);
 		this.storage.addSong(song);
-		for (ISongListener l : this.listeners) {
+		for (ISongListener l : getListeners()) {
 			l.songAdded(song);
+			song.addListener(l);
 		}
 		return song;
 	}
@@ -46,18 +49,10 @@ public class SongManager implements ISongManager {
 		Song song = this.storage.getSong(id);
 		this.storage.removeSong(song);
 		IdManager.removeSongId(id);
-		for (ISongListener l : this.listeners) {
+		for (ISongListener l : getListeners()) {
 			l.songRemoved(song);
+			song.removeListener(l);
 		}
 	}
 
-	@Override
-	public void addSongListener(final ISongListener listener) {
-		this.listeners.add(listener);
-	}
-
-	@Override
-	public void removeSongListener(final ISongListener listener) {
-		this.listeners.remove(listener);
-	}
 }

@@ -22,10 +22,9 @@ public class App {
 		try (IPersistenceHandler h = PersistenceHandlerServiceProvider.provider()) {
 			h.open(new File("/home/jan/temp/test.db3"));
 			ISongListManager listManager = DataManager.getInstance().getSongListManager();
-			listManager.setSongAssignmentListener(h);
-			listManager.addSongListListener(h);
+			listManager.addListener(h);
 			SongManager songManager = DataManager.getInstance().getSongManager();
-			songManager.addSongListener(h);
+			songManager.addListener(h);
 
 			ISong song4 = songManager.createSong("song no 4");
 			ISongList list3 = listManager.createSongList("thirdList");

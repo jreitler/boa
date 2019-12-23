@@ -3,9 +3,9 @@ package com.reitler.boa.core.interfaces;
 import java.util.List;
 import java.util.function.Predicate;
 
-import com.reitler.boa.core.interfaces.events.ISongAssignmentListener;
+import com.reitler.boa.core.interfaces.events.ISongListListener;
 
-public interface ISongList {
+public interface ISongList extends IListenerSupport<ISongListListener> {
 
 	List<ISongAssignment> getByPage();
 
@@ -18,10 +18,6 @@ public interface ISongList {
 	void removeIf(Predicate<ISongAssignment> predicate);
 
 	String getName();
-
-	void addSongAssignmentListener(ISongAssignmentListener listener);
-
-	void removeSongAssignmentListener(ISongAssignmentListener listener);
 
 	int getId();
 }

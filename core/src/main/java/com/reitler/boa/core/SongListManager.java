@@ -1,40 +1,35 @@
 package com.reitler.boa.core;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongListManager;
-import com.reitler.boa.core.interfaces.events.ISongAssignmentListener;
 import com.reitler.boa.core.interfaces.events.ISongListListener;
 import com.reitler.boa.core.interfaces.events.ISongListener;
 
-public class SongListManager implements ISongListManager, ISongListener {
+public class SongListManager extends ListenerSupport<ISongListListener> implements ISongListManager, ISongListener {
 
-	private final Set<ISongListListener> listeners = new HashSet<>();
 	private final SongStorage storage;
-	private ISongAssignmentListener listener;
 
 	public SongListManager(final SongStorage storage) {
 		this.storage = storage;
 	}
 
 	@Override
-	public void setSongAssignmentListener(final ISongAssignmentListener handler) {
-		this.listener = handler;
+	public ISongList createSongList(final String name) {
+		return createSongList(IdManager.newListId(), name);
 	}
 
-	@Override
-	public ISongList createSongList(final String name) {
-		SongList list = new SongList(IdManager.newListId(), name);
-		list.addSongAssignmentListener(this.listener);
+	public SongList createSongList(final int id, final String name) {
+		IdManager.addSongListId(id);
+		SongList list = new SongList(id, name);
 		this.storage.addSongList(list);
-		for (ISongListListener l : this.listeners) {
-			l.songListAdded(list);
+		for (ISongListListener l : getListeners()) {
+			l.songListCreated(list);
+			list.addListener(l); 
 		}
 		return list;
 	}
@@ -52,8 +47,8 @@ public class SongListManager implements ISongListManager, ISongListener {
 		while (i.hasNext()) {
 			ISongList list = i.next();
 			if (list.getName().equals(name)) {
-				for (ISongListListener l : this.listeners) {
-					l.songListRemoved(list);
+				for (ISongListListener l : getListeners()) {
+					l.songListDeleted(list);
 				}
 				this.storage.removeSongList(list);
 			}
@@ -66,18 +61,13 @@ public class SongListManager implements ISongListManager, ISongListener {
 	}
 
 	@Override
-	public void addSongListListener(final ISongListListener listener) {
-		this.listeners.add(listener);
-	}
-
-	@Override
-	public void removeSongListListener(final ISongListListener listener) {
-		this.listeners.remove(listener);
-	}
-
-	@Override
 	public void assign(final ISong song, final ISongList list, final String page) {
-		SongAssignment assignment = new SongAssignment(IdManager.newAssignmentId(), song);
+		assign(IdManager.newAssignmentId(), song, list, page);
+	}
+
+	public void assign(final int id, final ISong song, final ISongList list, final String page) {
+		IdManager.addAssignmentId(id);
+		SongAssignment assignment = new SongAssignment(id, song);
 		assignment.setPage(page);
 		list.add(assignment);
 	}
@@ -103,6 +93,11 @@ public class SongListManager implements ISongListManager, ISongListener {
 
 	private void songRemoved(final SongList l, final ISong removedSong) {
 		l.removeIf(a -> a.getSong().equals(removedSong));
+	}
+
+	@Override
+	public void songChanged(final ISong oldValue, final ISong newValue) {
+		// nothing to do
 	}
 
 }

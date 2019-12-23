@@ -54,12 +54,12 @@ public class SongManagementContainer extends Container {
 		buttonContainer.add(new JButton(new DeleteSongAction(this.table)));
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
-		this.songManager.addSongListener(this.listener);
+		this.songManager.addListener(this.listener);
 	}
 
 	@Override
 	public void removeNotify() {
-		this.songManager.removeSongListener(this.listener);
+		this.songManager.removeListener(this.listener);
 		super.removeNotify();
 	}
 
@@ -77,16 +77,16 @@ public class SongManagementContainer extends Container {
 	}
 
 	private final class DeleteSongAction extends AbstractAction {
-	
+
 		private static final long serialVersionUID = -4539807900565654016L;
 		private static final String TITLE = "Delete";
 		private final JTable table;
-	
+
 		DeleteSongAction(final JTable table) {
-			super(TITLE);
+			super(DeleteSongAction.TITLE);
 			this.table = table;
 		}
-	
+
 		@Override
 		public void actionPerformed(final ActionEvent e) {
 			int[] rows = this.table.getSelectedRows();
@@ -96,7 +96,7 @@ public class SongManagementContainer extends Container {
 			}
 			toDelete.forEach(SongManagementContainer.this.songManager::deleteSong);
 		}
-	
+
 	}
 
 	private final class CreateSongAction extends AbstractAction {
@@ -105,7 +105,7 @@ public class SongManagementContainer extends Container {
 		private static final String TITLE = "Create";
 
 		CreateSongAction() {
-			super(TITLE);
+			super(CreateSongAction.TITLE);
 		}
 
 		@Override
@@ -127,6 +127,10 @@ public class SongManagementContainer extends Container {
 			update();
 		}
 
+		@Override
+		public void songChanged(final ISong oldValue, final ISong newValue) {
+			update();
+		}
 	}
 
 }

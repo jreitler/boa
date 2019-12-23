@@ -6,10 +6,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.reitler.boa.core.Song;
 import com.reitler.boa.core.SongAssignment;
-import com.reitler.boa.core.SongList;
-import com.reitler.boa.core.SongStorage;
+import com.reitler.boa.core.SongListManager;
+import com.reitler.boa.core.SongManager;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
@@ -17,69 +16,79 @@ import com.reitler.boa.core.interfaces.persistence.IPersistenceHandler;
 
 public class PersistenceHandler implements IPersistenceHandler {
 
-	private final SongStorage storage;
+	private final SongManager songManager;
+	private final SongListManager listManager;
 	private Connection connection;
 
-	public PersistenceHandler(final SongStorage storage) {
-		this.storage = storage;
+	public PersistenceHandler(final SongManager songManager, final SongListManager listManager) {
+		this.songManager = songManager;
+		this.listManager = listManager;
 	}
 
 	@Override
 	public boolean open(final File file) {
-		DatabaseInitializer initializer = new DatabaseInitializer();
+		this.songManager.addListener(this);
+		this.listManager.addListener(this);
+		DatabaseInitializer initializer = new DatabaseInitializer(this.songManager, this.listManager);
 		boolean init = initializer.init(file);
 		if (!init) {
 			return false;
 		}
 		this.connection = initializer.getConnection();
-		initializer.getSongs().forEach(this.storage::addSong);
-		initializer.getSongLists().forEach(this.storage::addSongList);
 		return true;
 	}
 
 	@Override
 	public void songAdded(final ISong addedSong) {
-		if (addedSong instanceof Song) {
-			saveSong((Song) addedSong);
+		if (isInitialized()) {
+			saveSong(addedSong);
 		}
 	}
 
 	@Override
 	public void songRemoved(final ISong removedSong) {
-		if (removedSong instanceof Song) {
-			deleteSong((Song) removedSong);
+		if (isInitialized()) {
+			deleteSong(removedSong);
+		}
+	}
+
+	@Override
+	public void songChanged(final ISong oldValue, final ISong newValue) {
+		if (isInitialized()) {
+			deleteSong(oldValue);
+			saveSong(newValue);
 		}
 	}
 
 	@Override
 	public void assignmentAdded(final ISongList source, final ISongAssignment addedSong) {
-		if (addedSong instanceof SongAssignment) {
+		if (isInitialized() && (addedSong instanceof SongAssignment)) {
 			saveAssignment((SongAssignment) addedSong, source);
 		}
 	}
 
 	@Override
 	public void assignmentRemoved(final ISongList source, final ISongAssignment removedSong) {
-		if (removedSong instanceof SongAssignment) {
+		if (isInitialized() && (removedSong instanceof SongAssignment)) {
 			deleteAssignment((SongAssignment) removedSong);
 		}
 	}
 
 	@Override
-	public void songListAdded(final ISongList list) {
-		if (list instanceof SongList) {
-			saveSongList((SongList) list);
+	public void songListCreated(final ISongList list) {
+		if (isInitialized()) {
+			saveSongList(list);
 		}
 	}
 
 	@Override
-	public void songListRemoved(final ISongList list) {
-		if (list instanceof SongList) {
+	public void songListDeleted(final ISongList list) {
+		if (isInitialized()) {
 			deleteSongList(list);
 		}
 	}
 
-	private void saveSong(final Song song) {
+	private void saveSong(final ISong song) {
 		try (Statement statement = this.connection.createStatement()) {
 			statement.setQueryTimeout(30);
 			statement.executeUpdate(Queries.prepareInsertSongQuery(song.getId(), song.getTitle()));
@@ -89,7 +98,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 		}
 	}
 
-	private void saveSongList(final SongList list) {
+	private void saveSongList(final ISongList list) {
 		try (Statement statement = this.connection.createStatement()) {
 			statement.setQueryTimeout(30);
 			statement.executeUpdate(Queries.prepareInsertSonglistQuery(list.getId(), list.getName()));
@@ -121,7 +130,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 		}
 	}
 
-	private void deleteSong(final Song song) {
+	private void deleteSong(final ISong song) {
 		try (Statement statement = this.connection.createStatement()) {
 			statement.setQueryTimeout(30);
 			statement.addBatch(Queries.prepareDeleteAssignmentBySongsQuery(song.getId()));
@@ -152,5 +161,9 @@ public class PersistenceHandler implements IPersistenceHandler {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private boolean isInitialized() {
+		return this.connection != null;
 	}
 }

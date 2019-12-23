@@ -1,8 +1,9 @@
 package com.reitler.boa.core;
 
 import com.reitler.boa.core.interfaces.ISong;
+import com.reitler.boa.core.interfaces.events.ISongListener;
 
-public class Song implements ISong {
+public class Song extends ListenerSupport<ISongListener> implements ISong {
 
 	private final int id;
 	private String title;
@@ -21,8 +22,13 @@ public class Song implements ISong {
 		return this.title;
 	}
 
+	@Override
 	public void setTitle(final String title) {
+		Song oldValue = copy();
 		this.title = title;
+		for (ISongListener l : getListeners()) {
+			l.songChanged(oldValue, this);
+		}
 	}
 
 	@Override
@@ -57,6 +63,12 @@ public class Song implements ISong {
 			return false;
 		}
 		return true;
+	}
+
+	private Song copy() {
+		Song copy = new Song(this.id);
+		copy.title = this.title;
+		return copy;
 	}
 
 }

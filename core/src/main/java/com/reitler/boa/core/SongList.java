@@ -2,20 +2,17 @@ package com.reitler.boa.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
-import com.reitler.boa.core.interfaces.events.ISongAssignmentListener;
+import com.reitler.boa.core.interfaces.events.ISongListListener;
 
-public class SongList implements ISongList {
+public class SongList extends ListenerSupport<ISongListListener> implements ISongList {
 
-	private final Set<ISongAssignmentListener> listeners = new HashSet<>();
 	private final String name;
 	private final int id;
 
@@ -39,7 +36,7 @@ public class SongList implements ISongList {
 	@Override
 	public void add(final ISongAssignment assignment) {
 		if (this.assignments.add(assignment)) {
-			for (ISongAssignmentListener l : this.listeners) {
+			for (ISongListListener l : getListeners()) {
 				l.assignmentAdded(this, assignment);
 			}
 		}
@@ -53,7 +50,7 @@ public class SongList implements ISongList {
 	@Override
 	public void remove(final ISongAssignment assignment) {
 		if (this.assignments.remove(assignment)) {
-			for (ISongAssignmentListener l : this.listeners) {
+			for (ISongListListener l : getListeners()) {
 				l.assignmentRemoved(this, assignment);
 			}
 		}
@@ -68,21 +65,6 @@ public class SongList implements ISongList {
 	}
 
 	@Override
-	public void addSongAssignmentListener(final ISongAssignmentListener listener) {
-		if (listener != null) {
-			this.listeners.add(listener);
-		}
-	}
-
-	@Override
-	public void removeSongAssignmentListener(final ISongAssignmentListener listener) {
-		if (listener != null) {
-			this.listeners.remove(listener);
-		}
-
-	}
-
-	@Override
 	public void removeIf(final Predicate<ISongAssignment> predicate) {
 		List<ISongAssignment> list = this.assignments.stream().filter(predicate).collect(Collectors.toList());
 		for (ISongAssignment as : list) {
@@ -92,7 +74,7 @@ public class SongList implements ISongList {
 
 	@Override
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 }

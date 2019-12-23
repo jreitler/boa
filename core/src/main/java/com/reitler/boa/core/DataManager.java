@@ -1,7 +1,5 @@
 package com.reitler.boa.core;
 
-import com.reitler.boa.core.interfaces.ISongListManager;
-
 public class DataManager {
 
 	private static DataManager INSTANCE = new DataManager();
@@ -18,14 +16,14 @@ public class DataManager {
 		this.storage = new SongStorage();
 		this.songListManager = new SongListManager(this.storage);
 		this.songManager = new SongManager(this.storage);
-		this.songManager.addSongListener(this.songListManager);
+		this.songManager.addListener(this.songListManager);
 	}
 
 	public SongManager getSongManager() {
 		return this.songManager;
 	}
 
-	public ISongListManager getSongListManager() {
+	public SongListManager getSongListManager() {
 		return this.songListManager;
 	}
 

@@ -24,9 +24,6 @@ public class Application {
 		@SuppressWarnings("resource")
 		IPersistenceHandler handler = persistenceService.findFirst().get();
 		handler.open(new File("/home/jan/temp/test.db3"));
-		iSongManager.addSongListener(handler);
-		songListManager.addSongListListener(handler);
-		songListManager.setSongAssignmentListener(handler);
 
 		MainFrame mainFrame = new MainFrame(iSongManager, songListManager);
 		mainFrame.addWindowListener(new WindowAdapter() {
