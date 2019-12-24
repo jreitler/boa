@@ -16,14 +16,16 @@ public class SongManager extends ListenerSupport<ISongListener> implements ISong
 	}
 
 	@Override
-	public ISong createSong(final String title) {
-		return createSong(IdManager.newSongId(), title);
+	public ISong createSong(final String title, final String artist, final String publisher) {
+		return createSong(IdManager.newSongId(), title, artist, publisher);
 	}
 
-	public Song createSong(final int id, final String title) {
+	public Song createSong(final int id, final String title, final String artist, final String publisher) {
 		IdManager.addSongId(id);
 		Song song = new Song(id);
 		song.setTitle(title);
+		song.setArtist(artist);
+		song.setPublisher(publisher);
 		this.storage.addSong(song);
 		for (ISongListener l : getListeners()) {
 			l.songAdded(song);
@@ -46,7 +48,7 @@ public class SongManager extends ListenerSupport<ISongListener> implements ISong
 
 	@Override
 	public void deleteSong(final int id) {
-		Song song = this.storage.getSong(id);
+		ISong song = this.storage.getSong(id);
 		this.storage.removeSong(song);
 		IdManager.removeSongId(id);
 		for (ISongListener l : getListeners()) {

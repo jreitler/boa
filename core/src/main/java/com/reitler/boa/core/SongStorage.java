@@ -41,7 +41,7 @@ public class SongStorage {
 		return this.songLists.get(id);
 	}
 
-	public Song getSong(final int id) {
+	public ISong getSong(final int id) {
 		return this.songs.get(id);
 	}
 }

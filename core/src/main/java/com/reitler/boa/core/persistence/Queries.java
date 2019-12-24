@@ -1,9 +1,13 @@
 package com.reitler.boa.core.persistence;
 
+import com.reitler.boa.core.interfaces.ISong;
+
 public class Queries {
 
 	public static final String SONG_ID_ATTRIBUTE = "song_id";
 	public static final String SONG_TITLE_ATTIRBUTE = "title";
+	public static final String SONG_ARTIST_ATTRIBUTE = "artist";
+	public static final String SONG_PUBLISHER_ATTRIBUTE = "publisher";
 
 	public static final String SONGLIST_ID_ATTRIBUTE = "songlist_id";
 	public static final String SONGLIST_NAME_ATTRIBUTE = "songlist_name";
@@ -17,8 +21,10 @@ public class Queries {
 	private static final String TABLE_NAME_ASSIGNMENTS = "assignments";
 	private static final String TABLE_NAME_SONGLISTS = "songlists";
 
-	private static final String INSERT_SONG_QUERY = String.format("INSERT INTO %s (%s,%s) VALUES ('%%d','%%s');",
-			Queries.TABLE_NAME_SONGS, Queries.SONG_ID_ATTRIBUTE, Queries.SONG_TITLE_ATTIRBUTE);
+	private static final String INSERT_SONG_QUERY = String.format(
+			"INSERT INTO %s (%s,%s,%s,%s) VALUES ('%%d','%%s','%%s','%%s');", Queries.TABLE_NAME_SONGS,
+			Queries.SONG_ID_ATTRIBUTE, Queries.SONG_TITLE_ATTIRBUTE, Queries.SONG_ARTIST_ATTRIBUTE,
+			Queries.SONG_PUBLISHER_ATTRIBUTE);
 	private static final String INSERT_SONGLIST_QUERY = String.format("INSERT INTO %s (%s,%s) VALUES ('%%d','%%s');",
 			Queries.TABLE_NAME_SONGLISTS, Queries.SONGLIST_ID_ATTRIBUTE, Queries.SONGLIST_NAME_ATTRIBUTE);
 	private static final String INSERT_ASSIGNMENT_QUERY = String.format(
@@ -53,15 +59,19 @@ public class Queries {
 	private static final String DELETE_ASSIGNMENT_BY_ID_QUERY = String.format("DELETE from %s where %s=='%%d';",
 			Queries.TABLE_NAME_ASSIGNMENTS, Queries.ASSIGNMENT_ID_ATTRIBUTE);
 
-	private static final String UPDATE_SONG_QUERY = String.format("UPDATE %s set %s='%%s' where %s='%%d';",
-			Queries.TABLE_NAME_SONGS, Queries.SONG_TITLE_ATTIRBUTE, Queries.SONG_ID_ATTRIBUTE);
+	private static final String UPDATE_SONG_QUERY = String.format(
+			"UPDATE %s set %s='%%s',%s='%%s',%s='%%s' where %s='%%d';", Queries.TABLE_NAME_SONGS,
+			Queries.SONG_TITLE_ATTIRBUTE, Queries.SONG_ARTIST_ATTRIBUTE, Queries.SONG_PUBLISHER_ATTRIBUTE,
+			Queries.SONG_ID_ATTRIBUTE);
 
-	public static String prepareUpdateSongQuery(final int songId, final String title) {
-		return String.format(Queries.UPDATE_SONG_QUERY, title, songId);
+	public static String prepareUpdateSongQuery(final ISong song) {
+		return String.format(Queries.UPDATE_SONG_QUERY, song.getTitle(), song.getArtist(), song.getPublisher(),
+				song.getId());
 	}
 
-	public static String prepareInsertSongQuery(final int songId, final String title) {
-		return String.format(Queries.INSERT_SONG_QUERY, songId, title);
+	public static String prepareInsertSongQuery(final int songId, final String title, final String artist,
+			final String publisher) {
+		return String.format(Queries.INSERT_SONG_QUERY, songId, nullSafe(title), nullSafe(artist), nullSafe(publisher));
 	}
 
 	public static String prepareDeleteSongQuery(final int songId) {
@@ -103,6 +113,10 @@ public class Queries {
 
 	public static String prepareFetchAssignmentQuery(final int songId, final int listId) {
 		return String.format(Queries.SELECT_ASSIGNMENT_BY_SONG_AND_SONGLIST_QUERY, songId, listId);
+	}
+
+	private static String nullSafe(final String value) {
+		return value == null ? "" : value;
 	}
 
 }

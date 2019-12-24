@@ -23,7 +23,7 @@ public class PdfGenerator {
 		ISongList list = songListManager.createSongList("My FancyList");
 
 		for (int i = 1; i <= 25; i++) {
-			ISong s = iSongManager.createSong("Song No. " + i);
+			ISong s = iSongManager.createSong("Song No. " + i, "", "");
 			songListManager.assign(s, list, String.valueOf(i));
 		}
 

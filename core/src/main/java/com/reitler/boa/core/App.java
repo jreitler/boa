@@ -26,7 +26,7 @@ public class App {
 			SongManager songManager = DataManager.getInstance().getSongManager();
 			songManager.addListener(h);
 
-			ISong song4 = songManager.createSong("song no 4");
+			ISong song4 = songManager.createSong("song no 4", "artist1", "publ2");
 			ISongList list3 = listManager.createSongList("thirdList");
 			listManager.assign(song4, list3, "page1");
 
