@@ -23,7 +23,8 @@ public class Application {
 		ServiceLoader<IPersistenceHandler> persistenceService = ServiceLoader.load(IPersistenceHandler.class);
 		@SuppressWarnings("resource")
 		IPersistenceHandler handler = persistenceService.findFirst().get();
-		handler.open(new File("/home/jan/temp/test.db3"));
+		File file = new File("boa.db3");
+		handler.open(file);
 
 		MainFrame mainFrame = new MainFrame(iSongManager, songListManager);
 		mainFrame.addWindowListener(new WindowAdapter() {
