@@ -21,6 +21,7 @@ import com.reitler.boa.core.Song;
 import com.reitler.boa.core.SongList;
 import com.reitler.boa.core.SongListManager;
 import com.reitler.boa.core.SongManager;
+import com.reitler.boa.core.interfaces.ISong;
 
 public class DatabaseInitializer {
 
@@ -132,7 +133,7 @@ public class DatabaseInitializer {
 		String page = rs.getString(Queries.ASSIGNMENT_PAGE_ATTRIBUTE);
 		int listId = rs.getInt(Queries.ASSIGNMENT_SONGLIST_ATTRIBUTE);
 
-		Song song = this.songs.get(songId);
+		ISong song = this.songs.get(songId);
 		SongList list = this.songLists.get(listId);
 
 		this.listManager.assign(assignmentId, song, list, page);
@@ -149,8 +150,10 @@ public class DatabaseInitializer {
 	private void createSong(final ResultSet songResults) throws SQLException {
 		int songId = songResults.getInt(Queries.SONG_ID_ATTRIBUTE);
 		String title = songResults.getString(Queries.SONG_TITLE_ATTIRBUTE);
+		String artist = songResults.getString(Queries.SONG_ARTIST_ATTRIBUTE);
+		String publisher = songResults.getString(Queries.SONG_PUBLISHER_ATTRIBUTE);
 
-		Song song = this.songManager.createSong(songId, title);
+		Song song = this.songManager.createSong(songId, title, artist, publisher);
 		this.songs.put(songId, song);
 	}
 

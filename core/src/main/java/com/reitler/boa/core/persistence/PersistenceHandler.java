@@ -90,7 +90,8 @@ public class PersistenceHandler implements IPersistenceHandler {
 	private void saveSong(final ISong song) {
 		try (Statement statement = this.connection.createStatement()) {
 			statement.setQueryTimeout(30);
-			statement.executeUpdate(Queries.prepareInsertSongQuery(song.getId(), song.getTitle()));
+			statement.executeUpdate(Queries.prepareInsertSongQuery(song.getId(), song.getTitle(), song.getArtist(),
+					song.getPublisher()));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -100,7 +101,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 	private void updateSong(final ISong song) {
 		try (Statement statement = this.connection.createStatement()) {
 			statement.setQueryTimeout(30);
-			statement.executeUpdate(Queries.prepareUpdateSongQuery(song.getId(), song.getTitle()));
+			statement.executeUpdate(Queries.prepareUpdateSongQuery(song));
 
 		} catch (SQLException e) {
 			e.printStackTrace();

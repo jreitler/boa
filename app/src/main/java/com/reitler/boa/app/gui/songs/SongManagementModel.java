@@ -21,20 +21,26 @@ public class SongManagementModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 1;
+		return 3;
 	}
 
 	@Override
 	public String getColumnName(final int columnIndex) {
-		if (columnIndex == 0) {
+		switch (columnIndex) {
+		case 0:
 			return "title";
+		case 1:
+			return "artist";
+		case 2:
+			return "publisher";
+		default:
+			return null;
 		}
-		return null;
 	}
 
 	@Override
 	public Class<?> getColumnClass(final int columnIndex) {
-		if (columnIndex == 0) {
+		if ((columnIndex >= 0) && (columnIndex <= 2)) {
 			return String.class;
 		}
 		return null;
@@ -42,20 +48,40 @@ public class SongManagementModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-		return columnIndex == 0;
+		return (columnIndex >= 0) && (columnIndex <= 2);
 	}
 
 	@Override
 	public Object getValueAt(final int rowIndex, final int columnIndex) {
-		if (columnIndex == 0) {
-			return this.songs.get(rowIndex).getTitle();
+		ISong song = getSong(rowIndex);
+		switch (columnIndex) {
+		case 0:
+			return song.getTitle();
+		case 1:
+			return song.getArtist();
+		case 2:
+			return song.getPublisher();
+		default:
+			return null;
 		}
-		return null;
 	}
 
 	@Override
 	public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
-		this.songs.get(rowIndex).setTitle(String.valueOf(aValue));
+		ISong song = getSong(rowIndex);
+		String value = String.valueOf(aValue);
+		switch (columnIndex) {
+		case 0:
+			song.setTitle(value);
+			break;
+		case 1:
+			song.setArtist(value);
+			break;
+		case 2:
+			song.setPublisher(value);
+			break;
+		default:
+		}
 	}
 
 	public ISong getSong(final int r) {

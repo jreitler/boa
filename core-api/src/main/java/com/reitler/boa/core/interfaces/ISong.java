@@ -10,4 +10,12 @@ public interface ISong extends IListenerSupport<ISongListener> {
 
 	public void setTitle(String title);
 
+	String getPublisher();
+
+	void setPublisher(final String publisher);
+
+	String getArtist();
+
+	void setArtist(final String artist);
+
 }

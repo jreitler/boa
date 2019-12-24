@@ -72,7 +72,7 @@ public class SongManagementContainer extends Container {
 		String result = JOptionPane.showInputDialog(null, "Please enter name of the song", "Create song",
 				JOptionPane.PLAIN_MESSAGE);
 		if (!"".equals(result)) {
-			this.songManager.createSong(result);
+			this.songManager.createSong(result, "", "");
 		}
 	}
 
