@@ -1,7 +1,9 @@
 package com.reitler.boa.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongManager;
@@ -9,6 +11,7 @@ import com.reitler.boa.core.interfaces.events.ISongListener;
 
 public class SongManager extends ListenerSupport<ISongListener> implements ISongManager {
 
+	private final Set<Integer> USED_SONG_IDS = new HashSet<>();
 	private final SongStorage storage;
 
 	public SongManager(final SongStorage storage) {
@@ -17,11 +20,11 @@ public class SongManager extends ListenerSupport<ISongListener> implements ISong
 
 	@Override
 	public ISong createSong(final String title, final String artist, final String publisher) {
-		return createSong(IdManager.newSongId(), title, artist, publisher);
+		return createSong(newSongId(), title, artist, publisher);
 	}
 
 	public Song createSong(final int id, final String title, final String artist, final String publisher) {
-		IdManager.addSongId(id);
+		this.USED_SONG_IDS.add(id);
 		Song song = new Song(id);
 		song.setTitle(title);
 		song.setArtist(artist);
@@ -50,11 +53,20 @@ public class SongManager extends ListenerSupport<ISongListener> implements ISong
 	public void deleteSong(final int id) {
 		ISong song = this.storage.getSong(id);
 		this.storage.removeSong(song);
-		IdManager.removeSongId(id);
+		this.USED_SONG_IDS.remove(id);
 		for (ISongListener l : getListeners()) {
 			l.songRemoved(song);
 			song.removeListener(l);
 		}
+	}
+
+	private int newSongId() {
+		int id = 1;
+		while (this.USED_SONG_IDS.contains(id)) {
+			id++;
+		}
+		this.USED_SONG_IDS.add(id);
+		return id;
 	}
 
 }
