@@ -9,8 +9,6 @@ module com.reitler.boa.pdfgen {
 	uses com.reitler.boa.core.interfaces.ISongManager;
 	uses com.reitler.boa.core.interfaces.ISongListManager;
 
-	requires com.reitler.boa.core;
-
 	exports com.reitler.boa.pdfgen;
 	exports com.reitler.boa.pdfgen.freemarker;
 }
