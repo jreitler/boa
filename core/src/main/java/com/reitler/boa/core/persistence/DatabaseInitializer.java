@@ -24,6 +24,7 @@ import com.reitler.boa.core.SongList;
 import com.reitler.boa.core.SongListManager;
 import com.reitler.boa.core.SongManager;
 import com.reitler.boa.core.interfaces.ISong;
+import com.reitler.boa.core.interfaces.ISongList;
 
 public class DatabaseInitializer {
 
@@ -134,7 +135,7 @@ public class DatabaseInitializer {
 		int listId = rs.getInt(Queries.ASSIGNMENT_SONGLIST_ATTRIBUTE);
 
 		ISong song = this.songs.get(songId);
-		SongList list = this.songLists.get(listId);
+		ISongList list = this.songLists.get(listId);
 
 		this.listManager.assign(assignmentId, song, list, page);
 	}

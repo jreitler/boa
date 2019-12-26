@@ -79,11 +79,8 @@ public class SongListManager extends ListenerSupport<ISongListListener> implemen
 
 	@Override
 	public void unassign(final ISong song, final ISongList list) {
-		if (list instanceof SongList) {
-			SongList songList = (SongList) list;
-			songRemoved(songList, song);
-			this.usedAssignmentIds.remove(list.getId());
-		}
+		songRemoved(list, song);
+		this.usedAssignmentIds.remove(list.getId());
 	}
 
 	@Override
@@ -97,7 +94,7 @@ public class SongListManager extends ListenerSupport<ISongListListener> implemen
 		this.storage.getSongLists().forEach(l -> songRemoved(l, removedSong));
 	}
 
-	private void songRemoved(final SongList l, final ISong removedSong) {
+	private void songRemoved(final ISongList l, final ISong removedSong) {
 		l.removeIf(a -> a.getSong().equals(removedSong));
 	}
 

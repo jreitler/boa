@@ -13,7 +13,7 @@ import com.reitler.boa.core.interfaces.events.ISongListListener;
 
 public class SongList extends ListenerSupport<ISongListListener> implements ISongList {
 
-	private final String name;
+	private String name;
 	private final int id;
 
 	private final List<ISongAssignment> assignments = new ArrayList<>();
@@ -75,6 +75,15 @@ public class SongList extends ListenerSupport<ISongListListener> implements ISon
 	@Override
 	public int getId() {
 		return this.id;
+	}
+
+	@Override
+	public void setName(final String name) {
+		String oldName = this.name;
+		this.name = name;
+		for (ISongListListener l : getListeners()) {
+			l.songListNameChanged(this, oldName, name);
+		}
 	}
 
 }

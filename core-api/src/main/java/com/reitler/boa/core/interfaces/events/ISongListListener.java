@@ -13,4 +13,8 @@ public interface ISongListListener {
 
 	void assignmentRemoved(ISongList list, ISongAssignment assignment);
 
+	default void songListNameChanged(final ISongList list, final String oldName, final String newName) {
+		// empty by default
+	};
+
 }

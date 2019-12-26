@@ -64,6 +64,9 @@ public class Queries {
 			Queries.SONG_TITLE_ATTIRBUTE, Queries.SONG_ARTIST_ATTRIBUTE, Queries.SONG_PUBLISHER_ATTRIBUTE,
 			Queries.SONG_ID_ATTRIBUTE);
 
+	private static final String UPDATE_SONGLIST_QUERY = String.format("UPDATE %s set %s='%%s' where %s='%%d';",
+			Queries.TABLE_NAME_SONGLISTS, Queries.SONGLIST_NAME_ATTRIBUTE, Queries.SONGLIST_ID_ATTRIBUTE);
+
 	public static String prepareUpdateSongQuery(final ISong song) {
 		return String.format(Queries.UPDATE_SONG_QUERY, song.getTitle(), song.getArtist(), song.getPublisher(),
 				song.getId());
@@ -92,6 +95,10 @@ public class Queries {
 
 	public static String prepareDeleteSongListQuery(final int listId) {
 		return String.format(Queries.DELETE_LIST_BY_ID_QUERY, listId);
+	}
+
+	public static String prepareUpdateSongListQuery(final int listId, final String listName) {
+		return String.format(Queries.UPDATE_SONGLIST_QUERY, listName, listId);
 	}
 
 	public static String prepareInsertSonglistQuery(final int listId, final String listName) {

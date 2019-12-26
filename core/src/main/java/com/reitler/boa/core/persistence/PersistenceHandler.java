@@ -91,6 +91,25 @@ public class PersistenceHandler implements IPersistenceHandler {
 		}
 	}
 
+	@Override
+	public void songListNameChanged(final ISongList list, final String oldName, final String newName) {
+		if (isInitialized()) {
+			updateSongList(list);
+		}
+	}
+
+	private void updateSongList(final ISongList list) {
+		try (Statement statement = this.connection.createStatement()) {
+			statement.setQueryTimeout(30);
+			statement.executeUpdate(Queries.prepareUpdateSongListQuery(list.getId(), list.getName()));
+
+		} catch (SQLException e) {
+			String msg = String.format("Error while updating songList: ID='%d' Name='%s' ", list.getId(),
+					list.getName());
+			PersistenceHandler.LOG.log(Level.ERROR, msg, e);
+		}
+	}
+
 	private void saveSong(final ISong song) {
 		try (Statement statement = this.connection.createStatement()) {
 			statement.setQueryTimeout(30);
