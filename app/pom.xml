@@ -24,7 +24,7 @@
 				<executions>
 					<execution>
 						<id>copy-dependencies</id>
-						<phase>package</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>copy-dependencies</goal>
 						</goals>
@@ -67,7 +67,7 @@
 				<executions>
 					<execution>
 						<id>copy-scripts</id>
-						<phase>package</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
@@ -78,6 +78,24 @@
 									<directory>scripts</directory>
 								</resource>
 							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>distro-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>bin.xml</descriptor>
+							</descriptors>
 						</configuration>
 					</execution>
 				</executions>
