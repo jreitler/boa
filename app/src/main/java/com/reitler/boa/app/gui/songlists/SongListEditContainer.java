@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.app.gui.songs.SongSelectionDialog;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongList;
@@ -73,11 +74,10 @@ public class SongListEditContainer extends Container {
 	}
 
 	private final class AddSongAction extends AbstractAction {
-		private static final String TITLE = "Add Song";
 		private static final long serialVersionUID = -5324451503239813652L;
 
 		private AddSongAction() {
-			super(AddSongAction.TITLE);
+			super(UIConstants.getAddSongButton());
 		}
 
 		@Override
@@ -93,13 +93,12 @@ public class SongListEditContainer extends Container {
 
 	private final class RemoveSongAction extends AbstractAction {
 
-		private static final String TITLE = "Remove";
 		private static final long serialVersionUID = -3420828603160944101L;
 
 		private final JTable table;
 
 		private RemoveSongAction(final JTable table) {
-			super(RemoveSongAction.TITLE);
+			super(UIConstants.getRemoveSongButton());
 			this.table = table;
 		}
 
@@ -120,27 +119,27 @@ public class SongListEditContainer extends Container {
 
 		private static final String PDF_FILE_EXTENSION = ".pdf";
 		private static final long serialVersionUID = 7664446593744493627L;
-		private static final String TITLE = "Generate Pdf..";
 		private final ISongList list;
 
 		private PrintSongListAction(final ISongList list) {
-			super(PrintSongListAction.TITLE);
+			super(UIConstants.getGeneratePdfButton());
 			this.list = list;
 		}
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
 			JFileChooser chooser = new JFileChooser(new File("."));
-			chooser.setDialogTitle("Generate Pdf");
+			chooser.setDialogTitle(UIConstants.getGeneratePdfCaption());
 			chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-			chooser.setFileFilter(new FileNameExtensionFilter("PDF files", "pdf"));
-			chooser.setSelectedFile(new File("." + File.separator + this.list.getName() + PDF_FILE_EXTENSION));
+			chooser.setFileFilter(new FileNameExtensionFilter(UIConstants.getPdfFileType(), "pdf"));
+			chooser.setSelectedFile(
+					new File("." + File.separator + this.list.getName() + PrintSongListAction.PDF_FILE_EXTENSION));
 
 			int result = chooser.showSaveDialog(null);
 			if (result == JFileChooser.APPROVE_OPTION) {
 				File file = chooser.getSelectedFile();
-				if (!file.getAbsolutePath().endsWith(PDF_FILE_EXTENSION)) {
-					file = new File(file.getAbsolutePath() + PDF_FILE_EXTENSION);
+				if (!file.getAbsolutePath().endsWith(PrintSongListAction.PDF_FILE_EXTENSION)) {
+					file = new File(file.getAbsolutePath() + PrintSongListAction.PDF_FILE_EXTENSION);
 				}
 				PdfGenerator generator = new PdfGenerator();
 				generator.generate(this.list, file);

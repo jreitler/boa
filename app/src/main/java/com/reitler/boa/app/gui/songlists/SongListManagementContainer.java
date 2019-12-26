@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
+import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongListManager;
@@ -122,8 +123,8 @@ public class SongListManagementContainer extends Container {
 	}
 
 	private void createSongList() {
-		String result = JOptionPane.showInputDialog(null, "Please enter name of the songlist", "Create songlist",
-				JOptionPane.PLAIN_MESSAGE);
+		String result = JOptionPane.showInputDialog(null, UIConstants.getSongListCreationMessage(),
+				UIConstants.getSongListCreationCaption(), JOptionPane.PLAIN_MESSAGE);
 		if (!"".equals(result)) {
 			this.manager.createSongList(result);
 		}
@@ -132,11 +133,10 @@ public class SongListManagementContainer extends Container {
 	private final class DeleteSongListAction extends AbstractAction {
 
 		private static final long serialVersionUID = -4539807900565654016L;
-		private static final String TITLE = "Delete";
 		private final JTable table;
 
 		DeleteSongListAction(final JTable table) {
-			super(DeleteSongListAction.TITLE);
+			super(UIConstants.getDeleteSongListButton());
 			this.table = table;
 		}
 
@@ -155,10 +155,9 @@ public class SongListManagementContainer extends Container {
 	private final class CreateSongListAction extends AbstractAction {
 
 		private static final long serialVersionUID = -8881025720477846347L;
-		private static final String TITLE = "Create";
 
 		CreateSongListAction() {
-			super(CreateSongListAction.TITLE);
+			super(UIConstants.getCreateSongListButton());
 		}
 
 		@Override
