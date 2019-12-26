@@ -16,4 +16,4 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Maven deploy
-      run: mvn deploy -Dregistry=https://maven.pkg.github.com/jreitler/boa -Dtoken=GITHUB_TOKEN
+      run: mvn deploy -Dregistry=https://maven.pkg.github.com/jreitler/boa -Dtoken=${{ secrets.GITHUB_TOKEN }}
