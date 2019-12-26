@@ -4,6 +4,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.System.Logger.Level;
 import java.util.ServiceLoader;
 
 import com.reitler.boa.app.gui.MainFrame;
@@ -33,8 +34,8 @@ public class Application {
 				try {
 					handler.close();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.getLogger(Application.class.getCanonicalName()).log(Level.ERROR,
+							"Error on closing DB handler", e);
 				}
 			}
 

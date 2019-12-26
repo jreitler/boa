@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -25,6 +27,7 @@ import com.reitler.boa.core.interfaces.ISong;
 
 public class DatabaseInitializer {
 
+	private static final Logger LOG = System.getLogger(DatabaseInitializer.class.getCanonicalName());
 	private final Map<Integer, Song> songs = new TreeMap<>();
 	private final Map<Integer, SongList> songLists = new TreeMap<>();
 
@@ -50,7 +53,8 @@ public class DatabaseInitializer {
 			String url = String.format("jdbc:sqlite:%s", file.getAbsolutePath());
 			this.connection = DriverManager.getConnection(url, config.toProperties());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			String msg = String.format("Error while opening database file: %s", file.getAbsolutePath());
+			DatabaseInitializer.LOG.log(System.Logger.Level.ERROR, msg, e);
 			return false;
 		}
 
@@ -88,8 +92,7 @@ public class DatabaseInitializer {
 			statement.executeBatch();
 			return true;
 		} catch (IOException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			DatabaseInitializer.LOG.log(Level.ERROR, "Error while initializing the database", e);
 			return false;
 		}
 	}
@@ -100,8 +103,7 @@ public class DatabaseInitializer {
 				createSong(songResults);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			DatabaseInitializer.LOG.log(Level.ERROR, "Error while reading songs from database file", e);
 			return false;
 		}
 
@@ -110,8 +112,7 @@ public class DatabaseInitializer {
 				createSongList(songListResults);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			DatabaseInitializer.LOG.log(Level.ERROR, "Error while reading song lists from database", e);
 			return false;
 		}
 
@@ -120,8 +121,7 @@ public class DatabaseInitializer {
 				createAssignment(assignmentResults);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			DatabaseInitializer.LOG.log(Level.ERROR, "Error while reading song assignments from database", e);
 			return false;
 		}
 		return true;
