@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.lang.System.Logger.Level;
 import java.util.Date;
 
 import javax.xml.transform.Transformer;
@@ -33,7 +34,7 @@ public class FopExecutor {
 			Transformer transformer = transformerFactory.newTransformer();
 			transformer.transform(source, new SAXResult(fop.getDefaultHandler()));
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.getLogger(FopExecutor.class.getCanonicalName()).log(Level.ERROR, "Error while generating PDF", e);
 			return false;
 		}
 		return true;

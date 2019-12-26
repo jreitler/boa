@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,8 @@ import com.reitler.boa.core.interfaces.ISongListManager;
 import com.reitler.boa.core.interfaces.ISongManager;
 
 public class CSVImporter {
+
+	private static final Logger LOG = System.getLogger(CSVImporter.class.getCanonicalName());
 
 	private final ISongManager songManager;
 	private final ISongListManager listManager;
@@ -36,7 +40,8 @@ public class CSVImporter {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			String msg = String.format("Error while reading CSV file: %s", file.getAbsolutePath());
+			CSVImporter.LOG.log(Level.ERROR, msg, e);
 		}
 
 	}

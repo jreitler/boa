@@ -1,6 +1,7 @@
 package com.reitler.boa.pdfgen.freemarker;
 
 import java.io.StringWriter;
+import java.lang.System.Logger.Level;
 import java.net.URL;
 import java.util.Locale;
 
@@ -34,7 +35,8 @@ public class TemplateResolver {
 			template.process(dataModel, out);
 			return out.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.getLogger(TemplateResolver.class.getCanonicalName()).log(Level.ERROR,
+					"Error while resolving SongList template", e);
 		}
 		return "errors occured";
 	}
