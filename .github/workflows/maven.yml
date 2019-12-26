@@ -16,4 +16,9 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Maven deploy
-      run: mvn deploy -Dregistry=https://maven.pkg.github.com/jreitler/boa -Dtoken=${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        mkdir ~/.m2
+        echo "<settings><servers><server><id>github</id><username>OWNER</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+        mvn deploy 
