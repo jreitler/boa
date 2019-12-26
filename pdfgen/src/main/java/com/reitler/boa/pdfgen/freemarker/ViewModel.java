@@ -8,18 +8,29 @@ import com.reitler.boa.core.interfaces.ISongList;
 
 public class ViewModel {
 
-	private final List<Row> rows;
+	private final List<Row> rowsByPage;
+	private final List<Row> rowsByTitle;
 	private final String name;
 
 	public ViewModel(final ISongList list) {
-		this.rows = createRows(list);
+		this.rowsByPage = createRowsByPage(list);
+		this.rowsByTitle = createRowsByTitle(list);
 		this.name = list.getName();
 	}
 
-	private List<ViewModel.Row> createRows(final ISongList list) {
-		List<ViewModel.Row> result = new LinkedList<>();
+	private List<ViewModel.Row> createRowsByPage(final ISongList list) {
 
 		List<ISongAssignment> songs = list.getByPage();
+		return createRows(songs);
+	}
+
+	private List<ViewModel.Row> createRowsByTitle(final ISongList list) {
+		List<ISongAssignment> songs = list.getByTitle();
+		return createRows(songs);
+	}
+
+	private List<ViewModel.Row> createRows(final List<ISongAssignment> songs) {
+		List<ViewModel.Row> result = new LinkedList<>();
 		int mid = songs.size() / 2;
 		if ((songs.size() % 2) == 1) {
 			mid++;
@@ -47,8 +58,12 @@ public class ViewModel {
 		return result;
 	}
 
-	public List<Row> getRows() {
-		return this.rows;
+	public List<Row> getRowsByPage() {
+		return this.rowsByPage;
+	}
+
+	public List<Row> getRowsByTitle() {
+		return this.rowsByTitle;
 	}
 
 	public String getName() {
