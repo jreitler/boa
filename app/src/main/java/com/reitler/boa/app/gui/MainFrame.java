@@ -35,8 +35,8 @@ public class MainFrame extends JFrame {
 
 		JTabbedPane cards = new JTabbedPane();
 
-		cards.add("Songs", new SongManagementContainer(songManager));
-		cards.add("SongLists", new SongListManagementContainer(songListManager, songManager));
+		cards.add(UIConstants.getAllSongsTitle(), new SongManagementContainer(songManager));
+		cards.add(UIConstants.getAllSongListsTitle(), new SongListManagementContainer(songListManager, songManager));
 
 		contentPane.add(cards, BorderLayout.CENTER);
 		

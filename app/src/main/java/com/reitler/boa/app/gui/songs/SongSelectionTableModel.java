@@ -3,6 +3,7 @@ package com.reitler.boa.app.gui.songs;
 import java.util.List;
 
 import com.reitler.boa.app.gui.AbstractTableModel;
+import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.core.interfaces.ISong;
 
 public class SongSelectionTableModel extends AbstractTableModel {
@@ -30,7 +31,7 @@ public class SongSelectionTableModel extends AbstractTableModel {
 
 	@Override
 	public String getColumnName(final int columnIndex) {
-		return "Title";
+		return UIConstants.getSongTitleCaption();
 	}
 
 	@Override
