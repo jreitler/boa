@@ -10,10 +10,15 @@ import com.reitler.boa.core.interfaces.ISong;
 
 public class SongManagementModel extends AbstractTableModel {
 
-	private final List<ISong> songs;
+	private List<ISong> songs;
 
 	public SongManagementModel(final List<ISong> songs) {
 		this.songs = new LinkedList<>(songs);
+	}
+
+	public void setSongs(final List<ISong> songsToSet) {
+		this.songs = new LinkedList<>(songsToSet);
+		update();
 	}
 
 	@Override

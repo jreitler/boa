@@ -5,10 +5,10 @@ import java.awt.Container;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
+import com.reitler.boa.app.gui.FilteredTable;
 import com.reitler.boa.core.interfaces.ISong;
 
 public class SongSelectionContainer extends Container {
@@ -32,7 +32,8 @@ public class SongSelectionContainer extends Container {
 		setLayout(new BorderLayout());
 
 		this.table = new JTable(this.model);
-		add(new JScrollPane(this.table), BorderLayout.CENTER);
+		FilteredTable container = new FilteredTable(this.table, this.model);
+		add(container, BorderLayout.CENTER);
 		this.table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 	}
 

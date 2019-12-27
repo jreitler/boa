@@ -98,4 +98,8 @@ public class UIConstants {
 	public static String getSongTagsCaption() {
 		return UIConstants.RESOURCES.getString("SONG_TAGS");
 	}
+
+	public static String getTypeFilterHint() {
+		return UIConstants.RESOURCES.getString("HINT_TYPE_FILTER");
+	}
 }
