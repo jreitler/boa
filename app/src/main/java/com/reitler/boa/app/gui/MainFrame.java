@@ -1,16 +1,18 @@
 package com.reitler.boa.app.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Label;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
@@ -25,13 +27,11 @@ public class MainFrame extends JFrame {
 
 	public MainFrame(final ISongManager songManager, final ISongListManager songListManager) {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setMenuBar(createMenuBar());
-		Container contentPane = getContentPane();
-
-		contentPane.add(new Label(""), BorderLayout.PAGE_START);
-		contentPane.add(new Label(""), BorderLayout.PAGE_END);
-		contentPane.add(new Label(""), BorderLayout.LINE_START);
-		contentPane.add(new Label(""), BorderLayout.LINE_END);
+		setJMenuBar(createMenuBar());
+		super.setLayout(new GridBagLayout());
+		GridBagConstraints layoutContraints = new GridBagConstraints();
+		
+		JPanel contentPane = new JPanel();
 
 		JTabbedPane cards = new JTabbedPane();
 
@@ -39,18 +39,21 @@ public class MainFrame extends JFrame {
 		cards.add("SongLists", new SongListManagementContainer(songListManager, songManager));
 
 		contentPane.add(cards, BorderLayout.CENTER);
-
-		setSize(500, 500);
+		
+		layoutContraints.insets = new Insets(10, 10, 10, 10);
+		
+		super.add(contentPane, layoutContraints);
+		super.pack();
 		setVisible(true);
 		setEnabled(true);
 
 	}
 
-	private MenuBar createMenuBar() {
-		MenuBar result = new MenuBar();
+	private JMenuBar createMenuBar() {
+		JMenuBar result = new JMenuBar();
 
-		Menu menu = new Menu("test");
-		MenuItem item = new MenuItem("item1");
+		JMenu menu = new JMenu("test");
+		JMenuItem item = new JMenuItem("item1");
 		item.addActionListener(new ActionListener() {
 
 			@Override

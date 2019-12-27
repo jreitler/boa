@@ -2,8 +2,9 @@ package com.reitler.boa.app.gui.songlists;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.GridLayout;
-import java.awt.Label;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -73,11 +74,19 @@ public class SongListManagementContainer extends Container {
 
 		Container buttonContainer = new Container();
 
-		buttonContainer.setLayout(new GridLayout(2, 1));
-		JButton addButton = new JButton();
-		addButton.setAction(new CreateSongListAction());
-		buttonContainer.add(addButton);
-		buttonContainer.add(new JButton(new DeleteSongListAction(this.table)));
+		buttonContainer.setLayout(new GridBagLayout());
+		
+		GridBagConstraints layoutContraints = new GridBagConstraints();
+		
+		layoutContraints.gridx = 1;
+		layoutContraints.ipadx = 20;
+		layoutContraints.insets = new Insets(2 ,5, 2, 5);
+		
+//		JButton addButton = new JButton();
+//		addButton.setAction(new CreateSongListAction());
+//		buttonContainer.add(addButton);
+		buttonContainer.add(new JButton(new CreateSongListAction()), layoutContraints);
+		buttonContainer.add(new JButton(new DeleteSongListAction(this.table)), layoutContraints);
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
 		this.manager.addListener(this.listener);
@@ -87,16 +96,22 @@ public class SongListManagementContainer extends Container {
 		ISongList songList = this.model.getSongList(selectedRow);
 		JFrame frame = new JFrame(songList.getName());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		
 
 		Container contentPane = frame.getContentPane();
+		contentPane.setLayout(new GridBagLayout());
+		
+		GridBagConstraints layoutContraints = new GridBagConstraints();
+		
+		layoutContraints.insets = new Insets(15, 15, 15, 15);
 
-		contentPane.add(new Label(""), BorderLayout.PAGE_START);
-		contentPane.add(new Label(""), BorderLayout.PAGE_END);
-		contentPane.add(new Label(""), BorderLayout.LINE_START);
-		contentPane.add(new Label(""), BorderLayout.LINE_END);
+//		contentPane.add(new Label(""), BorderLayout.PAGE_START);
+//		contentPane.add(new Label(""), BorderLayout.PAGE_END);
+//		contentPane.add(new Label(""), BorderLayout.LINE_START);
+//		contentPane.add(new Label(""), BorderLayout.LINE_END);
 
-		contentPane.add(new SongListEditContainer(this.songManager, songList, this.manager));
-		frame.setSize(500, 500);
+		contentPane.add(new SongListEditContainer(this.songManager, songList, this.manager), layoutContraints);
+		frame.pack();
 		frame.setEnabled(true);
 		frame.setVisible(true);
 	}
