@@ -11,7 +11,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import com.reitler.boa.app.gui.songlists.SongListManagementContainer;
@@ -29,10 +28,11 @@ public class MainFrame extends JFrame {
 		super.setLayout(new GridBagLayout());
 		GridBagConstraints layoutContraints = new GridBagConstraints();
 
-		JTabbedPane cards = new JTabbedPane();
+		JTabbedPaneWithCloseButton cards = new JTabbedPaneWithCloseButton();
 
-		cards.add(UIConstants.getAllSongsTitle(), new SongManagementContainer(songManager));
-		cards.add(UIConstants.getAllSongListsTitle(), new SongListManagementContainer(songListManager, songManager));
+		cards.addTabNoClose(UIConstants.getAllSongsTitle(), new SongManagementContainer(songManager));
+		cards.addTabNoClose(UIConstants.getAllSongListsTitle(),
+				new SongListManagementContainer(songListManager, songManager, cards));
 
 		layoutContraints.insets = new Insets(10, 10, 10, 10);
 		layoutContraints.gridwidth = GridBagConstraints.RELATIVE;
