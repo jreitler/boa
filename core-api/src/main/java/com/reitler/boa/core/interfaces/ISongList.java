@@ -20,4 +20,6 @@ public interface ISongList extends IListenerSupport<ISongListListener> {
 	String getName();
 
 	int getId();
+
+	void setName(final String name);
 }

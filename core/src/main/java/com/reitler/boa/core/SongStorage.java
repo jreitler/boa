@@ -37,7 +37,7 @@ public class SongStorage {
 		this.songLists.remove(list.getId());
 	}
 
-	public SongList getList(final int id) {
+	public ISongList getList(final int id) {
 		return this.songLists.get(id);
 	}
 
