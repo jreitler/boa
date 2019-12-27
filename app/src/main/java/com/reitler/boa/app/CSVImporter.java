@@ -13,6 +13,7 @@ import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongListManager;
 import com.reitler.boa.core.interfaces.ISongManager;
+import com.reitler.boa.core.interfaces.factory.SongCreationParameter;
 
 public class CSVImporter {
 
@@ -60,7 +61,12 @@ public class CSVImporter {
 		String listNames = split[4];
 		String page = split[5];
 
-		ISong song = this.songCache.computeIfAbsent(title, t -> this.songManager.createSong(t, artist, publisher));
+		SongCreationParameter parameter = new SongCreationParameter();
+		parameter.title = title;
+		parameter.artist = artist;
+		parameter.publisher = publisher;
+
+		ISong song = this.songCache.computeIfAbsent(title, t -> this.songManager.createSong(parameter));
 
 		String[] lists = listNames.split("/");
 

@@ -1,7 +1,6 @@
 package com.reitler.boa.core;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +8,7 @@ import java.util.Set;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongManager;
 import com.reitler.boa.core.interfaces.events.ISongListener;
+import com.reitler.boa.core.interfaces.factory.SongCreationParameter;
 
 public class SongManager extends ListenerSupport<ISongListener> implements ISongManager {
 
@@ -20,8 +20,8 @@ public class SongManager extends ListenerSupport<ISongListener> implements ISong
 	}
 
 	@Override
-	public ISong createSong(final String title, final String artist, final String publisher) {
-		return createSong(newSongId(), title, artist, publisher, Collections.emptyList());
+	public ISong createSong(final SongCreationParameter parameter) {
+		return createSong(newSongId(), parameter.title, parameter.artist, parameter.publisher, parameter.tags);
 	}
 
 	public Song createSong(final int id, final String title, final String artist, final String publisher,

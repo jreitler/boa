@@ -19,6 +19,7 @@ import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongManager;
 import com.reitler.boa.core.interfaces.events.ISongListener;
+import com.reitler.boa.core.interfaces.factory.SongCreationParameter;
 
 public class SongManagementContainer extends Container {
 
@@ -52,15 +53,11 @@ public class SongManagementContainer extends Container {
 
 		buttonContainer.setLayout(new GridBagLayout());
 		GridBagConstraints layoutContraints = new GridBagConstraints();
-		
-//		JButton addButton = new JButton();
-//		addButton.setAction(new CreateSongAction());
-//		buttonContainer.add(addButton);
-		
+
 		layoutContraints.gridx = 1;
 		layoutContraints.ipadx = 20;
-		layoutContraints.insets = new Insets(2 ,5, 2, 5);
-		
+		layoutContraints.insets = new Insets(2, 5, 2, 5);
+
 		buttonContainer.add(new JButton(new CreateSongAction()), layoutContraints);
 		buttonContainer.add(new JButton(new DeleteSongAction(this.table)), layoutContraints);
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
@@ -83,7 +80,9 @@ public class SongManagementContainer extends Container {
 		String result = JOptionPane.showInputDialog(null, UIConstants.getSongCreationMessage(),
 				UIConstants.getSongCreationCaption(), JOptionPane.PLAIN_MESSAGE);
 		if (!"".equals(result)) {
-			this.songManager.createSong(result, "", "");
+			SongCreationParameter parameter = new SongCreationParameter();
+			parameter.title = result;
+			this.songManager.createSong(parameter);
 		}
 	}
 
