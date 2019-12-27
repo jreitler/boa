@@ -1,6 +1,5 @@
 package com.reitler.boa.app.gui;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,7 +11,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
@@ -30,19 +28,21 @@ public class MainFrame extends JFrame {
 		setJMenuBar(createMenuBar());
 		super.setLayout(new GridBagLayout());
 		GridBagConstraints layoutContraints = new GridBagConstraints();
-		
-		JPanel contentPane = new JPanel();
 
 		JTabbedPane cards = new JTabbedPane();
 
 		cards.add(UIConstants.getAllSongsTitle(), new SongManagementContainer(songManager));
 		cards.add(UIConstants.getAllSongListsTitle(), new SongListManagementContainer(songListManager, songManager));
 
-		contentPane.add(cards, BorderLayout.CENTER);
-		
 		layoutContraints.insets = new Insets(10, 10, 10, 10);
-		
-		super.add(contentPane, layoutContraints);
+		layoutContraints.gridwidth = GridBagConstraints.RELATIVE;
+		layoutContraints.gridheight = GridBagConstraints.RELATIVE;
+		layoutContraints.fill = GridBagConstraints.BOTH;
+
+		layoutContraints.weightx = 1.0;
+		layoutContraints.weighty = 1.0;
+
+		super.add(cards, layoutContraints);
 		super.pack();
 		setVisible(true);
 		setEnabled(true);
