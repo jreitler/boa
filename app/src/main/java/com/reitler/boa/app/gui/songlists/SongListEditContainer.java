@@ -2,7 +2,9 @@ package com.reitler.boa.app.gui.songlists;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.LinkedList;
@@ -54,10 +56,17 @@ public class SongListEditContainer extends Container {
 
 		Container buttonContainer = new Container();
 
-		buttonContainer.setLayout(new GridLayout(3, 1));
-		buttonContainer.add(new JButton(new AddSongAction()));
-		buttonContainer.add(new JButton(new RemoveSongAction(table)));
-		buttonContainer.add(new JButton(new PrintSongListAction(this.songList)));
+		buttonContainer.setLayout(new GridBagLayout());
+		
+		GridBagConstraints layoutConstraints = new GridBagConstraints();
+		
+		layoutConstraints.gridx = 1;
+		layoutConstraints.ipadx = 35;
+		layoutConstraints.insets = new Insets(2 ,5, 2, 5);
+		
+		buttonContainer.add(new JButton(new AddSongAction()), layoutConstraints);
+		buttonContainer.add(new JButton(new RemoveSongAction(table)), layoutConstraints);
+		buttonContainer.add(new JButton(new PrintSongListAction(this.songList)), layoutConstraints);
 
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
