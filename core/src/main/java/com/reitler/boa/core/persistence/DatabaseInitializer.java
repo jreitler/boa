@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -153,8 +154,9 @@ public class DatabaseInitializer {
 		String title = songResults.getString(Queries.SONG_TITLE_ATTIRBUTE);
 		String artist = songResults.getString(Queries.SONG_ARTIST_ATTRIBUTE);
 		String publisher = songResults.getString(Queries.SONG_PUBLISHER_ATTRIBUTE);
+		String tags = songResults.getString(Queries.SONG_TAGS_ATTRIBUTE);
 
-		Song song = this.songManager.createSong(songId, title, artist, publisher);
+		Song song = this.songManager.createSong(songId, title, artist, publisher, Arrays.asList(tags.split(",")));
 		this.songs.put(songId, song);
 	}
 

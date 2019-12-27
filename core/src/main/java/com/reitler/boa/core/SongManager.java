@@ -1,6 +1,7 @@
 package com.reitler.boa.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,15 +21,17 @@ public class SongManager extends ListenerSupport<ISongListener> implements ISong
 
 	@Override
 	public ISong createSong(final String title, final String artist, final String publisher) {
-		return createSong(newSongId(), title, artist, publisher);
+		return createSong(newSongId(), title, artist, publisher, Collections.emptyList());
 	}
 
-	public Song createSong(final int id, final String title, final String artist, final String publisher) {
+	public Song createSong(final int id, final String title, final String artist, final String publisher,
+			final List<String> tags) {
 		this.USED_SONG_IDS.add(id);
 		Song song = new Song(id);
 		song.setTitle(title);
 		song.setArtist(artist);
 		song.setPublisher(publisher);
+		tags.forEach(song::addTag);
 		this.storage.addSong(song);
 		for (ISongListener l : getListeners()) {
 			l.songAdded(song);

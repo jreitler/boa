@@ -1,5 +1,7 @@
 package com.reitler.boa.core.persistence;
 
+import java.util.Collection;
+
 import com.reitler.boa.core.interfaces.ISong;
 
 public class Queries {
@@ -8,6 +10,7 @@ public class Queries {
 	public static final String SONG_TITLE_ATTIRBUTE = "title";
 	public static final String SONG_ARTIST_ATTRIBUTE = "artist";
 	public static final String SONG_PUBLISHER_ATTRIBUTE = "publisher";
+	public static final String SONG_TAGS_ATTRIBUTE = "tags";
 
 	public static final String SONGLIST_ID_ATTRIBUTE = "songlist_id";
 	public static final String SONGLIST_NAME_ATTRIBUTE = "songlist_name";
@@ -22,9 +25,9 @@ public class Queries {
 	private static final String TABLE_NAME_SONGLISTS = "songlists";
 
 	private static final String INSERT_SONG_QUERY = String.format(
-			"INSERT INTO %s (%s,%s,%s,%s) VALUES ('%%d','%%s','%%s','%%s');", Queries.TABLE_NAME_SONGS,
+			"INSERT INTO %s (%s,%s,%s,%s,%s) VALUES ('%%d','%%s','%%s','%%s', '%%s');", Queries.TABLE_NAME_SONGS,
 			Queries.SONG_ID_ATTRIBUTE, Queries.SONG_TITLE_ATTIRBUTE, Queries.SONG_ARTIST_ATTRIBUTE,
-			Queries.SONG_PUBLISHER_ATTRIBUTE);
+			Queries.SONG_PUBLISHER_ATTRIBUTE, Queries.SONG_TAGS_ATTRIBUTE);
 	private static final String INSERT_SONGLIST_QUERY = String.format("INSERT INTO %s (%s,%s) VALUES ('%%d','%%s');",
 			Queries.TABLE_NAME_SONGLISTS, Queries.SONGLIST_ID_ATTRIBUTE, Queries.SONGLIST_NAME_ATTRIBUTE);
 	private static final String INSERT_ASSIGNMENT_QUERY = String.format(
@@ -60,21 +63,21 @@ public class Queries {
 			Queries.TABLE_NAME_ASSIGNMENTS, Queries.ASSIGNMENT_ID_ATTRIBUTE);
 
 	private static final String UPDATE_SONG_QUERY = String.format(
-			"UPDATE %s set %s='%%s',%s='%%s',%s='%%s' where %s='%%d';", Queries.TABLE_NAME_SONGS,
+			"UPDATE %s set %s='%%s',%s='%%s',%s='%%s',%s='%%s' where %s='%%d';", Queries.TABLE_NAME_SONGS,
 			Queries.SONG_TITLE_ATTIRBUTE, Queries.SONG_ARTIST_ATTRIBUTE, Queries.SONG_PUBLISHER_ATTRIBUTE,
-			Queries.SONG_ID_ATTRIBUTE);
+			Queries.SONG_TAGS_ATTRIBUTE, Queries.SONG_ID_ATTRIBUTE);
 
 	private static final String UPDATE_SONGLIST_QUERY = String.format("UPDATE %s set %s='%%s' where %s='%%d';",
 			Queries.TABLE_NAME_SONGLISTS, Queries.SONGLIST_NAME_ATTRIBUTE, Queries.SONGLIST_ID_ATTRIBUTE);
 
 	public static String prepareUpdateSongQuery(final ISong song) {
 		return String.format(Queries.UPDATE_SONG_QUERY, song.getTitle(), song.getArtist(), song.getPublisher(),
-				song.getId());
+				join(song.getTags()), song.getId());
 	}
 
-	public static String prepareInsertSongQuery(final int songId, final String title, final String artist,
-			final String publisher) {
-		return String.format(Queries.INSERT_SONG_QUERY, songId, nullSafe(title), nullSafe(artist), nullSafe(publisher));
+	public static String prepareInsertSongQuery(final ISong song) {
+		return String.format(Queries.INSERT_SONG_QUERY, song.getId(), nullSafe(song.getTitle()),
+				nullSafe(song.getArtist()), nullSafe(song.getPublisher()), join(song.getTags()));
 	}
 
 	public static String prepareDeleteSongQuery(final int songId) {
@@ -124,6 +127,13 @@ public class Queries {
 
 	private static String nullSafe(final String value) {
 		return value == null ? "" : value;
+	}
+
+	private static String join(final Collection<String> tags) {
+		if (tags == null) {
+			return "";
+		}
+		return String.join(",", tags);
 	}
 
 }

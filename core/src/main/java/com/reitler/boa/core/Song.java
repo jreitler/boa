@@ -1,5 +1,9 @@
 package com.reitler.boa.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.events.ISongListener;
 
@@ -9,6 +13,7 @@ public class Song extends ListenerSupport<ISongListener> implements ISong {
 	private String title;
 	private String artist;
 	private String publisher;
+	private final List<String> tags = new ArrayList<>();
 
 	public Song(final int id) {
 		this.id = id;
@@ -56,53 +61,22 @@ public class Song extends ListenerSupport<ISongListener> implements ISong {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (prime * result) + this.id;
-		result = (prime * result) + ((this.title == null) ? 0 : this.title.hashCode());
-		result = (prime * result) + ((this.artist == null) ? 0 : this.artist.hashCode());
-		result = (prime * result) + ((this.publisher == null) ? 0 : this.publisher.hashCode());
-		return result;
+	public void addTag(final String tag) {
+		ISong oldValue = copy();
+		this.tags.add(tag);
+		notifyChanged(oldValue);
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Song other = (Song) obj;
-		if (this.id != other.id) {
-			return false;
-		}
-		if (this.title == null) {
-			if (other.title != null) {
-				return false;
-			}
-		} else if (!this.title.equals(other.title)) {
-			return false;
-		}
-		if (this.artist == null) {
-			if (other.artist != null) {
-				return false;
-			}
-		} else if (!this.artist.equals(other.artist)) {
-			return false;
-		}
-		if (this.publisher == null) {
-			if (other.publisher != null) {
-				return false;
-			}
-		} else if (!this.publisher.equals(other.publisher)) {
-			return false;
-		}
-		return true;
+	public void removeTag(final String tag) {
+		ISong oldValue = copy();
+		this.tags.remove(tag);
+		notifyChanged(oldValue);
+	}
+
+	@Override
+	public List<String> getTags() {
+		return Collections.unmodifiableList(this.tags);
 	}
 
 	private ISong copy() {
@@ -110,6 +84,7 @@ public class Song extends ListenerSupport<ISongListener> implements ISong {
 		copy.title = this.title;
 		copy.artist = this.artist;
 		copy.publisher = this.publisher;
+		copy.tags.addAll(this.tags);
 		return copy;
 	}
 

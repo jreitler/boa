@@ -1,5 +1,7 @@
 package com.reitler.boa.core.interfaces;
 
+import java.util.List;
+
 import com.reitler.boa.core.interfaces.events.ISongListener;
 
 public interface ISong extends IListenerSupport<ISongListener> {
@@ -17,5 +19,11 @@ public interface ISong extends IListenerSupport<ISongListener> {
 	String getArtist();
 
 	void setArtist(final String artist);
+
+	void removeTag(final String tag);
+
+	void addTag(final String tag);
+
+	List<String> getTags();
 
 }

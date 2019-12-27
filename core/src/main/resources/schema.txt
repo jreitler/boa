@@ -1,10 +1,10 @@
-CREATE TABLE songs(song_id INTEGER PRIMARY KEY, title STRING, artist STRING, publisher STRING);
+CREATE TABLE songs(song_id INTEGER PRIMARY KEY, title STRING, artist STRING, publisher STRING, tags STRING);
 CREATE TABLE songlists(songlist_id INTEGER PRIMARY KEY, songlist_name STRING);
 CREATE TABLE assignments(assignment_id INTEGER PRIMARY KEY, page STRING, song INTEGER, songlist INTEGER, FOREIGN KEY(song) REFERENCES songs(song_id), FOREIGN KEY(songlist) REFERENCES songlists(songlist_id));
 
-insert into songs (song_id, title, artist, publisher) values ('1','firstSong', 'artist1','publisher1');
-insert into songs (song_id, title, artist, publisher) values ('2','secondSong','artist1','publisher1');
-insert into songs (song_id, title, artist, publisher) values ('3','thirdSong','artist1','publisher1');
+insert into songs (song_id, title, artist, publisher,tags) values ('1','firstSong', 'artist1','publisher1','');
+insert into songs (song_id, title, artist, publisher,tags) values ('2','secondSong','artist1','publisher1','');
+insert into songs (song_id, title, artist, publisher,tags) values ('3','thirdSong','artist1','publisher1','');
 
 insert into songlists (songlist_id, songlist_name) values ('1','firstlist');
 insert into songlists (songlist_id, songlist_name) values ('2','secondlist');
