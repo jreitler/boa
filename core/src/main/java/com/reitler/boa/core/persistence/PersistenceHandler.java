@@ -113,8 +113,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 	private void saveSong(final ISong song) {
 		try (Statement statement = this.connection.createStatement()) {
 			statement.setQueryTimeout(30);
-			statement.executeUpdate(Queries.prepareInsertSongQuery(song.getId(), song.getTitle(), song.getArtist(),
-					song.getPublisher()));
+			statement.executeUpdate(Queries.prepareInsertSongQuery(song));
 
 		} catch (SQLException e) {
 			String msg = String.format("Error while saving song: ID='%d' Title='%s' Artist='%s' Publisher='%s'",

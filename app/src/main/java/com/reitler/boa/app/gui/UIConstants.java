@@ -94,4 +94,8 @@ public class UIConstants {
 	public static String getButtonCancel() {
 		return UIConstants.RESOURCES.getString("BUTTON_CANCEL");
 	}
+
+	public static String getSongTagsCaption() {
+		return UIConstants.RESOURCES.getString("SONG_TAGS");
+	}
 }
