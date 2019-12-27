@@ -1,6 +1,7 @@
 package com.reitler.boa.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class Song extends ListenerSupport<ISongListener> implements ISong {
 	private String title;
 	private String artist;
 	private String publisher;
-	private final List<String> tags = new ArrayList<>();
+	private List<String> tags = new ArrayList<>();
 
 	public Song(final int id) {
 		this.id = id;
@@ -61,16 +62,9 @@ public class Song extends ListenerSupport<ISongListener> implements ISong {
 	}
 
 	@Override
-	public void addTag(final String tag) {
+	public void setTags(final List<String> newTags) {
 		ISong oldValue = copy();
-		this.tags.add(tag);
-		notifyChanged(oldValue);
-	}
-
-	@Override
-	public void removeTag(final String tag) {
-		ISong oldValue = copy();
-		this.tags.remove(tag);
+		this.tags = nullSafe(newTags);
 		notifyChanged(oldValue);
 	}
 
@@ -92,6 +86,13 @@ public class Song extends ListenerSupport<ISongListener> implements ISong {
 		for (ISongListener l : getListeners()) {
 			l.songChanged(oldValue, this);
 		}
+	}
+
+	private List<String> nullSafe(final Collection<String> newTags) {
+		if (newTags == null) {
+			return Collections.emptyList();
+		}
+		return new ArrayList<>(newTags);
 	}
 
 }

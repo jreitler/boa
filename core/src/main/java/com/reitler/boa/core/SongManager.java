@@ -31,7 +31,7 @@ public class SongManager extends ListenerSupport<ISongListener> implements ISong
 		song.setTitle(title);
 		song.setArtist(artist);
 		song.setPublisher(publisher);
-		tags.forEach(song::addTag);
+		song.setTags(tags);
 		this.storage.addSong(song);
 		for (ISongListener l : getListeners()) {
 			l.songAdded(song);

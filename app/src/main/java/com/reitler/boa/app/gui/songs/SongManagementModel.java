@@ -1,12 +1,8 @@
 package com.reitler.boa.app.gui.songs;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import com.reitler.boa.app.gui.AbstractTableModel;
 import com.reitler.boa.app.gui.UIConstants;
@@ -91,33 +87,10 @@ public class SongManagementModel extends AbstractTableModel {
 			song.setPublisher(value);
 			break;
 		case 3:
-			updateTags(song, value);
+			song.setTags(Arrays.asList(value.split(" ")));
 			break;
 		default:
 		}
-	}
-
-	private void updateTags(final ISong song, final String value) {
-		Set<String> existingTags = new HashSet<>(song.getTags());
-		List<String> added = new ArrayList<>();
-		List<String> removed = new ArrayList<>();
-
-		LinkedHashSet<String> newTags = new LinkedHashSet<>(Arrays.asList(value.split(" ")));
-		for (String t : newTags) {
-			if (!existingTags.contains(t)) {
-				added.add(t);
-			}
-		}
-
-		for (String t : existingTags) {
-			if (!newTags.contains(t)) {
-				removed.add(t);
-			}
-		}
-
-		removed.forEach(song::removeTag);
-		added.forEach(song::addTag);
-
 	}
 
 	public ISong getSong(final int r) {

@@ -20,9 +20,7 @@ public interface ISong extends IListenerSupport<ISongListener> {
 
 	void setArtist(final String artist);
 
-	void removeTag(final String tag);
-
-	void addTag(final String tag);
+	void setTags(List<String> tags);
 
 	List<String> getTags();
 
