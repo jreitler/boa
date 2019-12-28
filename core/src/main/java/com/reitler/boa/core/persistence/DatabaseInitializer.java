@@ -5,8 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.sqlite.SQLiteConfig;
 
@@ -29,7 +29,7 @@ import com.reitler.boa.core.interfaces.ISongList;
 
 public class DatabaseInitializer {
 
-	private static final Logger LOG = System.getLogger(DatabaseInitializer.class.getCanonicalName());
+	private static final java.util.logging.Logger LOG = Logger.getLogger(DatabaseInitializer.class.getCanonicalName());
 	private final Map<Integer, Song> songs = new TreeMap<>();
 	private final Map<Integer, SongList> songLists = new TreeMap<>();
 
@@ -56,7 +56,7 @@ public class DatabaseInitializer {
 			this.connection = DriverManager.getConnection(url, config.toProperties());
 		} catch (SQLException e) {
 			String msg = String.format("Error while opening database file: %s", file.getAbsolutePath());
-			DatabaseInitializer.LOG.log(System.Logger.Level.ERROR, msg, e);
+			DatabaseInitializer.LOG.log(Level.SEVERE, msg, e);
 			return false;
 		}
 
@@ -87,14 +87,14 @@ public class DatabaseInitializer {
 			statement.setQueryTimeout(30);
 			String line;
 			while ((line = reader.readLine()) != null) {
-				if (!line.startsWith("#") && !line.isBlank()) {
+				if (!line.startsWith("#") && !line.trim().isEmpty()) {
 					statement.addBatch(line.trim());
 				}
 			}
 			statement.executeBatch();
 			return true;
 		} catch (IOException | SQLException e) {
-			DatabaseInitializer.LOG.log(Level.ERROR, "Error while initializing the database", e);
+			DatabaseInitializer.LOG.log(Level.SEVERE, "Error while initializing the database", e);
 			return false;
 		}
 	}
@@ -105,7 +105,7 @@ public class DatabaseInitializer {
 				createSong(songResults);
 			}
 		} catch (SQLException e) {
-			DatabaseInitializer.LOG.log(Level.ERROR, "Error while reading songs from database file", e);
+			DatabaseInitializer.LOG.log(Level.SEVERE, "Error while reading songs from database file", e);
 			return false;
 		}
 
@@ -114,7 +114,7 @@ public class DatabaseInitializer {
 				createSongList(songListResults);
 			}
 		} catch (SQLException e) {
-			DatabaseInitializer.LOG.log(Level.ERROR, "Error while reading song lists from database", e);
+			DatabaseInitializer.LOG.log(Level.SEVERE, "Error while reading song lists from database", e);
 			return false;
 		}
 
@@ -123,7 +123,7 @@ public class DatabaseInitializer {
 				createAssignment(assignmentResults);
 			}
 		} catch (SQLException e) {
-			DatabaseInitializer.LOG.log(Level.ERROR, "Error while reading song assignments from database", e);
+			DatabaseInitializer.LOG.log(Level.SEVERE, "Error while reading song assignments from database", e);
 			return false;
 		}
 		return true;

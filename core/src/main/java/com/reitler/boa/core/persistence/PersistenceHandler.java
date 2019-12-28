@@ -2,11 +2,11 @@ package com.reitler.boa.core.persistence;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.reitler.boa.core.SongAssignment;
 import com.reitler.boa.core.SongListManager;
@@ -18,7 +18,7 @@ import com.reitler.boa.core.interfaces.persistence.IPersistenceHandler;
 
 public class PersistenceHandler implements IPersistenceHandler {
 
-	private final static Logger LOG = System.getLogger(PersistenceHandler.class.getCanonicalName());
+	private final static java.util.logging.Logger LOG = Logger.getLogger(PersistenceHandler.class.getCanonicalName());
 
 	private final SongManager songManager;
 	private final SongListManager listManager;
@@ -106,7 +106,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 		} catch (SQLException e) {
 			String msg = String.format("Error while updating songList: ID='%d' Name='%s' ", list.getId(),
 					list.getName());
-			PersistenceHandler.LOG.log(Level.ERROR, msg, e);
+			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
 	}
 
@@ -118,7 +118,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 		} catch (SQLException e) {
 			String msg = String.format("Error while saving song: ID='%d' Title='%s' Artist='%s' Publisher='%s'",
 					song.getId(), song.getTitle(), song.getArtist(), song.getPublisher());
-			PersistenceHandler.LOG.log(Level.ERROR, msg, e);
+			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
 	}
 
@@ -130,7 +130,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 		} catch (SQLException e) {
 			String msg = String.format("Error while updating song: ID='%d' Title='%s' Artist='%s' Publisher='%s'",
 					song.getId(), song.getTitle(), song.getArtist(), song.getPublisher());
-			PersistenceHandler.LOG.log(Level.ERROR, msg, e);
+			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
 	}
 
@@ -141,7 +141,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 
 		} catch (SQLException e) {
 			String msg = String.format("Error while saving songlist: ID='%d' Title='%s'", list.getId(), list.getName());
-			PersistenceHandler.LOG.log(Level.ERROR, msg, e);
+			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
 	}
 
@@ -154,7 +154,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 		} catch (SQLException e) {
 			String msg = String.format("Error while saving assignments: ID='%d' SongID='%d' ListId='%d'",
 					assign.getId(), assign.getSong().getId(), list.getId());
-			PersistenceHandler.LOG.log(Level.ERROR, msg, e);
+			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
 	}
 
@@ -164,7 +164,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 			try {
 				this.connection.close();
 			} catch (SQLException e) {
-				PersistenceHandler.LOG.log(Level.ERROR, "Error while closing database file", e);
+				PersistenceHandler.LOG.log(Level.SEVERE, "Error while closing database file", e);
 			}
 		}
 	}
@@ -179,7 +179,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 		} catch (SQLException e) {
 			String msg = String.format("Error while deleting song: ID='%d' Title='%s' Artist='%s' Publisher='%s'",
 					song.getId(), song.getTitle(), song.getArtist(), song.getPublisher());
-			PersistenceHandler.LOG.log(Level.ERROR, msg, e);
+			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
 	}
 
@@ -190,7 +190,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 		} catch (SQLException e) {
 			String msg = String.format("Error while deleting assignments: ID='%d' SongID='%d' ", removedSong.getId(),
 					removedSong.getSong().getId());
-			PersistenceHandler.LOG.log(Level.ERROR, msg, e);
+			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
 	}
 
@@ -204,7 +204,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 		} catch (SQLException e) {
 			String msg = String.format("Error while deleting songlist: ID='%d' Title='%s'", list.getId(),
 					list.getName());
-			PersistenceHandler.LOG.log(Level.ERROR, msg, e);
+			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
 	}
 

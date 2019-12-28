@@ -37,7 +37,7 @@ public class FilteredTable extends Container {
 	}
 
 	private void updateFilter(final String text) {
-		if ((text != null) && !text.isBlank()) {
+		if ((text != null) && !text.trim().isEmpty()) {
 			this.sorter.setRowFilter(RowFilter.regexFilter("(?i).*" + text + ".*", 0, 1, 2, 3));
 		} else {
 			this.sorter.setRowFilter(null);

@@ -4,10 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongList;
@@ -17,7 +17,7 @@ import com.reitler.boa.core.interfaces.factory.SongCreationParameter;
 
 public class CSVImporter {
 
-	private static final Logger LOG = System.getLogger(CSVImporter.class.getCanonicalName());
+	private static final Logger LOG = Logger.getLogger(CSVImporter.class.getCanonicalName());
 
 	private final ISongManager songManager;
 	private final ISongListManager listManager;
@@ -42,7 +42,7 @@ public class CSVImporter {
 			}
 		} catch (IOException e) {
 			String msg = String.format("Error while reading CSV file: %s", file.getAbsolutePath());
-			CSVImporter.LOG.log(Level.ERROR, msg, e);
+			CSVImporter.LOG.log(Level.SEVERE, msg, e);
 		}
 
 	}
@@ -71,7 +71,7 @@ public class CSVImporter {
 		String[] lists = listNames.split("/");
 
 		for (String listName : lists) {
-			if (!listName.isBlank()) {
+			if (!listName.trim().isEmpty()) {
 				ISongList list = this.listCache.computeIfAbsent(listName,
 						name -> this.listManager.createSongList(name));
 				this.listManager.assign(song, list, page);

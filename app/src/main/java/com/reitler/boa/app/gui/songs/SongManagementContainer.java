@@ -27,7 +27,6 @@ public class SongManagementContainer extends Container {
 	private static final long serialVersionUID = 1248811594328553729L;
 	private final ISongManager songManager;
 	private final SongManagementModel model;
-	private JTable table;
 	private final ISongListener listener = new SongListener();
 
 	public SongManagementContainer(final ISongManager songManager) {
@@ -41,10 +40,10 @@ public class SongManagementContainer extends Container {
 		BorderLayout borderLayout = new BorderLayout();
 		setLayout(borderLayout);
 
-		this.table = new JTable(this.model);
-		this.table.getColumnModel().getColumn(0).setMinWidth(50);
+		JTable table = new JTable(this.model);
+		table.getColumnModel().getColumn(0).setMinWidth(50);
 
-		Container tableContainer = new FilteredTable(this.table, this.model);
+		Container tableContainer = new FilteredTable(table, this.model);
 		add(tableContainer, BorderLayout.CENTER);
 
 		Container container = new Container();
@@ -61,22 +60,22 @@ public class SongManagementContainer extends Container {
 		layoutContraints.fill = GridBagConstraints.BOTH;
 
 		buttonContainer.add(new JButton(new CreateSongAction()), layoutContraints);
-		JButton editButton = new JButton(new ChangeSongAction(this.table));
+		JButton editButton = new JButton(new ChangeSongAction(table));
 		buttonContainer.add(editButton, layoutContraints);
-		buttonContainer.add(new JButton(new DeleteSongAction(this.table)), layoutContraints);
+		buttonContainer.add(new JButton(new DeleteSongAction(table)), layoutContraints);
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
 
 		editButton.setEnabled(false);
-		this.table.getSelectionModel()
-				.addListSelectionListener(e -> editButton.setEnabled(this.table.getSelectedRowCount() == 1));
+		table.getSelectionModel()
+				.addListSelectionListener(e -> editButton.setEnabled(table.getSelectedRowCount() == 1));
 
-		this.table.addMouseListener(new MouseAdapter() {
+		addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(final MouseEvent e) {
-				if ((e.getClickCount() == 2) && (SongManagementContainer.this.table.getSelectedRowCount() == 1)) {
-					changeSong(SongManagementContainer.this.table);
+				if ((e.getClickCount() == 2) && (table.getSelectedRowCount() == 1)) {
+					changeSong(table);
 				}
 			}
 		});
@@ -104,7 +103,7 @@ public class SongManagementContainer extends Container {
 	}
 
 	private void changeSong(final JTable table) {
-		ISong song = this.model.getSong(this.table.getSelectedRow());
+		ISong song = this.model.getSong(table.getSelectedRow());
 
 		SongChangeDialog dialog = new SongChangeDialog(song);
 		SongCreationParameter songparameter = dialog.showDialog();
@@ -124,7 +123,7 @@ public class SongManagementContainer extends Container {
 		private static final long serialVersionUID = -4539807900565654016L;
 		private final JTable table;
 
-		DeleteSongAction(final JTable table) {
+		private DeleteSongAction(final JTable table) {
 			super(UIConstants.getDeleteSongButton());
 			this.table = table;
 		}
@@ -161,7 +160,7 @@ public class SongManagementContainer extends Container {
 		private static final long serialVersionUID = 2638458205955773214L;
 		private final JTable table;
 
-		ChangeSongAction(final JTable table) {
+		private ChangeSongAction(final JTable table) {
 			super(UIConstants.getEditSongButton());
 			this.table = table;
 		}
@@ -173,7 +172,7 @@ public class SongManagementContainer extends Container {
 
 	}
 
-	private final class SongListener implements ISongListener {
+	final class SongListener implements ISongListener {
 
 		@Override
 		public void songAdded(final ISong addedSong) {

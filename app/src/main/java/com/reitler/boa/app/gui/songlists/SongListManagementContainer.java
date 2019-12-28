@@ -142,7 +142,7 @@ public class SongListManagementContainer extends Container {
 		private static final long serialVersionUID = -4539807900565654016L;
 		private final JTable table;
 
-		DeleteSongListAction(final JTable table) {
+		private DeleteSongListAction(final JTable table) {
 			super(UIConstants.getDeleteSongListButton());
 			this.table = table;
 		}
@@ -163,7 +163,7 @@ public class SongListManagementContainer extends Container {
 
 		private static final long serialVersionUID = -8881025720477846347L;
 
-		CreateSongListAction() {
+		private CreateSongListAction() {
 			super(UIConstants.getCreateSongListButton());
 		}
 
@@ -176,9 +176,9 @@ public class SongListManagementContainer extends Container {
 	private final class EditSongListAction extends AbstractAction {
 
 		private static final long serialVersionUID = 2794801031066708290L;
-		JTable table;
+		private final JTable table;
 
-		EditSongListAction(final JTable table) {
+		private EditSongListAction(final JTable table) {
 			super(UIConstants.getEditListButton());
 			this.table = table;
 		}

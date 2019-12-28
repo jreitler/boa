@@ -1,9 +1,10 @@
 package com.reitler.boa.pdfgen.freemarker;
 
 import java.io.StringWriter;
-import java.lang.System.Logger.Level;
 import java.net.URL;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.reitler.boa.core.interfaces.ISongList;
 
@@ -35,7 +36,7 @@ public class TemplateResolver {
 			template.process(dataModel, out);
 			return out.toString();
 		} catch (Exception e) {
-			System.getLogger(TemplateResolver.class.getCanonicalName()).log(Level.ERROR,
+			Logger.getLogger(TemplateResolver.class.getCanonicalName()).log(Level.WARNING,
 					"Error while resolving SongList template", e);
 		}
 		return "errors occured";

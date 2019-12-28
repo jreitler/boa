@@ -57,6 +57,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
  * a JButton to close the tab it belongs to
  */
 public class ButtonTabComponent extends JPanel {
+
 	private static final long serialVersionUID = -3438426618371212897L;
 	private final JTabbedPane pane;
 

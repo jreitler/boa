@@ -9,9 +9,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.lang.System.Logger.Level;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -157,7 +158,7 @@ public class SongListEditContainer extends Container {
 					try {
 						Desktop.getDesktop().open(file);
 					} catch (IOException exception) {
-						System.getLogger(SongListEditContainer.class.getCanonicalName()).log(Level.WARNING,
+						Logger.getLogger(SongListEditContainer.class.getCanonicalName()).log(Level.WARNING,
 								"Could not open file: " + file.getAbsolutePath(), exception);
 					}
 				}
