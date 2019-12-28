@@ -1,5 +1,6 @@
 package com.reitler.boa.app.gui.songlists;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.reitler.boa.app.gui.AbstractTableModel;
@@ -8,7 +9,7 @@ import com.reitler.boa.core.interfaces.ISongList;
 
 public class SongListManagementTableModel extends AbstractTableModel {
 
-	private final List<ISongList> songLists;
+	private List<ISongList> songLists;
 
 	public SongListManagementTableModel(final List<ISongList> songLists) {
 		this.songLists = songLists;
@@ -62,6 +63,11 @@ public class SongListManagementTableModel extends AbstractTableModel {
 
 	public ISongList getSongList(final int index) {
 		return this.songLists.get(index);
+	}
+
+	public void setSongLists(final List<ISongList> allSongLists) {
+		this.songLists = new LinkedList<>(allSongLists);
+		update();
 	}
 
 }

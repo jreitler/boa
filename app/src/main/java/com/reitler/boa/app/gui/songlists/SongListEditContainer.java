@@ -13,10 +13,10 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.reitler.boa.app.gui.FilteredTable;
 import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.app.gui.songs.SongSelectionDialog;
 import com.reitler.boa.core.interfaces.ISong;
@@ -50,7 +50,8 @@ public class SongListEditContainer extends Container {
 		JTable table = new JTable(this.model);
 		table.getColumnModel().getColumn(0).setMinWidth(50);
 		table.getColumnModel().getColumn(0).setMaxWidth(50);
-		add(new JScrollPane(table), BorderLayout.CENTER);
+		FilteredTable filteredTable = new FilteredTable(table, this.model);
+		add(filteredTable, BorderLayout.CENTER);
 
 		Container container = new Container();
 		container.setLayout(new BorderLayout());
@@ -58,13 +59,13 @@ public class SongListEditContainer extends Container {
 		Container buttonContainer = new Container();
 
 		buttonContainer.setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints layoutConstraints = new GridBagConstraints();
-		
+
 		layoutConstraints.gridx = 1;
 		layoutConstraints.ipadx = 35;
-		layoutConstraints.insets = new Insets(2 ,5, 2, 5);
-		
+		layoutConstraints.insets = new Insets(2, 5, 2, 5);
+
 		buttonContainer.add(new JButton(new AddSongAction()), layoutConstraints);
 		buttonContainer.add(new JButton(new RemoveSongAction(table)), layoutConstraints);
 		buttonContainer.add(new JButton(new PrintSongListAction(this.songList)), layoutConstraints);

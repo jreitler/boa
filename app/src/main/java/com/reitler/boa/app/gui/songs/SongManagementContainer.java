@@ -11,10 +11,9 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.reitler.boa.app.gui.FilteredTable;
 import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongManager;
@@ -25,7 +24,7 @@ public class SongManagementContainer extends Container {
 
 	private static final long serialVersionUID = 1248811594328553729L;
 	private final ISongManager songManager;
-	private SongManagementModel model;
+	private final SongManagementModel model;
 	private JTable table;
 	private final ISongListener listener = new SongListener();
 
@@ -43,8 +42,8 @@ public class SongManagementContainer extends Container {
 		this.table = new JTable(this.model);
 		this.table.getColumnModel().getColumn(0).setMinWidth(50);
 
-		JScrollPane scrollPane = new JScrollPane(this.table);
-		add(scrollPane, BorderLayout.CENTER);
+		Container tableContainer = new FilteredTable(this.table, this.model);
+		add(tableContainer, BorderLayout.CENTER);
 
 		Container container = new Container();
 		container.setLayout(new BorderLayout());
@@ -60,6 +59,7 @@ public class SongManagementContainer extends Container {
 
 		buttonContainer.add(new JButton(new CreateSongAction()), layoutContraints);
 		buttonContainer.add(new JButton(new DeleteSongAction(this.table)), layoutContraints);
+		buttonContainer.add(new JButton(new ChangeSongAction(this.table)), layoutContraints);
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
 		this.songManager.addListener(this.listener);
@@ -72,18 +72,33 @@ public class SongManagementContainer extends Container {
 	}
 
 	private void update() {
-		this.model = new SongManagementModel(this.songManager.getAllSongs());
-		this.table.setModel(this.model);
+		this.model.setSongs(this.songManager.getAllSongs());
 	}
 
 	private void createSong() {
-		String result = JOptionPane.showInputDialog(null, UIConstants.getSongCreationMessage(),
-				UIConstants.getSongCreationCaption(), JOptionPane.PLAIN_MESSAGE);
-		if (!"".equals(result)) {
-			SongCreationParameter parameter = new SongCreationParameter();
-			parameter.title = result;
-			this.songManager.createSong(parameter);
+		SongChangeDialog dialog = new SongChangeDialog();
+		SongCreationParameter songParameter = dialog.showDialog();
+
+		if (songParameter != null) {
+			this.songManager.createSong(songParameter);
 		}
+
+	}
+
+	private void changeSong(final JTable table) {
+		ISong song = this.model.getSong(this.table.getSelectedRow());
+
+		SongChangeDialog dialog = new SongChangeDialog(song);
+		SongCreationParameter songparameter = dialog.showDialog();
+
+		if (songparameter != null) {
+			song.setTitle(songparameter.title);
+			song.setArtist(songparameter.artist);
+			song.setPublisher(songparameter.publisher);
+			song.setTags(songparameter.tags);
+		}
+
+		update();
 	}
 
 	private final class DeleteSongAction extends AbstractAction {
@@ -119,6 +134,23 @@ public class SongManagementContainer extends Container {
 		@Override
 		public void actionPerformed(final ActionEvent e) {
 			createSong();
+		}
+
+	}
+
+	private final class ChangeSongAction extends AbstractAction {
+
+		private static final long serialVersionUID = 2638458205955773214L;
+		private final JTable table;
+
+		ChangeSongAction(final JTable table) {
+			super(UIConstants.getChangeFieldButton());
+			this.table = table;
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent e) {
+			changeSong(this.table);
 		}
 
 	}

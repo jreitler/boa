@@ -14,9 +14,9 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.reitler.boa.app.gui.FilteredTable;
 import com.reitler.boa.app.gui.ITabbedParent;
 import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.core.interfaces.ISongAssignment;
@@ -27,10 +27,11 @@ import com.reitler.boa.core.interfaces.events.ISongListListener;
 
 public class SongListManagementContainer extends Container {
 
+	private static final long serialVersionUID = 6302922642227504918L;
 	private final ISongListListener listener = new SongListListener();
 	private final ISongListManager manager;
 	private final ISongManager songManager;
-	private SongListManagementTableModel model;
+	private final SongListManagementTableModel model;
 	private JTable table;
 	private final ITabbedParent parent;
 
@@ -54,14 +55,12 @@ public class SongListManagementContainer extends Container {
 		BorderLayout borderLayout = new BorderLayout();
 		setLayout(borderLayout);
 
-		this.table = new JTable(this.model);
-		this.table.getColumnModel().getColumn(0).setMinWidth(50);
-		this.table.addMouseListener(new MouseAdapter() {
+		JTable table = new JTable(this.model);
+		table.getColumnModel().getColumn(0).setMinWidth(50);
+		table.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(final MouseEvent e) {
-				// TODO Auto-generated method stub
-				JTable table = (JTable) e.getSource();
 				if ((e.getClickCount() == 2) && (table.getSelectedRow() != -1)) {
 					editSongList(table.getSelectedRow());
 				}
@@ -69,8 +68,8 @@ public class SongListManagementContainer extends Container {
 
 		});
 
-		JScrollPane scrollPane = new JScrollPane(this.table);
-		add(scrollPane, BorderLayout.CENTER);
+		Container filteredTable = new FilteredTable(table, this.model);
+		add(filteredTable, BorderLayout.CENTER);
 
 		Container container = new Container();
 		container.setLayout(new BorderLayout());
@@ -83,32 +82,23 @@ public class SongListManagementContainer extends Container {
 
 		layoutContraints.gridx = 1;
 		layoutContraints.ipadx = 20;
-		layoutContraints.insets = new Insets(2, 5, 2, 5);
+		layoutContraints.insets = (new Insets(2, 5, 2, 5));
 
-//		JButton addButton = new JButton();
-//		addButton.setAction(new CreateSongListAction());
-//		buttonContainer.add(addButton);
 		buttonContainer.add(new JButton(new CreateSongListAction()), layoutContraints);
-		buttonContainer.add(new JButton(new DeleteSongListAction(this.table)), layoutContraints);
+		buttonContainer.add(new JButton(new DeleteSongListAction(table)), layoutContraints);
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
 		this.manager.addListener(this.listener);
 	}
 
 	private void editSongList(final int selectedRow) {
-		ISongList songList = this.model.getSongList(selectedRow);
-
-//		contentPane.add(new Label(""), BorderLayout.PAGE_START);
-//		contentPane.add(new Label(""), BorderLayout.PAGE_END);
-//		contentPane.add(new Label(""), BorderLayout.LINE_START);
-//		contentPane.add(new Label(""), BorderLayout.LINE_END);
+		ISongList songList = (this.model.getSongList(selectedRow));
 
 		this.parent.addTab(songList.getName(), new SongListEditContainer(this.songManager, songList, this.manager));
 	}
 
 	private void update() {
-		this.model = new SongListManagementTableModel(this.manager.getAllSongLists());
-		this.table.setModel(this.model);
+		this.model.setSongLists(this.manager.getAllSongLists());
 	}
 
 	private void createSongList() {
