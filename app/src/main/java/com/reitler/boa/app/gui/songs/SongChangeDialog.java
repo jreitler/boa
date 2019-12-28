@@ -1,6 +1,7 @@
 package com.reitler.boa.app.gui.songs;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,8 +31,8 @@ public class SongChangeDialog extends JDialog {
 	private final JTextField artist = new JTextField();
 	private final JTextField publisher = new JTextField();
 	private final JTextField tags = new JTextField();
-	private final JButton okButton = new JButton("Ok");
-	private final JButton cancelButton = new JButton("Cancel");
+	private final JButton okButton = new JButton(UIConstants.getButtonOk());
+	private final JButton cancelButton = new JButton(UIConstants.getButtonCancel());
 
 	private SongCreationParameter songParameter;
 
@@ -116,21 +117,9 @@ public class SongChangeDialog extends JDialog {
 
 		super.add(this.buttonPanel, BorderLayout.SOUTH);
 
-		super.pack();
-
-//		int result = JOptionPane.showConfirmDialog(null, this.centerPanel, UIConstants.getChangeSongMessage(),
-//				JOptionPane.OK_CANCEL_OPTION);
-//
-//		if (result == JOptionPane.OK_OPTION) {
-//			SongCreationParameter songParameter = new SongCreationParameter();
-//			songParameter.title = this.title.getText();
-//			songParameter.artist = this.artist.getText();
-//			songParameter.publisher = this.publisher.getText();
-//			songParameter.tags = Arrays.asList(this.tags.getText().split(" "));
-//			return songParameter;
-//		} else {
-//			return null;
-//		}
+		setMinimumSize(new Dimension(350, 200));
+		setSize(350, 150);
+		pack();
 
 	}
 
