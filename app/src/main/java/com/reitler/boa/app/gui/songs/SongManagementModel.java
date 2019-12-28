@@ -1,6 +1,5 @@
 package com.reitler.boa.app.gui.songs;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -57,7 +56,7 @@ public class SongManagementModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-		return (columnIndex >= 0) && (columnIndex <= 3);
+		return false;
 	}
 
 	@Override
@@ -79,23 +78,7 @@ public class SongManagementModel extends AbstractTableModel {
 
 	@Override
 	public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
-		ISong song = getSong(rowIndex);
-		String value = String.valueOf(aValue);
-		switch (columnIndex) {
-		case 0:
-			song.setTitle(value);
-			break;
-		case 1:
-			song.setArtist(value);
-			break;
-		case 2:
-			song.setPublisher(value);
-			break;
-		case 3:
-			song.setTags(Arrays.asList(value.split(" ")));
-			break;
-		default:
-		}
+		// nothing to do
 	}
 
 	public ISong getSong(final int r) {

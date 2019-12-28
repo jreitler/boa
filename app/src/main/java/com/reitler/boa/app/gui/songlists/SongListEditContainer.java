@@ -65,11 +65,16 @@ public class SongListEditContainer extends Container {
 		layoutConstraints.gridx = 1;
 		layoutConstraints.ipadx = 35;
 		layoutConstraints.insets = new Insets(2, 5, 2, 5);
+		layoutConstraints.fill = GridBagConstraints.BOTH;
 
 		buttonContainer.add(new JButton(new AddSongAction()), layoutConstraints);
-		buttonContainer.add(new JButton(new RemoveSongAction(table)), layoutConstraints);
+		JButton removeSongButton = new JButton(new RemoveSongAction(table));
+		buttonContainer.add(removeSongButton, layoutConstraints);
 		buttonContainer.add(new JButton(new PrintSongListAction(this.songList)), layoutConstraints);
 
+		removeSongButton.setEnabled(false);
+		table.getSelectionModel()
+				.addListSelectionListener(e -> removeSongButton.setEnabled(table.getSelectedRowCount() > 0));
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
 	}

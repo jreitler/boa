@@ -15,6 +15,9 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.reitler.boa.app.gui.FilteredTable;
 import com.reitler.boa.app.gui.ITabbedParent;
@@ -32,7 +35,6 @@ public class SongListManagementContainer extends Container {
 	private final ISongListManager manager;
 	private final ISongManager songManager;
 	private final SongListManagementTableModel model;
-	private JTable table;
 	private final ITabbedParent parent;
 
 	public SongListManagementContainer(final ISongListManager manager, final ISongManager songManager,
@@ -61,11 +63,10 @@ public class SongListManagementContainer extends Container {
 
 			@Override
 			public void mouseClicked(final MouseEvent e) {
-				if ((e.getClickCount() == 2) && (table.getSelectedRow() != -1)) {
+				if ((e.getClickCount() == 2) && (table.getSelectedRowCount() == 1)) {
 					editSongList(table.getSelectedRow());
 				}
 			}
-
 		});
 
 		Container filteredTable = new FilteredTable(table, this.model);
@@ -83,18 +84,45 @@ public class SongListManagementContainer extends Container {
 		layoutContraints.gridx = 1;
 		layoutContraints.ipadx = 20;
 		layoutContraints.insets = (new Insets(2, 5, 2, 5));
+		layoutContraints.fill = GridBagConstraints.BOTH;
 
 		buttonContainer.add(new JButton(new CreateSongListAction()), layoutContraints);
+		JButton editButton = new JButton(new EditSongListAction(table));
+		buttonContainer.add(editButton, layoutContraints);
 		buttonContainer.add(new JButton(new DeleteSongListAction(table)), layoutContraints);
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
+
+		editButton.setEnabled(false);
+		table.getSelectionModel()
+				.addListSelectionListener(e -> editButton.setEnabled(table.getSelectedRowCount() == 1));
+
 		this.manager.addListener(this.listener);
 	}
 
 	private void editSongList(final int selectedRow) {
 		ISongList songList = (this.model.getSongList(selectedRow));
 
-		this.parent.addTab(songList.getName(), new SongListEditContainer(this.songManager, songList, this.manager));
+		JTextField label = new JTextField(songList.getName());
+		label.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void removeUpdate(final DocumentEvent e) {
+				songList.setName(label.getText());
+			}
+
+			@Override
+			public void insertUpdate(final DocumentEvent e) {
+				songList.setName(label.getText());
+			}
+
+			@Override
+			public void changedUpdate(final DocumentEvent e) {
+				songList.setName(label.getText());
+			}
+		});
+
+		this.parent.addTab(new SongListEditContainer(this.songManager, songList, this.manager), label);
 	}
 
 	private void update() {
@@ -143,7 +171,22 @@ public class SongListManagementContainer extends Container {
 		public void actionPerformed(final ActionEvent e) {
 			createSongList();
 		}
+	}
 
+	private final class EditSongListAction extends AbstractAction {
+
+		private static final long serialVersionUID = 2794801031066708290L;
+		JTable table;
+
+		EditSongListAction(final JTable table) {
+			super(UIConstants.getEditListButton());
+			this.table = table;
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent e) {
+			editSongList(this.table.getSelectedRow());
+		}
 	}
 
 	private final class SongListListener implements ISongListListener {

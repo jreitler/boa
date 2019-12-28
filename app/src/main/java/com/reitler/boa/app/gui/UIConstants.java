@@ -26,9 +26,9 @@ public class UIConstants {
 	public static final String getSongPublisherCaption() {
 		return UIConstants.RESOURCES.getString("SONG_PUBLISHER");
 	}
-	
+
 	public static final String getChangeSongMessage() {
-		return UIConstants.RESOURCES.getString("CHANGE_SONG_MESSAGE");	
+		return UIConstants.RESOURCES.getString("CHANGE_SONG_MESSAGE");
 	}
 
 	public static final String getCreateSongButton() {
@@ -82,9 +82,9 @@ public class UIConstants {
 	public static String getSongListNameCaption() {
 		return UIConstants.RESOURCES.getString("CAPTION_SONGLIST_NAME");
 	}
-	
-	public static String getChangeFieldButton() {
-		return UIConstants.RESOURCES.getString("CHANGE_FIELD");
+
+	public static String getEditSongButton() {
+		return UIConstants.RESOURCES.getString("EDIT_SONG_BUTTON");
 	}
 
 	public static String getSongListCreationCaption() {
@@ -109,5 +109,9 @@ public class UIConstants {
 
 	public static String getTypeFilterHint() {
 		return UIConstants.RESOURCES.getString("HINT_TYPE_FILTER");
+	}
+
+	public static String getEditListButton() {
+		return UIConstants.RESOURCES.getString("EDIT_SONGLIST_BUTTON");
 	}
 }

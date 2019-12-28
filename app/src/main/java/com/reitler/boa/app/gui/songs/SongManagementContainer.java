@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,12 +58,28 @@ public class SongManagementContainer extends Container {
 		layoutContraints.gridx = 1;
 		layoutContraints.ipadx = 20;
 		layoutContraints.insets = new Insets(2, 5, 2, 5);
+		layoutContraints.fill = GridBagConstraints.BOTH;
 
 		buttonContainer.add(new JButton(new CreateSongAction()), layoutContraints);
+		JButton editButton = new JButton(new ChangeSongAction(this.table));
+		buttonContainer.add(editButton, layoutContraints);
 		buttonContainer.add(new JButton(new DeleteSongAction(this.table)), layoutContraints);
-		buttonContainer.add(new JButton(new ChangeSongAction(this.table)), layoutContraints);
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
+
+		editButton.setEnabled(false);
+		this.table.getSelectionModel()
+				.addListSelectionListener(e -> editButton.setEnabled(this.table.getSelectedRowCount() == 1));
+
+		this.table.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(final MouseEvent e) {
+				if ((e.getClickCount() == 2) && (SongManagementContainer.this.table.getSelectedRowCount() == 1)) {
+					changeSong(SongManagementContainer.this.table);
+				}
+			}
+		});
 		this.songManager.addListener(this.listener);
 	}
 
@@ -144,7 +162,7 @@ public class SongManagementContainer extends Container {
 		private final JTable table;
 
 		ChangeSongAction(final JTable table) {
-			super(UIConstants.getChangeFieldButton());
+			super(UIConstants.getEditSongButton());
 			this.table = table;
 		}
 

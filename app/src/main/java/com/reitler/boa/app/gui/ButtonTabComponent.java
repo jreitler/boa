@@ -47,9 +47,9 @@ import java.awt.event.MouseListener;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 /**
@@ -60,7 +60,7 @@ public class ButtonTabComponent extends JPanel {
 	private static final long serialVersionUID = -3438426618371212897L;
 	private final JTabbedPane pane;
 
-	public ButtonTabComponent(final JTabbedPane pane) {
+	public ButtonTabComponent(final JTabbedPane pane, final JTextField title) {
 		// unset default FlowLayout' gaps
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		if (pane == null) {
@@ -69,23 +69,11 @@ public class ButtonTabComponent extends JPanel {
 		this.pane = pane;
 		setOpaque(false);
 
-		// make JLabel read titles from JTabbedPane
-		JLabel label = new JLabel() {
-			private static final long serialVersionUID = 6427908612692280111L;
-
-			@Override
-			public String getText() {
-				int i = pane.indexOfTabComponent(ButtonTabComponent.this);
-				if (i != -1) {
-					return pane.getTitleAt(i);
-				}
-				return null;
-			}
-		};
-
-		add(label);
+		title.setBackground(null);
+		title.setOpaque(false);
+		add(title);
 		// add more space between the label and the button
-		label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+		title.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 		// tab button
 		JButton button = new TabButton();
 		add(button);

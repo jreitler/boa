@@ -43,7 +43,7 @@ public class SongListManagementTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(final int rowIndex, final int columnIndex) {
-		return columnIndex == 0;
+		return false;
 	}
 
 	@Override
@@ -56,9 +56,7 @@ public class SongListManagementTableModel extends AbstractTableModel {
 
 	@Override
 	public void setValueAt(final Object aValue, final int rowIndex, final int columnIndex) {
-		if (columnIndex == 0) {
-			this.songLists.get(rowIndex).setName(String.valueOf(aValue));
-		}
+		// nothing to do
 	}
 
 	public ISongList getSongList(final int index) {
