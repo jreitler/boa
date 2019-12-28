@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.reitler.boa.core.interfaces.ISong;
+import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongListManager;
 import com.reitler.boa.core.interfaces.events.ISongListListener;
@@ -80,7 +81,6 @@ public class SongListManager extends ListenerSupport<ISongListListener> implemen
 	@Override
 	public void unassign(final ISong song, final ISongList list) {
 		songRemoved(list, song);
-		this.usedAssignmentIds.remove(list.getId());
 	}
 
 	@Override
@@ -95,7 +95,12 @@ public class SongListManager extends ListenerSupport<ISongListListener> implemen
 	}
 
 	private void songRemoved(final ISongList l, final ISong removedSong) {
-		l.removeIf(a -> a.getSong().equals(removedSong));
+		for (ISongAssignment a : l.getByPage()) {
+			if (removedSong.equals(a.getSong()) && (a instanceof SongAssignment)) {
+				l.remove(a);
+				this.usedAssignmentIds.remove(((SongAssignment) a).getId());
+			}
+		}
 	}
 
 	@Override
