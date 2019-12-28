@@ -15,10 +15,10 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
+import com.reitler.boa.app.gui.FilteredTable;
 import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
@@ -28,11 +28,11 @@ import com.reitler.boa.core.interfaces.events.ISongListListener;
 
 public class SongListManagementContainer extends Container {
 
+	private static final long serialVersionUID = 6302922642227504918L;
 	private final ISongListListener listener = new SongListListener();
 	private final ISongListManager manager;
 	private final ISongManager songManager;
-	private SongListManagementTableModel model;
-	private JTable table;
+	private final SongListManagementTableModel model;
 
 	public SongListManagementContainer(final ISongListManager manager, final ISongManager songManager) {
 		this.manager = manager;
@@ -52,14 +52,12 @@ public class SongListManagementContainer extends Container {
 		BorderLayout borderLayout = new BorderLayout();
 		setLayout(borderLayout);
 
-		this.table = new JTable(this.model);
-		this.table.getColumnModel().getColumn(0).setMinWidth(50);
-		this.table.addMouseListener(new MouseAdapter() {
+		JTable table = new JTable(this.model);
+		table.getColumnModel().getColumn(0).setMinWidth(50);
+		table.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(final MouseEvent e) {
-				// TODO Auto-generated method stub
-				JTable table = (JTable) e.getSource();
 				if ((e.getClickCount() == 2) && (table.getSelectedRow() != -1)) {
 					editSongList(table.getSelectedRow());
 				}
@@ -67,8 +65,8 @@ public class SongListManagementContainer extends Container {
 
 		});
 
-		JScrollPane scrollPane = new JScrollPane(this.table);
-		add(scrollPane, BorderLayout.CENTER);
+		Container filteredTable = new FilteredTable(table, this.model);
+		add(filteredTable, BorderLayout.CENTER);
 
 		Container container = new Container();
 		container.setLayout(new BorderLayout());
@@ -76,18 +74,15 @@ public class SongListManagementContainer extends Container {
 		Container buttonContainer = new Container();
 
 		buttonContainer.setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints layoutContraints = new GridBagConstraints();
-		
+
 		layoutContraints.gridx = 1;
 		layoutContraints.ipadx = 20;
-		layoutContraints.insets = new Insets(2 ,5, 2, 5);
-		
-//		JButton addButton = new JButton();
-//		addButton.setAction(new CreateSongListAction());
-//		buttonContainer.add(addButton);
+		layoutContraints.insets = new Insets(2, 5, 2, 5);
+
 		buttonContainer.add(new JButton(new CreateSongListAction()), layoutContraints);
-		buttonContainer.add(new JButton(new DeleteSongListAction(this.table)), layoutContraints);
+		buttonContainer.add(new JButton(new DeleteSongListAction(table)), layoutContraints);
 		container.add(buttonContainer, BorderLayout.BEFORE_FIRST_LINE);
 		add(container, BorderLayout.LINE_END);
 		this.manager.addListener(this.listener);
@@ -97,19 +92,13 @@ public class SongListManagementContainer extends Container {
 		ISongList songList = this.model.getSongList(selectedRow);
 		JFrame frame = new JFrame(songList.getName());
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		
 
 		Container contentPane = frame.getContentPane();
 		contentPane.setLayout(new GridBagLayout());
-		
-		GridBagConstraints layoutContraints = new GridBagConstraints();
-		
-		layoutContraints.insets = new Insets(15, 15, 15, 15);
 
-//		contentPane.add(new Label(""), BorderLayout.PAGE_START);
-//		contentPane.add(new Label(""), BorderLayout.PAGE_END);
-//		contentPane.add(new Label(""), BorderLayout.LINE_START);
-//		contentPane.add(new Label(""), BorderLayout.LINE_END);
+		GridBagConstraints layoutContraints = new GridBagConstraints();
+
+		layoutContraints.insets = new Insets(15, 15, 15, 15);
 
 		contentPane.add(new SongListEditContainer(this.songManager, songList, this.manager), layoutContraints);
 		frame.pack();
@@ -118,8 +107,7 @@ public class SongListManagementContainer extends Container {
 	}
 
 	private void update() {
-		this.model = new SongListManagementTableModel(this.manager.getAllSongLists());
-		this.table.setModel(this.model);
+		this.model.setSongLists(this.manager.getAllSongLists());
 	}
 
 	private void createSongList() {

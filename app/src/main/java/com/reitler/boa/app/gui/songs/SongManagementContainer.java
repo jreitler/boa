@@ -11,9 +11,9 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.reitler.boa.app.gui.FilteredTable;
 import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongManager;
@@ -24,7 +24,7 @@ public class SongManagementContainer extends Container {
 
 	private static final long serialVersionUID = 1248811594328553729L;
 	private final ISongManager songManager;
-	private SongManagementModel model;
+	private final SongManagementModel model;
 	private JTable table;
 	private final ISongListener listener = new SongListener();
 
@@ -42,8 +42,8 @@ public class SongManagementContainer extends Container {
 		this.table = new JTable(this.model);
 		this.table.getColumnModel().getColumn(0).setMinWidth(50);
 
-		JScrollPane scrollPane = new JScrollPane(this.table);
-		add(scrollPane, BorderLayout.CENTER);
+		Container tableContainer = new FilteredTable(this.table, this.model);
+		add(tableContainer, BorderLayout.CENTER);
 
 		Container container = new Container();
 		container.setLayout(new BorderLayout());
@@ -72,8 +72,7 @@ public class SongManagementContainer extends Container {
 	}
 
 	private void update() {
-		this.model = new SongManagementModel(this.songManager.getAllSongs());
-		this.table.setModel(this.model);
+		this.model.setSongs(this.songManager.getAllSongs());
 	}
 
 	private void createSong() {
