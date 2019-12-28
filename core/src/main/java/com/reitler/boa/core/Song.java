@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.events.ISongListener;
@@ -32,6 +33,9 @@ public class Song extends ListenerSupport<ISongListener> implements ISong {
 
 	@Override
 	public void setTitle(final String title) {
+		if (Objects.equals(this.title, title)) {
+			return;
+		}
 		ISong oldValue = copy();
 		this.title = title;
 		notifyChanged(oldValue);
@@ -39,6 +43,9 @@ public class Song extends ListenerSupport<ISongListener> implements ISong {
 
 	@Override
 	public void setArtist(final String artist) {
+		if (Objects.equals(this.artist, artist)) {
+			return;
+		}
 		ISong oldValue = copy();
 		this.artist = artist;
 		notifyChanged(oldValue);
@@ -51,6 +58,9 @@ public class Song extends ListenerSupport<ISongListener> implements ISong {
 
 	@Override
 	public void setPublisher(final String publisher) {
+		if (Objects.equals(this.publisher, publisher)) {
+			return;
+		}
 		ISong oldValue = copy();
 		this.publisher = publisher;
 		notifyChanged(oldValue);
@@ -63,6 +73,9 @@ public class Song extends ListenerSupport<ISongListener> implements ISong {
 
 	@Override
 	public void setTags(final List<String> newTags) {
+		if (Objects.equals(this.tags, newTags)) {
+			return;
+		}
 		ISong oldValue = copy();
 		this.tags = nullSafe(newTags);
 		notifyChanged(oldValue);
