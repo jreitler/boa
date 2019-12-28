@@ -13,12 +13,11 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.WindowConstants;
 
 import com.reitler.boa.app.gui.FilteredTable;
+import com.reitler.boa.app.gui.ITabbedParent;
 import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
@@ -33,11 +32,15 @@ public class SongListManagementContainer extends Container {
 	private final ISongListManager manager;
 	private final ISongManager songManager;
 	private final SongListManagementTableModel model;
+	private JTable table;
+	private final ITabbedParent parent;
 
-	public SongListManagementContainer(final ISongListManager manager, final ISongManager songManager) {
+	public SongListManagementContainer(final ISongListManager manager, final ISongManager songManager,
+			final ITabbedParent parent) {
 		this.manager = manager;
 		this.songManager = songManager;
 		this.model = new SongListManagementTableModel(manager.getAllSongLists());
+		this.parent = parent;
 		createContainer();
 	}
 
@@ -79,7 +82,7 @@ public class SongListManagementContainer extends Container {
 
 		layoutContraints.gridx = 1;
 		layoutContraints.ipadx = 20;
-		layoutContraints.insets = new Insets(2, 5, 2, 5);
+		layoutContraints.insets = (new Insets(2, 5, 2, 5));
 
 		buttonContainer.add(new JButton(new CreateSongListAction()), layoutContraints);
 		buttonContainer.add(new JButton(new DeleteSongListAction(table)), layoutContraints);
@@ -89,21 +92,9 @@ public class SongListManagementContainer extends Container {
 	}
 
 	private void editSongList(final int selectedRow) {
-		ISongList songList = this.model.getSongList(selectedRow);
-		JFrame frame = new JFrame(songList.getName());
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		ISongList songList = (this.model.getSongList(selectedRow));
 
-		Container contentPane = frame.getContentPane();
-		contentPane.setLayout(new GridBagLayout());
-
-		GridBagConstraints layoutContraints = new GridBagConstraints();
-
-		layoutContraints.insets = new Insets(15, 15, 15, 15);
-
-		contentPane.add(new SongListEditContainer(this.songManager, songList, this.manager), layoutContraints);
-		frame.pack();
-		frame.setEnabled(true);
-		frame.setVisible(true);
+		this.parent.addTab(songList.getName(), new SongListEditContainer(this.songManager, songList, this.manager));
 	}
 
 	private void update() {
