@@ -2,11 +2,14 @@ package com.reitler.boa.app.gui.songlists;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
+import java.lang.System.Logger.Level;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -149,6 +152,15 @@ public class SongListEditContainer extends Container {
 				}
 				PdfGenerator generator = new PdfGenerator();
 				generator.generate(this.list, file);
+
+				if (file.exists()) {
+					try {
+						Desktop.getDesktop().open(file);
+					} catch (IOException exception) {
+						System.getLogger(SongListEditContainer.class.getCanonicalName()).log(Level.WARNING,
+								"Could not open file: " + file.getAbsolutePath(), exception);
+					}
+				}
 			}
 
 		}
