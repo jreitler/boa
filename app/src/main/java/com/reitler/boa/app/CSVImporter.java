@@ -72,19 +72,25 @@ public class CSVImporter {
 		ISong song = this.songCache.computeIfAbsent(title, t -> this.songManager.createSong(parameter));
 
 		String[] lists = listNames.split("/");
+		String[] pages = page.split("/");
 
-		for (String listName : lists) {
+		for (int i = 0; i < lists.length; i++) {
+			String listName = lists[i];
 			if (!listName.trim().isEmpty()) {
+				if (pages.length <= i) {
+					continue;
+				}
 				ISongList list = this.listCache.computeIfAbsent(listName,
 						name -> this.listManager.createSongList(name));
-				this.listManager.assign(song, list, page);
+				this.listManager.assign(song, list, pages[i]);
 			}
 		}
 	}
 
 	private String getValue(final String[] array, final int index) {
 		if (array.length > index) {
-			return array[index];
+			return array[index].trim();
+
 		}
 		return "";
 	}
