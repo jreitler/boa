@@ -66,7 +66,7 @@ public class SongListManagementContainer extends Container {
 			@Override
 			public void mouseClicked(final MouseEvent e) {
 				if ((e.getClickCount() == 2) && (table.getSelectedRowCount() == 1)) {
-					editSongList(table.getSelectedRow());
+					editSongList(table.convertRowIndexToModel(table.getSelectedRow()));
 				} else if (SwingUtilities.isRightMouseButton(e)) {
 					JTable source = (JTable) e.getSource();
 					int row = source.rowAtPoint(e.getPoint());
@@ -170,7 +170,8 @@ public class SongListManagementContainer extends Container {
 			int[] rows = this.table.getSelectedRows();
 			List<String> toDelete = new LinkedList<>();
 			for (int r : rows) {
-				toDelete.add(SongListManagementContainer.this.model.getSongList(r).getName());
+				toDelete.add(SongListManagementContainer.this.model.getSongList(this.table.convertRowIndexToModel(r))
+						.getName());
 			}
 			toDelete.forEach(SongListManagementContainer.this.manager::deleteSongList);
 		}
@@ -203,7 +204,7 @@ public class SongListManagementContainer extends Container {
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
-			editSongList(this.table.getSelectedRow());
+			editSongList(this.table.convertRowIndexToModel(this.table.getSelectedRow()));
 		}
 	}
 
@@ -223,7 +224,7 @@ public class SongListManagementContainer extends Container {
 		public void actionPerformed(final ActionEvent e) {
 
 			ISongList songList = ((SongListManagementTableModel) this.t.getModel())
-					.getSongList(this.t.getSelectedRow());
+					.getSongList(this.t.convertRowIndexToModel(this.t.getSelectedRow()));
 
 			String listName = songList.getName();
 

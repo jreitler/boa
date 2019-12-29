@@ -122,7 +122,7 @@ public class SongManagementContainer extends Container {
 	}
 
 	private void changeSong(final JTable table) {
-		ISong song = this.model.getSong(table.getSelectedRow());
+		ISong song = this.model.getSong(table.convertRowIndexToModel(table.getSelectedRow()));
 
 		SongChangeDialog dialog = new SongChangeDialog(song);
 		dialog.setModal(true);
@@ -154,7 +154,7 @@ public class SongManagementContainer extends Container {
 			int[] rows = this.table.getSelectedRows();
 			List<ISong> toDelete = new LinkedList<>();
 			for (int r : rows) {
-				toDelete.add(SongManagementContainer.this.model.getSong(r));
+				toDelete.add(SongManagementContainer.this.model.getSong(this.table.convertRowIndexToModel(r)));
 			}
 			toDelete.forEach(SongManagementContainer.this.songManager::deleteSong);
 		}

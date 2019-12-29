@@ -41,7 +41,7 @@ public class SongSelectionContainer extends Container {
 		List<ISong> selected = new ArrayList<>();
 		int[] rows = this.table.getSelectedRows();
 		for (int i : rows) {
-			selected.add(this.allSongs.get(i));
+			selected.add(this.allSongs.get(this.table.convertRowIndexToModel(i)));
 		}
 		return selected;
 	}

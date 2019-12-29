@@ -118,7 +118,8 @@ public class SongListEditContainer extends Container {
 			int[] rows = this.table.getSelectedRows();
 			List<ISong> toRemove = new LinkedList<>();
 			for (int r : rows) {
-				toRemove.add(SongListEditContainer.this.songList.getByPage().get(r).getSong());
+				toRemove.add(SongListEditContainer.this.songList.getByPage().get(this.table.convertRowIndexToModel(r))
+						.getSong());
 			}
 			toRemove.forEach(
 					s -> SongListEditContainer.this.songListManager.unassign(s, SongListEditContainer.this.songList));
