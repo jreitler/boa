@@ -150,7 +150,7 @@ public class SongListManagementContainer extends Container {
 	private void createSongList() {
 		String result = JOptionPane.showInputDialog(null, UIConstants.getSongListCreationMessage(),
 				UIConstants.getSongListCreationCaption(), JOptionPane.PLAIN_MESSAGE);
-		if (!"".equals(result)) {
+		if (result != null && !result.trim().isEmpty()) {
 			this.manager.createSongList(result);
 		}
 	}
