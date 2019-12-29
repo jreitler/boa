@@ -129,9 +129,6 @@ public class SongManagementContainer extends Container {
 		dialog.setVisible(true);
 		SongCreationParameter songparameter = dialog.getParameter();
 
-		dialog.setModal(true);
-		dialog.setVisible(true);
-
 		if (songparameter != null) {
 			song.setTitle(songparameter.title);
 			song.setArtist(songparameter.artist);

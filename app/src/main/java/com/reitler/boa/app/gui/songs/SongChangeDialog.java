@@ -69,7 +69,7 @@ public class SongChangeDialog extends JDialog {
 					initializeParameter();
 					setVisible(false);
 				}
-				if (e.getSource() == SongChangeDialog.this.cancelButton) {
+				if (e.getSource().equals(SongChangeDialog.this.cancelButton)) {
 					setVisible(false);
 				}
 
