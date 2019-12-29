@@ -94,7 +94,9 @@ public class SongManagementContainer extends Container {
 
 	private void createSong() {
 		SongChangeDialog dialog = new SongChangeDialog();
-		SongCreationParameter songParameter = dialog.showDialog();
+		dialog.setModal(true);
+		dialog.setVisible(true);
+		SongCreationParameter songParameter = dialog.getParameter();
 
 		if (songParameter != null) {
 			this.songManager.createSong(songParameter);
@@ -106,7 +108,9 @@ public class SongManagementContainer extends Container {
 		ISong song = this.model.getSong(table.getSelectedRow());
 
 		SongChangeDialog dialog = new SongChangeDialog(song);
-		SongCreationParameter songparameter = dialog.showDialog();
+		dialog.setModal(true);
+		dialog.setVisible(true);
+		SongCreationParameter songparameter = dialog.getParameter();
 
 		if (songparameter != null) {
 			song.setTitle(songparameter.title);
