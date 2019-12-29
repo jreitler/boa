@@ -5,14 +5,17 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.reitler.boa.app.CSVImporter;
 import com.reitler.boa.app.gui.songlists.SongListManagementContainer;
 import com.reitler.boa.app.gui.songs.SongManagementContainer;
 import com.reitler.boa.core.interfaces.ISongListManager;
@@ -22,7 +25,12 @@ public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = -2599442231433868789L;
 
+	private final ISongManager songManager;
+	private final ISongListManager listManager;
+
 	public MainFrame(final ISongManager songManager, final ISongListManager songListManager) {
+		this.songManager = songManager;
+		this.listManager = songListManager;
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setJMenuBar(createMenuBar());
 		super.setLayout(new GridBagLayout());
@@ -58,13 +66,30 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				JOptionPane.showMessageDialog(getParent(), "item1 pressed");
+				importFile();
 			}
 		});
 		menu.add(item);
 		result.add(menu);
 
 		return result;
+	}
+
+	private void importFile() {
+
+		JFileChooser chooser = new JFileChooser(new File("."));
+		chooser.setDialogTitle(UIConstants.getGeneratePdfCaption());
+		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+		chooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv", "txt"));
+
+		int result = chooser.showOpenDialog(null);
+
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File file = chooser.getSelectedFile();
+			if (file.exists()) {
+				new CSVImporter(this.songManager, this.listManager).importData(file);
+			}
+		}
 	}
 
 }

@@ -2,8 +2,10 @@ package com.reitler.boa.app;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,7 +35,8 @@ public class CSVImporter {
 
 		initCaches();
 
-		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+		try (BufferedReader reader = new BufferedReader(
+				new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8")))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				if (!line.startsWith("#")) {
@@ -55,11 +58,11 @@ public class CSVImporter {
 	private void readLine(final String line) {
 		String[] split = line.split(";");
 
-		String title = split[1];
-		String artist = split[2];
-		String publisher = split[3];
-		String listNames = split[4];
-		String page = split[5];
+		String title = getValue(split, 1);
+		String artist = getValue(split, 2);
+		String publisher = getValue(split, 3);
+		String listNames = getValue(split, 4);
+		String page = getValue(split, 5);
 
 		SongCreationParameter parameter = new SongCreationParameter();
 		parameter.title = title;
@@ -77,6 +80,13 @@ public class CSVImporter {
 				this.listManager.assign(song, list, page);
 			}
 		}
+	}
+
+	private String getValue(final String[] array, final int index) {
+		if (array.length > index) {
+			return array[index];
+		}
+		return "";
 	}
 
 }
