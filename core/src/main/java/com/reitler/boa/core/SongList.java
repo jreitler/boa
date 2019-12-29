@@ -44,7 +44,7 @@ public class SongList extends ListenerSupport<ISongListListener> implements ISon
 
 	@Override
 	public String getName() {
-		return this.name;
+		return this.name != null ? this.name : "";
 	}
 
 	@Override
@@ -57,13 +57,13 @@ public class SongList extends ListenerSupport<ISongListListener> implements ISon
 	}
 
 	private List<ISongAssignment> getSortedByTitle() {
-		List<ISongAssignment> result = new ArrayList<ISongAssignment>(this.assignments);
+		List<ISongAssignment> result = new ArrayList<>(this.assignments);
 		Collections.sort(result, (a, b) -> a.getSong().getTitle().compareToIgnoreCase(b.getSong().getTitle()));
 		return result;
 	}
 
 	private List<ISongAssignment> getSortedByPage() {
-		List<ISongAssignment> result = new ArrayList<ISongAssignment>(this.assignments);
+		List<ISongAssignment> result = new ArrayList<>(this.assignments);
 		Collections.sort(result, new PageComparator());
 		return result;
 	}
