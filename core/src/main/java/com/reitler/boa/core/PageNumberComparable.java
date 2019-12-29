@@ -18,9 +18,8 @@ public class PageNumberComparable implements Comparable<PageNumberComparable> {
 		try {
 			this.digit = Integer.valueOf(s);
 		} catch (NumberFormatException e) {
-			System.out.println("NumberFormatException: " + e.getMessage());
 		}
-		System.out.println("digit: " + this.digit + "; letter: " + this.letter);
+
 	}
 
 	@Override
