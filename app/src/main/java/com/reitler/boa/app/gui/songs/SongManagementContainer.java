@@ -13,7 +13,9 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 import com.reitler.boa.app.gui.FilteredTable;
 import com.reitler.boa.app.gui.UIConstants;
@@ -70,15 +72,30 @@ public class SongManagementContainer extends Container {
 		table.getSelectionModel()
 				.addListSelectionListener(e -> editButton.setEnabled(table.getSelectedRowCount() == 1));
 
-		addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(final MouseEvent e) {
+				System.out.println(e.getClickCount());
+				System.out.println(table.getSelectedColumnCount());
 				if ((e.getClickCount() == 2) && (table.getSelectedRowCount() == 1)) {
 					changeSong(table);
+				} else if (SwingUtilities.isRightMouseButton(e)) {
+					JTable source = (JTable) e.getSource();
+					int row = source.rowAtPoint(e.getPoint());
+					int column = source.columnAtPoint(e.getPoint());
+
+					if (!source.isRowSelected(row)) {
+						source.changeSelection(row, column, false, false);
+					}
+					JPopupMenu popup = new JPopupMenu();
+					popup.add(new ChangeSongAction(table));
+					popup.add(new DeleteSongAction(table));
+					popup.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
 		});
+
 		this.songManager.addListener(this.listener);
 	}
 
@@ -107,6 +124,9 @@ public class SongManagementContainer extends Container {
 
 		SongChangeDialog dialog = new SongChangeDialog(song);
 		SongCreationParameter songparameter = dialog.showDialog();
+
+		dialog.setModal(true);
+		dialog.setVisible(true);
 
 		if (songparameter != null) {
 			song.setTitle(songparameter.title);

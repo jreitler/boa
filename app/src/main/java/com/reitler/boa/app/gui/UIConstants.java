@@ -114,4 +114,8 @@ public class UIConstants {
 	public static String getEditListButton() {
 		return UIConstants.RESOURCES.getString("EDIT_SONGLIST_BUTTON");
 	}
+
+	public static String getDuplicateSongListCaption() {
+		return UIConstants.RESOURCES.getString("DUPLICATE_SONGLIST");
+	}
 }

@@ -14,8 +14,10 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -65,6 +67,22 @@ public class SongListManagementContainer extends Container {
 			public void mouseClicked(final MouseEvent e) {
 				if ((e.getClickCount() == 2) && (table.getSelectedRowCount() == 1)) {
 					editSongList(table.getSelectedRow());
+				} else if (SwingUtilities.isRightMouseButton(e)) {
+					JTable source = (JTable) e.getSource();
+					int row = source.rowAtPoint(e.getPoint());
+					int column = source.columnAtPoint(e.getPoint());
+
+					if (!source.isRowSelected(row)) {
+						source.changeSelection(row, column, false, false);
+					}
+					JPopupMenu popup = new JPopupMenu();
+					if (table.getSelectedRowCount() == 1) {
+						popup.add(new DuplicateSongListAction(table, SongListManagementContainer.this.manager));
+					}
+
+					popup.add(new EditSongListAction(table));
+					popup.add(new DeleteSongListAction(table));
+					popup.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
 		});
@@ -189,6 +207,33 @@ public class SongListManagementContainer extends Container {
 		}
 	}
 
+	private final class DuplicateSongListAction extends AbstractAction {
+
+		private static final long serialVersionUID = 7633810221582883130L;
+		private final ISongListManager listManager;
+		private final JTable t;
+
+		private DuplicateSongListAction(final JTable t, final ISongListManager listManager) {
+			super(UIConstants.getDuplicateSongListCaption());
+			this.t = t;
+			this.listManager = listManager;
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent e) {
+
+			ISongList songList = ((SongListManagementTableModel) this.t.getModel())
+					.getSongList(this.t.getSelectedRow());
+
+			String listName = songList.getName();
+
+			ISongList newlist = this.listManager.createSongList(listName + "(2)");
+			songList.getByPage().forEach(a -> this.listManager.assign(a.getSong(), newlist, a.getPage()));
+
+		}
+
+	}
+
 	private final class SongListListener implements ISongListListener {
 
 		@Override
@@ -212,4 +257,5 @@ public class SongListManagementContainer extends Container {
 		}
 
 	}
+
 }
