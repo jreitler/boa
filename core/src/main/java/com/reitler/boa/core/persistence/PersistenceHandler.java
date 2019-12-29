@@ -187,7 +187,8 @@ public class PersistenceHandler implements IPersistenceHandler {
 	}
 
 	private void deleteSong(final ISong song) {
-		try (PreparedStatement statement = this.connection.prepareStatement(Queries.DELETE_SONG_BY_ID_QUERY)) {
+		try (PreparedStatement statement = this.connection
+				.prepareStatement(Queries.DELETE_ASSIGNMENTS_BY_SONG_ID_QUERY)) {
 			statement.setQueryTimeout(30);
 			statement.setInt(1, song.getId());
 			statement.executeUpdate();
@@ -197,8 +198,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 					song.getId(), song.getTitle(), song.getArtist(), song.getPublisher());
 			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
-		try (PreparedStatement statement = this.connection
-				.prepareStatement(Queries.DELETE_ASSIGNMENTS_BY_SONG_ID_QUERY)) {
+		try (PreparedStatement statement = this.connection.prepareStatement(Queries.DELETE_SONG_BY_ID_QUERY)) {
 			statement.setQueryTimeout(30);
 			statement.setInt(1, song.getId());
 			statement.executeUpdate();
@@ -223,7 +223,8 @@ public class PersistenceHandler implements IPersistenceHandler {
 	}
 
 	private void deleteSongList(final ISongList list) {
-		try (PreparedStatement statement = this.connection.prepareStatement(Queries.DELETE_LIST_BY_ID_QUERY)) {
+		try (PreparedStatement statement = this.connection
+				.prepareStatement(Queries.DELETE_ASSIGNMENTS_BY_LIST_ID_QUERY)) {
 			statement.setQueryTimeout(30);
 			statement.setInt(1, list.getId());
 			statement.executeUpdate();
@@ -234,8 +235,7 @@ public class PersistenceHandler implements IPersistenceHandler {
 			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
 
-		try (PreparedStatement statement = this.connection
-				.prepareStatement(Queries.DELETE_ASSIGNMENTS_BY_LIST_ID_QUERY)) {
+		try (PreparedStatement statement = this.connection.prepareStatement(Queries.DELETE_LIST_BY_ID_QUERY)) {
 			statement.setQueryTimeout(30);
 			statement.setInt(1, list.getId());
 			statement.executeUpdate();
