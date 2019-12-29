@@ -2,8 +2,8 @@ package com.reitler.boa.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -25,12 +25,12 @@ public class SongList extends ListenerSupport<ISongListListener> implements ISon
 
 	@Override
 	public List<ISongAssignment> getByPage() {
-		return getSorted(a -> a.getPage());
+		return getSortedByPage();
 	}
 
 	@Override
 	public List<ISongAssignment> getByTitle() {
-		return getSorted(a -> a.getSong().getTitle());
+		return getSortedByTitle();
 	}
 
 	@Override
@@ -56,11 +56,15 @@ public class SongList extends ListenerSupport<ISongListListener> implements ISon
 		}
 	}
 
-	private List<ISongAssignment> getSorted(final Function<ISongAssignment, String> f) {
-		List<ISongAssignment> result = new ArrayList<>(this.assignments);
+	private List<ISongAssignment> getSortedByTitle() {
+		List<ISongAssignment> result = new ArrayList<ISongAssignment>(this.assignments);
+		Collections.sort(result, (a, b) -> a.getSong().getTitle().compareToIgnoreCase(b.getSong().getTitle()));
+		return result;
+	}
 
-		Collections.sort(result, (a, b) -> f.apply(a).compareTo(f.apply(b)));
-
+	private List<ISongAssignment> getSortedByPage() {
+		List<ISongAssignment> result = new ArrayList<ISongAssignment>(this.assignments);
+		Collections.sort(result, new PageComparator());
 		return result;
 	}
 
@@ -83,6 +87,13 @@ public class SongList extends ListenerSupport<ISongListListener> implements ISon
 		this.name = name;
 		for (ISongListListener l : getListeners()) {
 			l.songListNameChanged(this, oldName, name);
+		}
+	}
+
+	private class PageComparator implements Comparator<ISongAssignment> {
+		@Override
+		public int compare(final ISongAssignment a, final ISongAssignment b) {
+			return new PageNumberComparable(a.getPage()).compareTo(new PageNumberComparable(b.getPage()));
 		}
 	}
 
