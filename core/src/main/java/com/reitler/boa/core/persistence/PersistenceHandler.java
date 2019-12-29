@@ -3,8 +3,9 @@ package com.reitler.boa.core.persistence;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -99,9 +100,11 @@ public class PersistenceHandler implements IPersistenceHandler {
 	}
 
 	private void updateSongList(final ISongList list) {
-		try (Statement statement = this.connection.createStatement()) {
+		try (PreparedStatement statement = this.connection.prepareStatement(Queries.UPDATE_SONGLIST_QUERY)) {
 			statement.setQueryTimeout(30);
-			statement.executeUpdate(Queries.prepareUpdateSongListQuery(list.getId(), list.getName()));
+			statement.setInt(1, list.getId());
+			statement.setString(2, list.getName());
+			statement.executeUpdate();
 
 		} catch (SQLException e) {
 			String msg = String.format("Error while updating songList: ID='%d' Name='%s' ", list.getId(),
@@ -111,9 +114,14 @@ public class PersistenceHandler implements IPersistenceHandler {
 	}
 
 	private void saveSong(final ISong song) {
-		try (Statement statement = this.connection.createStatement()) {
+		try (PreparedStatement statement = this.connection.prepareStatement(Queries.INSERT_SONG_QUERY)) {
 			statement.setQueryTimeout(30);
-			statement.executeUpdate(Queries.prepareInsertSongQuery(song));
+			statement.setInt(1, song.getId());
+			statement.setString(2, nullSafe(song.getTitle()));
+			statement.setString(3, nullSafe(song.getArtist()));
+			statement.setString(4, nullSafe(song.getPublisher()));
+			statement.setString(5, join(song.getTags()));
+			statement.executeUpdate();
 
 		} catch (SQLException e) {
 			String msg = String.format("Error while saving song: ID='%d' Title='%s' Artist='%s' Publisher='%s'",
@@ -123,9 +131,14 @@ public class PersistenceHandler implements IPersistenceHandler {
 	}
 
 	private void updateSong(final ISong song) {
-		try (Statement statement = this.connection.createStatement()) {
+		try (PreparedStatement statement = this.connection.prepareStatement(Queries.UPDATE_SONG_QUERY)) {
 			statement.setQueryTimeout(30);
-			statement.executeUpdate(Queries.prepareUpdateSongQuery(song));
+			statement.setString(1, nullSafe(song.getTitle()));
+			statement.setString(2, nullSafe(song.getArtist()));
+			statement.setString(3, nullSafe(song.getPublisher()));
+			statement.setString(4, join(song.getTags()));
+			statement.setInt(5, song.getId());
+			statement.executeUpdate();
 
 		} catch (SQLException e) {
 			String msg = String.format("Error while updating song: ID='%d' Title='%s' Artist='%s' Publisher='%s'",
@@ -135,9 +148,11 @@ public class PersistenceHandler implements IPersistenceHandler {
 	}
 
 	private void saveSongList(final ISongList list) {
-		try (Statement statement = this.connection.createStatement()) {
+		try (PreparedStatement statement = this.connection.prepareStatement(Queries.INSERT_SONGLIST_QUERY)) {
 			statement.setQueryTimeout(30);
-			statement.executeUpdate(Queries.prepareInsertSonglistQuery(list.getId(), list.getName()));
+			statement.setInt(1, list.getId());
+			statement.setString(2, list.getName());
+			statement.executeUpdate();
 
 		} catch (SQLException e) {
 			String msg = String.format("Error while saving songlist: ID='%d' Title='%s'", list.getId(), list.getName());
@@ -145,15 +160,17 @@ public class PersistenceHandler implements IPersistenceHandler {
 		}
 	}
 
-	private void saveAssignment(final SongAssignment assign, final ISongList list) {
-		SongAssignment assignment = assign;
-		try (Statement statement = this.connection.createStatement()) {
+	private void saveAssignment(final SongAssignment assignment, final ISongList list) {
+		try (PreparedStatement statement = this.connection.prepareStatement(Queries.INSERT_ASSIGNMENT_QUERY)) {
 			statement.setQueryTimeout(30);
-			statement.executeUpdate(Queries.prepareInsertAssignmentQuery(assignment.getId(), assignment.getPage(),
-					assignment.getSong().getId(), list.getId()));
+			statement.setInt(1, assignment.getId());
+			statement.setString(2, assignment.getPage());
+			statement.setInt(3, assignment.getSong().getId());
+			statement.setInt(4, list.getId());
+			statement.executeUpdate();
 		} catch (SQLException e) {
 			String msg = String.format("Error while saving assignments: ID='%d' SongID='%d' ListId='%d'",
-					assign.getId(), assign.getSong().getId(), list.getId());
+					assignment.getId(), assignment.getSong().getId(), list.getId());
 			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
 		}
 	}
@@ -170,11 +187,21 @@ public class PersistenceHandler implements IPersistenceHandler {
 	}
 
 	private void deleteSong(final ISong song) {
-		try (Statement statement = this.connection.createStatement()) {
+		try (PreparedStatement statement = this.connection.prepareStatement(Queries.DELETE_SONG_BY_ID_QUERY)) {
 			statement.setQueryTimeout(30);
-			statement.addBatch(Queries.prepareDeleteAssignmentBySongsQuery(song.getId()));
-			statement.addBatch(Queries.prepareDeleteSongQuery(song.getId()));
-			statement.executeBatch();
+			statement.setInt(1, song.getId());
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			String msg = String.format("Error while deleting song: ID='%d' Title='%s' Artist='%s' Publisher='%s'",
+					song.getId(), song.getTitle(), song.getArtist(), song.getPublisher());
+			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
+		}
+		try (PreparedStatement statement = this.connection
+				.prepareStatement(Queries.DELETE_ASSIGNMENTS_BY_SONG_ID_QUERY)) {
+			statement.setQueryTimeout(30);
+			statement.setInt(1, song.getId());
+			statement.executeUpdate();
 
 		} catch (SQLException e) {
 			String msg = String.format("Error while deleting song: ID='%d' Title='%s' Artist='%s' Publisher='%s'",
@@ -184,9 +211,10 @@ public class PersistenceHandler implements IPersistenceHandler {
 	}
 
 	private void deleteAssignment(final SongAssignment removedSong) {
-		try (Statement statement = this.connection.createStatement()) {
+		try (PreparedStatement statement = this.connection.prepareStatement(Queries.DELETE_ASSIGNMENT_BY_ID_QUERY)) {
 			statement.setQueryTimeout(30);
-			statement.executeUpdate(Queries.prepareDeleteAssignmentByIdQuery(removedSong.getId()));
+			statement.setInt(1, removedSong.getId());
+			statement.executeUpdate();
 		} catch (SQLException e) {
 			String msg = String.format("Error while deleting assignments: ID='%d' SongID='%d' ", removedSong.getId(),
 					removedSong.getSong().getId());
@@ -195,11 +223,22 @@ public class PersistenceHandler implements IPersistenceHandler {
 	}
 
 	private void deleteSongList(final ISongList list) {
-		try (Statement statement = this.connection.createStatement()) {
+		try (PreparedStatement statement = this.connection.prepareStatement(Queries.DELETE_LIST_BY_ID_QUERY)) {
 			statement.setQueryTimeout(30);
-			statement.addBatch(Queries.prepareDeleteAssignmentsByListQuery(list.getId()));
-			statement.addBatch(Queries.prepareDeleteSongListQuery(list.getId()));
-			statement.executeBatch();
+			statement.setInt(1, list.getId());
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			String msg = String.format("Error while deleting songlist: ID='%d' Title='%s'", list.getId(),
+					list.getName());
+			PersistenceHandler.LOG.log(Level.SEVERE, msg, e);
+		}
+
+		try (PreparedStatement statement = this.connection
+				.prepareStatement(Queries.DELETE_ASSIGNMENTS_BY_LIST_ID_QUERY)) {
+			statement.setQueryTimeout(30);
+			statement.setInt(1, list.getId());
+			statement.executeUpdate();
 
 		} catch (SQLException e) {
 			String msg = String.format("Error while deleting songlist: ID='%d' Title='%s'", list.getId(),
@@ -210,5 +249,16 @@ public class PersistenceHandler implements IPersistenceHandler {
 
 	private boolean isInitialized() {
 		return this.connection != null;
+	}
+
+	private static String nullSafe(final String value) {
+		return value == null ? "" : value;
+	}
+
+	private static String join(final Collection<String> tags) {
+		if (tags == null) {
+			return "";
+		}
+		return String.join(",", tags);
 	}
 }
