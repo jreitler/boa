@@ -68,7 +68,7 @@
 65;Ballata Per Te;;Hans Vansant;;;;;
 66;Barcelona;;;;;;;
 67;Bavaria Marsch;;;Heft;5;;;
-68;Beach Boys Golden Hits;;Kurt G�ble;Mappe;15;;;
+68;Beach Boys Golden Hits;;Kurt Gäble;Mappe;15;;;
 69;Beat and Sweet;;;;;;;
 70;Beatles Gold;;;;;;;
 71;Belafonte forever;;;;;;;
@@ -79,7 +79,7 @@
 76;Besuch bei Offenbach;;;;;;;
 77;Beyond the Sea;Trenet/Lawrence;Henk Ummels;;;;;
 78;Big Spender;Cy Coleman;Halter;;;bei Bad, Bad Leoroy Brown einsortiert;;
-79;Bill Ramsey;;;Mappe;68;ausgeliehen an Dieter 5'17;;zur�ck
+79;Bill Ramsey;;;Mappe;68;ausgeliehen an Dieter 5'17;;zurück
 80;Billy`s Rockparty;;;;;;;
 81;Bis bald auf Wiedersehen;Wenzel Zittner;Gerald Weinkopf;Mappe;57;;;
 82;Bläck Föös in Concert;;Peter Schüller;;;;;
@@ -115,7 +115,7 @@
 110;Concerto D`amore;;Jacob de Haan;;;;;
 111;Conquest of Paradise;;;;;;;
 112;Coral and Beat for Band;;;;;;;
-113;Cordula Gr�n ;Erwin Jahreis;Geiger;;;;;
+113;Cordula Grün ;Erwin Jahreis;Geiger;;;;;
 114;Costa Brava;;;;;;;
 115;Country and Western;;Walters;;;;;
 116;Country Music for Brass;Halter;Paulo Noro;Mappe;61;;;
@@ -305,7 +305,7 @@
 299;Hobbytime;;;;;;;
 300;Hoch die Tassen;;;;;;;
 301;Hoch Heidecksburg;;;;;;;
-302;Hochzeitsst�ndchen;;;;;;;
+302;Hochzeitsständchen;;;;;;;
 303;Höhnereier;;Züll/Classen;K-Heft;7;;;
 304;Holiday;;;;;;;
 305;Holiday;;;Heft;1;;;
@@ -373,7 +373,7 @@
 364;Lebt denn der alte Holzmichl noch ?;Unger/Rostig;Joh. Thaler;K-Heft;2;;;
 365;Leningrad;;;;;;;
 366;Les Champs-Elysees;;Kraeydonck;Mappe;2a;;;
-367;Les Humphries in Concert;;Kurt G�ble;Mappe;14;;;
+367;Les Humphries in Concert;;Kurt Gäble;Mappe;14;;;
 368;Let me Entertain you;R. Williams;Marcel Sauer;Mappe;29a;;;
 369;Liebe auf den ersten Ton;Peter Leitner;Rundel;Orginal Manfred Fuhs;;;;
 370;Lieblingsschlager;;;;;;;
@@ -655,10 +655,10 @@
 635;White Christmas (groß);Naohiro Iwai;;;;;;
 636;White Christmas (klein);Berlin;Beck;;;;;
 635;Wir leben Blasmusik;Peter Leitner;Rundel;;;;;
-636;Wir Musikanten;Kurt G�ble;Rundel;Mappe;13;;;
+636;Wir Musikanten;Kurt Gäble;Rundel;Mappe;13;;;
 637;Willenlos;Westernhagen;Erwin Jahreis;;;;;
 638;Windstärke 10;;;;;;;
-639;Winnetou & Old Shatterhand;Martin B�ttcher;Manfred Schneider;;;;;
+639;Winnetou & Old Shatterhand;Martin Böttcher;Manfred Schneider;;;;;
 640;Winter Wonderland (groß);Kazuhiro Morita;;;;;;
 641;Winter Wonderland (klein);Thorsten Reinau;;;;;;
 642;Winzerfest-Marsch-;;;;;;;
