@@ -50,11 +50,22 @@ public class MainFrame extends JFrame {
 		layoutContraints.weightx = 1.0;
 		layoutContraints.weighty = 1.0;
 
+		setTitle(readTitle());
+
 		super.add(cards, layoutContraints);
 		super.pack();
 		setVisible(true);
 		setEnabled(true);
 
+	}
+
+	private String readTitle() {
+		String name = "boa - ";
+		String version = getClass().getPackage().getImplementationVersion();
+		if (version == null) {
+			return name.concat("development version");
+		}
+		return name.concat(version);
 	}
 
 	private JMenuBar createMenuBar() {

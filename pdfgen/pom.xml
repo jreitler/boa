@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.reitler.boa</groupId>
     <artifactId>parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.9.0</version>
   </parent>
   <artifactId>pdfgen</artifactId>
   <name>pdfgen</name>
