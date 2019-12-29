@@ -118,4 +118,12 @@ public class UIConstants {
 	public static String getDuplicateSongListCaption() {
 		return UIConstants.RESOURCES.getString("DUPLICATE_SONGLIST");
 	}
+
+	public static String getFileMenu() {
+		return UIConstants.RESOURCES.getString("FILE_MENU");
+	}
+
+	public static String getImportCsvFile() {
+		return UIConstants.RESOURCES.getString("IMPORT_CSV");
+	}
 }

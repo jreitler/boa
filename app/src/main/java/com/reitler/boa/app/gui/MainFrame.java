@@ -60,8 +60,8 @@ public class MainFrame extends JFrame {
 	private JMenuBar createMenuBar() {
 		JMenuBar result = new JMenuBar();
 
-		JMenu menu = new JMenu("test");
-		JMenuItem item = new JMenuItem("item1");
+		JMenu menu = new JMenu(UIConstants.getFileMenu());
+		JMenuItem item = new JMenuItem(UIConstants.getImportCsvFile());
 		item.addActionListener(new ActionListener() {
 
 			@Override
