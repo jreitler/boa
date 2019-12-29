@@ -52,11 +52,11 @@ public class SongListManager extends ListenerSupport<ISongListListener> implemen
 		while (i.hasNext()) {
 			ISongList list = i.next();
 			if (list.getName().equals(name)) {
+				this.storage.removeSongList(list);
+				this.usedListIds.remove(list.getId());
 				for (ISongListListener l : getListeners()) {
 					l.songListDeleted(list);
 				}
-				this.storage.removeSongList(list);
-				this.usedListIds.remove(list.getId());
 			}
 		}
 	}
