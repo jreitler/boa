@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
 
 		JTabbedPaneWithCloseButton cards = new JTabbedPaneWithCloseButton();
 
-		cards.addTabNoClose(UIConstants.getAllSongsTitle(), new SongManagementContainer(songManager));
+		cards.addTabNoClose(UIConstants.getAllSongsTitle(), new SongManagementContainer(songManager, this.listManager));
 		cards.addTabNoClose(UIConstants.getAllSongListsTitle(),
 				new SongListManagementContainer(songListManager, songManager, cards));
 

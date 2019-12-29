@@ -20,6 +20,7 @@ import javax.swing.SwingUtilities;
 import com.reitler.boa.app.gui.FilteredTable;
 import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.core.interfaces.ISong;
+import com.reitler.boa.core.interfaces.ISongListManager;
 import com.reitler.boa.core.interfaces.ISongManager;
 import com.reitler.boa.core.interfaces.events.ISongListener;
 import com.reitler.boa.core.interfaces.factory.SongCreationParameter;
@@ -31,9 +32,9 @@ public class SongManagementContainer extends Container {
 	private final SongManagementModel model;
 	private final ISongListener listener = new SongListener();
 
-	public SongManagementContainer(final ISongManager songManager) {
+	public SongManagementContainer(final ISongManager songManager, final ISongListManager listManager) {
 		this.songManager = songManager;
-		this.model = new SongManagementModel(songManager.getAllSongs());
+		this.model = new SongManagementModel(songManager.getAllSongs(), listManager);
 		createContainer();
 	}
 

@@ -6,13 +6,29 @@ import java.util.List;
 import com.reitler.boa.app.gui.AbstractTableModel;
 import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.core.interfaces.ISong;
+import com.reitler.boa.core.interfaces.ISongAssignment;
+import com.reitler.boa.core.interfaces.ISongList;
+import com.reitler.boa.core.interfaces.ISongListManager;
+import com.reitler.boa.core.interfaces.events.ISongListListener;
 
 public class SongManagementModel extends AbstractTableModel {
 
 	private List<ISong> songs;
+	private final ISongListManager listManager;
+	private final ISongListListener listener = new SongListListener();
 
-	public SongManagementModel(final List<ISong> songs) {
+	public SongManagementModel(final List<ISong> songs, final ISongListManager listManager) {
 		this.songs = new LinkedList<>(songs);
+		this.listManager = listManager;
+		registerListener();
+	}
+
+	private void registerListener() {
+		this.listManager.addListener(this.listener);
+
+		for (ISongList list : this.listManager.getAllSongLists()) {
+			list.addListener(this.listener);
+		}
 	}
 
 	public void setSongs(final List<ISong> songsToSet) {
@@ -27,7 +43,7 @@ public class SongManagementModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -40,6 +56,8 @@ public class SongManagementModel extends AbstractTableModel {
 		case 2:
 			return UIConstants.getSongPublisherCaption();
 		case 3:
+			return UIConstants.getSongSongListsCaption();
+		case 4:
 			return UIConstants.getSongTagsCaption();
 		default:
 			return null;
@@ -48,7 +66,7 @@ public class SongManagementModel extends AbstractTableModel {
 
 	@Override
 	public Class<?> getColumnClass(final int columnIndex) {
-		if ((columnIndex >= 0) && (columnIndex <= 3)) {
+		if ((columnIndex >= 0) && (columnIndex <= 4)) {
 			return String.class;
 		}
 		return null;
@@ -70,10 +88,26 @@ public class SongManagementModel extends AbstractTableModel {
 		case 2:
 			return song.getPublisher();
 		case 3:
+			return getContainingLists(song);
+		case 4:
 			return String.join(" ", song.getTags());
 		default:
 			return null;
 		}
+	}
+
+	private String getContainingLists(final ISong song) {
+		StringBuilder builder = new StringBuilder();
+
+		for (ISongList list : this.listManager.getAllSongLists()) {
+			for (ISongAssignment a : list.getByPage()) {
+				if (a.getSong().equals(song)) {
+					builder.append(String.format("  %s-%s", list.getName(), a.getPage()));
+				}
+			}
+		}
+
+		return builder.toString().trim();
 	}
 
 	@Override
@@ -83,6 +117,30 @@ public class SongManagementModel extends AbstractTableModel {
 
 	public ISong getSong(final int r) {
 		return this.songs.get(r);
+	}
+
+	private class SongListListener implements ISongListListener {
+
+		@Override
+		public void songListCreated(final ISongList list) {
+			update();
+		}
+
+		@Override
+		public void songListDeleted(final ISongList list) {
+			update();
+		}
+
+		@Override
+		public void assignmentAdded(final ISongList list, final ISongAssignment assignment) {
+			update();
+		}
+
+		@Override
+		public void assignmentRemoved(final ISongList list, final ISongAssignment assignment) {
+			update();
+		}
+
 	}
 
 }

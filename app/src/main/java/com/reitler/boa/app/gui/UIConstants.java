@@ -126,4 +126,8 @@ public class UIConstants {
 	public static String getImportCsvFile() {
 		return UIConstants.RESOURCES.getString("IMPORT_CSV");
 	}
+
+	public static String getSongSongListsCaption() {
+		return UIConstants.RESOURCES.getString("SONG_CONTAINING_LISTS");
+	}
 }
