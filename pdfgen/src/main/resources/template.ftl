@@ -18,62 +18,40 @@
 			<fo:block font-size="16pt" text-align="center" margin-top="10mm">${name}</fo:block>
 		</fo:static-content>
 		<fo:flow flow-name="boa-body">
-			<fo:block>
-			
+			<#list tables as t>
+			<fo:block page-break-after="always">
 				<fo:table table-layout="fixed" width="100%" border-collapse="collapse" background-color="#EDEDF0">
-					<fo:table-column column-width="10%" />
-					<fo:table-column column-width="40%" />
-					<fo:table-column column-width="10%" />
-					<fo:table-column column-width="40%" />
-						<fo:table-body>
-								<#list rowsByPage as row>
-								<fo:table-row>
-									<fo:table-cell font-size="9pt" line-height="1.6em" text-align="center" border-before-style="solid" border-after-style="solid" border-start-style="double" border-end-style="solid">
-										<fo:block>${row.left.page}</fo:block>
-									</fo:table-cell>
-									<fo:table-cell font-size="9pt" line-height="1.6em" text-align="center" border-before-style="solid" border-after-style="solid" border-start-style="solid" border-end-style="double">
-										<fo:block>${row.left.title}</fo:block>
-									</fo:table-cell>
-									<fo:table-cell font-size="9pt" line-height="1.6em" text-align="center" border-before-style="solid" border-after-style="solid" border-start-style="double" border-end-style="solid">
-										<fo:block>${row.right.page}</fo:block>
-									</fo:table-cell>
-									<fo:table-cell font-size="9pt" line-height="1.6em" text-align="center" border-before-style="solid" border-after-style="solid" border-start-style="solid" border-end-style="double">
-										<fo:block>${row.right.title}</fo:block>
-									</fo:table-cell>
-								</fo:table-row>
-								</#list>
-						</fo:table-body>
+					<#list 0..t.getCols()-1 as c>
+					<fo:table-column column-width="${t.getColumnWeight(c)}%" />
+					</#list>
+					<#if t.hasCaptions()>
+					<fo:table-header>
+						<fo:table-row>
+							<#list 0..t.getCols()-1 as c>
+								<fo:table-cell font-size="9pt" line-height="1.6em" text-align="center" border-before-style="solid" border-after-style="solid" border-start-style="solid" border-end-style="solid">
+									<fo:block>
+										${t.getCaption(c)}
+									</fo:block>
+								</fo:table-cell>
+							</#list>			
+						</fo:table-row>
+					</fo:table-header>		
+					</#if>
+					<fo:table-body>
+						<#list 0..t.getRows()-1 as row>
+						<fo:table-row>
+							<#list 0..t.getCols()-1 as c>
+							<fo:table-cell font-size="9pt" line-height="1.6em" text-align="center" border-before-style="solid" border-after-style="solid" border-start-style="solid" border-end-style="solid">
+								<fo:block>${t.getValue(row,c)}</fo:block>
+							</fo:table-cell>
+							</#list>
+						</fo:table-row>
+						</#list>
+					
+					</fo:table-body>
 				</fo:table>
-			
 			</fo:block>
-			<fo:block page-break-before="always">
-			
-				<fo:table table-layout="fixed" width="100%" border-collapse="collapse" background-color="#EDEDF0">
-					<fo:table-column column-width="10%" />
-					<fo:table-column column-width="40%" />
-					<fo:table-column column-width="10%" />
-					<fo:table-column column-width="40%" />
-						<fo:table-body>
-								<#list rowsByTitle as row>
-								<fo:table-row>
-									<fo:table-cell font-size="9pt" line-height="1.6em" text-align="center" border-before-style="solid" border-after-style="solid" border-start-style="double" border-end-style="solid">
-										<fo:block>${row.left.page}</fo:block>
-									</fo:table-cell>
-									<fo:table-cell font-size="9pt" line-height="1.6em" text-align="center" border-before-style="solid" border-after-style="solid" border-start-style="solid" border-end-style="double">
-										<fo:block>${row.left.title}</fo:block>
-									</fo:table-cell>
-									<fo:table-cell font-size="9pt" line-height="1.6em" text-align="center" border-before-style="solid" border-after-style="solid" border-start-style="double" border-end-style="solid">
-										<fo:block>${row.right.page}</fo:block>
-									</fo:table-cell>
-									<fo:table-cell font-size="9pt" line-height="1.6em" text-align="center" border-before-style="solid" border-after-style="solid" border-start-style="solid" border-end-style="double">
-										<fo:block>${row.right.title}</fo:block>
-									</fo:table-cell>
-								</fo:table-row>
-								</#list>
-						</fo:table-body>
-				</fo:table>
-			
-			</fo:block>
+			</#list>
 		</fo:flow>
 	</fo:page-sequence>
 </fo:root>
