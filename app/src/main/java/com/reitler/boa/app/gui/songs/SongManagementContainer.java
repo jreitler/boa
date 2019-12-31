@@ -18,7 +18,7 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import com.reitler.boa.app.gui.FilteredTable;
-import com.reitler.boa.app.gui.UIConstants;
+import com.reitler.boa.core.api.Constants;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongListManager;
 import com.reitler.boa.core.interfaces.ISongManager;
@@ -146,7 +146,7 @@ public class SongManagementContainer extends Container {
 		private final JTable table;
 
 		private DeleteSongAction(final JTable table) {
-			super(UIConstants.getDeleteSongButton());
+			super(Constants.getDeleteSongButton());
 			this.table = table;
 		}
 
@@ -167,7 +167,7 @@ public class SongManagementContainer extends Container {
 		private static final long serialVersionUID = -8881025720477846347L;
 
 		CreateSongAction() {
-			super(UIConstants.getCreateSongButton());
+			super(Constants.getCreateSongButton());
 		}
 
 		@Override
@@ -183,7 +183,7 @@ public class SongManagementContainer extends Container {
 		private final JTable table;
 
 		private ChangeSongAction(final JTable table) {
-			super(UIConstants.getEditSongButton());
+			super(Constants.getEditSongButton());
 			this.table = table;
 		}
 

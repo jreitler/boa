@@ -21,8 +21,8 @@ import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.reitler.boa.app.gui.FilteredTable;
-import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.app.gui.songs.SongSelectionDialog;
+import com.reitler.boa.core.api.Constants;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongListManager;
@@ -87,7 +87,7 @@ public class SongListEditContainer extends Container {
 		private static final long serialVersionUID = -5324451503239813652L;
 
 		private AddSongAction() {
-			super(UIConstants.getAddSongButton());
+			super(Constants.getAddSongButton());
 		}
 
 		@Override
@@ -108,7 +108,7 @@ public class SongListEditContainer extends Container {
 		private final JTable table;
 
 		private RemoveSongAction(final JTable table) {
-			super(UIConstants.getRemoveSongButton());
+			super(Constants.getRemoveSongButton());
 			this.table = table;
 		}
 
@@ -133,16 +133,16 @@ public class SongListEditContainer extends Container {
 		private final ISongList list;
 
 		private PrintSongListAction(final ISongList list) {
-			super(UIConstants.getGeneratePdfButton());
+			super(Constants.getGeneratePdfButton());
 			this.list = list;
 		}
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
 			JFileChooser chooser = new JFileChooser(new File("."));
-			chooser.setDialogTitle(UIConstants.getGeneratePdfCaption());
+			chooser.setDialogTitle(Constants.getGeneratePdfCaption());
 			chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-			chooser.setFileFilter(new FileNameExtensionFilter(UIConstants.getPdfFileType(), "pdf"));
+			chooser.setFileFilter(new FileNameExtensionFilter(Constants.getPdfFileType(), "pdf"));
 			chooser.setSelectedFile(
 					new File("." + File.separator + this.list.getName() + PrintSongListAction.PDF_FILE_EXTENSION));
 

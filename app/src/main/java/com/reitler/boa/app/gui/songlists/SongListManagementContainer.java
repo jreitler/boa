@@ -23,7 +23,7 @@ import javax.swing.event.DocumentListener;
 
 import com.reitler.boa.app.gui.FilteredTable;
 import com.reitler.boa.app.gui.ITabbedParent;
-import com.reitler.boa.app.gui.UIConstants;
+import com.reitler.boa.core.api.Constants;
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongListManager;
@@ -148,8 +148,8 @@ public class SongListManagementContainer extends Container {
 	}
 
 	private void createSongList() {
-		String result = JOptionPane.showInputDialog(null, UIConstants.getSongListCreationMessage(),
-				UIConstants.getSongListCreationCaption(), JOptionPane.PLAIN_MESSAGE);
+		String result = JOptionPane.showInputDialog(null, Constants.getSongListCreationMessage(),
+				Constants.getSongListCreationCaption(), JOptionPane.PLAIN_MESSAGE);
 		if (result != null && !result.trim().isEmpty()) {
 			this.manager.createSongList(result);
 		}
@@ -161,7 +161,7 @@ public class SongListManagementContainer extends Container {
 		private final JTable table;
 
 		private DeleteSongListAction(final JTable table) {
-			super(UIConstants.getDeleteSongListButton());
+			super(Constants.getDeleteSongListButton());
 			this.table = table;
 		}
 
@@ -183,7 +183,7 @@ public class SongListManagementContainer extends Container {
 		private static final long serialVersionUID = -8881025720477846347L;
 
 		private CreateSongListAction() {
-			super(UIConstants.getCreateSongListButton());
+			super(Constants.getCreateSongListButton());
 		}
 
 		@Override
@@ -198,7 +198,7 @@ public class SongListManagementContainer extends Container {
 		private final JTable table;
 
 		private EditSongListAction(final JTable table) {
-			super(UIConstants.getEditListButton());
+			super(Constants.getEditListButton());
 			this.table = table;
 		}
 
@@ -215,7 +215,7 @@ public class SongListManagementContainer extends Container {
 		private final JTable t;
 
 		private DuplicateSongListAction(final JTable t, final ISongListManager listManager) {
-			super(UIConstants.getDuplicateSongListCaption());
+			super(Constants.getDuplicateSongListCaption());
 			this.t = t;
 			this.listManager = listManager;
 		}

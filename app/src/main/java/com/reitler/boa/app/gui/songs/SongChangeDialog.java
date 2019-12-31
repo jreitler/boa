@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import com.reitler.boa.app.gui.UIConstants;
+import com.reitler.boa.core.api.Constants;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.factory.SongCreationParameter;
 
@@ -31,8 +31,8 @@ public class SongChangeDialog extends JDialog {
 	private final JTextField artist = new JTextField();
 	private final JTextField publisher = new JTextField();
 	private final JTextField tags = new JTextField();
-	private final JButton okButton = new JButton(UIConstants.getButtonOk());
-	private final JButton cancelButton = new JButton(UIConstants.getButtonCancel());
+	private final JButton okButton = new JButton(Constants.getButtonOk());
+	private final JButton cancelButton = new JButton(Constants.getButtonCancel());
 
 	private SongCreationParameter songParameter;
 
@@ -86,13 +86,13 @@ public class SongChangeDialog extends JDialog {
 		this.constraint.gridx = 0;
 		this.constraint.gridy = 0;
 		this.constraint.anchor = GridBagConstraints.WEST;
-		this.centerPanel.add(new JLabel(UIConstants.getSongTitleCaption()), this.constraint);
+		this.centerPanel.add(new JLabel(Constants.getSongTitleCaption()), this.constraint);
 		this.constraint.gridy = 1;
-		this.centerPanel.add(new JLabel(UIConstants.getSongArtistCaption()), this.constraint);
+		this.centerPanel.add(new JLabel(Constants.getSongArtistCaption()), this.constraint);
 		this.constraint.gridy = 2;
-		this.centerPanel.add(new JLabel(UIConstants.getSongPublisherCaption()), this.constraint);
+		this.centerPanel.add(new JLabel(Constants.getSongPublisherCaption()), this.constraint);
 		this.constraint.gridy = 3;
-		this.centerPanel.add(new JLabel(UIConstants.getSongTagsCaption()), this.constraint);
+		this.centerPanel.add(new JLabel(Constants.getSongTagsCaption()), this.constraint);
 
 		this.constraint.weightx = 1.0;
 		this.constraint.gridx = 1;

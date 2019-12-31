@@ -18,6 +18,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import com.reitler.boa.core.api.Constants;
+
 public class FilteredTable extends Container {
 
 	private static final long serialVersionUID = -6186356493538447128L;
@@ -28,7 +30,7 @@ public class FilteredTable extends Container {
 		table.setRowSorter(this.sorter);
 
 		setLayout(new BorderLayout());
-		JTextField searchBar = new HintTextField(UIConstants.getTypeFilterHint());
+		JTextField searchBar = new HintTextField(Constants.getTypeFilterHint());
 		searchBar.getDocument().addDocumentListener(new FilterDocumentListener(searchBar));
 		add(searchBar, BorderLayout.BEFORE_FIRST_LINE);
 

@@ -14,7 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import com.reitler.boa.app.gui.UIConstants;
+import com.reitler.boa.core.api.Constants;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongManager;
@@ -56,13 +56,13 @@ public class SongSelectionDialog extends JDialog implements ActionListener {
 		this.selectionContainer = new SongSelectionContainer(this.allDisplayedSongs);
 
 		JPanel buttonPane = new JPanel();
-		JButton okButton = new JButton(UIConstants.getButtonOk());
+		JButton okButton = new JButton(Constants.getButtonOk());
 		okButton.setActionCommand("OK");
 		okButton.addActionListener(this);
 		getRootPane().setDefaultButton(okButton);
 		buttonPane.add(okButton);
 
-		JButton cancelButton = new JButton(UIConstants.getButtonCancel());
+		JButton cancelButton = new JButton(Constants.getButtonCancel());
 		cancelButton.addActionListener(this);
 		buttonPane.add(cancelButton);
 

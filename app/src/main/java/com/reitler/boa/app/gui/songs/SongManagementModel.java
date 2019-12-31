@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.reitler.boa.app.gui.AbstractTableModel;
-import com.reitler.boa.app.gui.UIConstants;
+import com.reitler.boa.core.api.Constants;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
@@ -50,15 +50,15 @@ public class SongManagementModel extends AbstractTableModel {
 	public String getColumnName(final int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return UIConstants.getSongTitleCaption();
+			return Constants.getSongTitleCaption();
 		case 1:
-			return UIConstants.getSongArtistCaption();
+			return Constants.getSongArtistCaption();
 		case 2:
-			return UIConstants.getSongPublisherCaption();
+			return Constants.getSongPublisherCaption();
 		case 3:
-			return UIConstants.getSongSongListsCaption();
+			return Constants.getSongSongListsCaption();
 		case 4:
-			return UIConstants.getSongTagsCaption();
+			return Constants.getSongTagsCaption();
 		default:
 			return null;
 		}

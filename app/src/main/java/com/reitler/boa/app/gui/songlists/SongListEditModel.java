@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.reitler.boa.app.gui.AbstractTableModel;
-import com.reitler.boa.app.gui.UIConstants;
+import com.reitler.boa.core.api.Constants;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongAssignment;
 import com.reitler.boa.core.interfaces.ISongList;
@@ -46,7 +46,7 @@ public class SongListEditModel extends AbstractTableModel {
 
 	@Override
 	public String getColumnName(final int columnIndex) {
-		return columnIndex == 0 ? UIConstants.getAssignmentPageCaption() : UIConstants.getSongTitleCaption();
+		return columnIndex == 0 ? Constants.getAssignmentPageCaption() : Constants.getSongTitleCaption();
 	}
 
 	@Override

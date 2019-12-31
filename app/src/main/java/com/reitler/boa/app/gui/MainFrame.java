@@ -18,6 +18,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.reitler.boa.app.CSVImporter;
 import com.reitler.boa.app.gui.songlists.SongListManagementContainer;
 import com.reitler.boa.app.gui.songs.SongManagementContainer;
+import com.reitler.boa.core.api.Constants;
 import com.reitler.boa.core.interfaces.ISongListManager;
 import com.reitler.boa.core.interfaces.ISongManager;
 
@@ -38,8 +39,8 @@ public class MainFrame extends JFrame {
 
 		JTabbedPaneWithCloseButton cards = new JTabbedPaneWithCloseButton();
 
-		cards.addTabNoClose(UIConstants.getAllSongsTitle(), new SongManagementContainer(songManager, this.listManager));
-		cards.addTabNoClose(UIConstants.getAllSongListsTitle(),
+		cards.addTabNoClose(Constants.getAllSongsTitle(), new SongManagementContainer(songManager, this.listManager));
+		cards.addTabNoClose(Constants.getAllSongListsTitle(),
 				new SongListManagementContainer(songListManager, songManager, cards));
 
 		layoutContraints.insets = new Insets(10, 10, 10, 10);
@@ -71,8 +72,8 @@ public class MainFrame extends JFrame {
 	private JMenuBar createMenuBar() {
 		JMenuBar result = new JMenuBar();
 
-		JMenu menu = new JMenu(UIConstants.getFileMenu());
-		JMenuItem item = new JMenuItem(UIConstants.getImportCsvFile());
+		JMenu menu = new JMenu(Constants.getFileMenu());
+		JMenuItem item = new JMenuItem(Constants.getImportCsvFile());
 		item.addActionListener(new ActionListener() {
 
 			@Override
@@ -89,7 +90,7 @@ public class MainFrame extends JFrame {
 	private void importFile() {
 
 		JFileChooser chooser = new JFileChooser(new File("."));
-		chooser.setDialogTitle(UIConstants.getGeneratePdfCaption());
+		chooser.setDialogTitle(Constants.getGeneratePdfCaption());
 		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
 		chooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv", "txt"));
 
