@@ -130,4 +130,28 @@ public class Constants {
 	public static String getSongSongListsCaption() {
 		return Constants.RESOURCES.getString("SONG_CONTAINING_LISTS");
 	}
+
+	public static String getSortByPage() {
+		return Constants.RESOURCES.getString("SORT_BY_PAGE");
+	}
+
+	public static String getSortByTitle() {
+		return Constants.RESOURCES.getString("SORT_BY_TITLE");
+	}
+
+	public static String getIncludePages() {
+		return Constants.RESOURCES.getString("INCLUDE_PAGES");
+	}
+
+	public static String getOptions() {
+		return Constants.RESOURCES.getString("OPTIONS");
+	}
+
+	public static String getOutputFile() {
+		return Constants.RESOURCES.getString("OUTPUT_FILE");
+	}
+
+	public static String getSplitTable() {
+		return Constants.RESOURCES.getString("SPLIT_TABLE");
+	}
 }

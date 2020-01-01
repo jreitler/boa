@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.fop.util.XMLUtil;
 
 import com.reitler.boa.core.interfaces.ISongAssignment;
-import com.reitler.boa.core.interfaces.ISongList;
+import com.reitler.boa.pdfgen.PdfGenerationParameter;
 
 public class ViewModel {
 
@@ -15,45 +15,66 @@ public class ViewModel {
 
 	private final List<PrintTable> tables = new ArrayList<>();
 
-	public ViewModel(final ISongList list) {
-		createRowsByPage(list);
-		createRowsByTitle(list);
-		this.name = list.getName();
+	public ViewModel(final PdfGenerationParameter parameter) {
+		this.name = parameter.getList().getName();
+		createTables(parameter);
 	}
 
-	private void createRowsByPage(final ISongList list) {
+	private void createTables(final PdfGenerationParameter parameter) {
+		List<ISongAssignment> songs = parameter.getSortOrder() == 0 ? parameter.getList().getByPage()
+				: parameter.getList().getByTitle();
 
-		List<ISongAssignment> songs = list.getByPage();
-		createRows(songs);
-	}
+		int sections = parameter.isSplitTable() ? 2 : 1;
 
-	private void createRowsByTitle(final ISongList list) {
-		List<ISongAssignment> songs = list.getByTitle();
-		createRows(songs);
-	}
-
-	private void createRows(final List<ISongAssignment> songs) {
-		int mid = songs.size() / 2;
-		if ((songs.size() % 2) == 1) {
+		int mid = songs.size() / sections;
+		if ((songs.size() % sections) == 1) {
 			mid++;
 		}
-		PrintTable table = new PrintTable(mid, 4);
-		table.setColumnWeights(new int[] { 10, 40, 10, 40 });
-		this.tables.add(table);
 
 		List<ISongAssignment> left = new LinkedList<>(songs.subList(0, mid));
 		List<ISongAssignment> right = new LinkedList<>(songs.subList(mid, songs.size()));
 
-		for (int i = 0; i < mid; i++) {
+		if (parameter.includePages()) {
+			PrintTable table = new PrintTable(mid, 2 * sections);
+			int[] weights = new int[2 * sections];
+			for (int i = 0; i < (2 * sections); i++) {
+				if ((i % 2) == 0) {
+					weights[i] = (100 / sections) / 5;
+				} else {
+					weights[i] = ((100 / sections) / 5) * 4;
+				}
+			}
+			table.setColumnWeights(weights);
+			this.tables.add(table);
 
-			table.setValue(i, 0, escape(left.get(i).getPage()));
-			table.setValue(i, 1, escape(left.get(i).getSong().getTitle()));
+			for (int i = 0; i < mid; i++) {
 
-			if (right.size() > i) {
-				table.setValue(i, 2, escape(right.get(i).getPage()));
-				table.setValue(i, 3, escape(right.get(i).getSong().getTitle()));
+				table.setValue(i, 0, escape(left.get(i).getPage()));
+				table.setValue(i, 1, escape(left.get(i).getSong().getTitle()));
+
+				if (right.size() > i) {
+					table.setValue(i, 2, escape(right.get(i).getPage()));
+					table.setValue(i, 3, escape(right.get(i).getSong().getTitle()));
+				}
+			}
+		} else {
+			PrintTable table = new PrintTable(mid, sections);
+			int[] weights = new int[sections];
+			for (int i = 0; i < (sections); i++) {
+				weights[i] = 100 % sections;
+			}
+			table.setColumnWeights(new int[] { 50, 50 });
+			this.tables.add(table);
+			for (int i = 0; i < mid; i++) {
+
+				table.setValue(i, 0, escape(left.get(i).getSong().getTitle()));
+
+				if (right.size() > i) {
+					table.setValue(i, 1, escape(right.get(i).getSong().getTitle()));
+				}
 			}
 		}
+
 	}
 
 	public String getName() {
