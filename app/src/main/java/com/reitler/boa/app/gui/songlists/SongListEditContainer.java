@@ -2,32 +2,25 @@ package com.reitler.boa.app.gui.songlists;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JTable;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.reitler.boa.app.gui.FilteredTable;
-import com.reitler.boa.app.gui.UIConstants;
 import com.reitler.boa.app.gui.songs.SongSelectionDialog;
+import com.reitler.boa.core.api.Constants;
 import com.reitler.boa.core.interfaces.ISong;
 import com.reitler.boa.core.interfaces.ISongList;
 import com.reitler.boa.core.interfaces.ISongListManager;
 import com.reitler.boa.core.interfaces.ISongManager;
-import com.reitler.boa.pdfgen.PdfGenerator;
+import com.reitler.boa.pdfgen.ui.PdfGeneratorDialog;
 
 public class SongListEditContainer extends Container {
 
@@ -87,7 +80,7 @@ public class SongListEditContainer extends Container {
 		private static final long serialVersionUID = -5324451503239813652L;
 
 		private AddSongAction() {
-			super(UIConstants.getAddSongButton());
+			super(Constants.getAddSongButton());
 		}
 
 		@Override
@@ -108,7 +101,7 @@ public class SongListEditContainer extends Container {
 		private final JTable table;
 
 		private RemoveSongAction(final JTable table) {
-			super(UIConstants.getRemoveSongButton());
+			super(Constants.getRemoveSongButton());
 			this.table = table;
 		}
 
@@ -128,43 +121,17 @@ public class SongListEditContainer extends Container {
 
 	private final class PrintSongListAction extends AbstractAction {
 
-		private static final String PDF_FILE_EXTENSION = ".pdf";
 		private static final long serialVersionUID = 7664446593744493627L;
 		private final ISongList list;
 
 		private PrintSongListAction(final ISongList list) {
-			super(UIConstants.getGeneratePdfButton());
+			super(Constants.getGeneratePdfButton());
 			this.list = list;
 		}
 
 		@Override
 		public void actionPerformed(final ActionEvent e) {
-			JFileChooser chooser = new JFileChooser(new File("."));
-			chooser.setDialogTitle(UIConstants.getGeneratePdfCaption());
-			chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-			chooser.setFileFilter(new FileNameExtensionFilter(UIConstants.getPdfFileType(), "pdf"));
-			chooser.setSelectedFile(
-					new File("." + File.separator + this.list.getName() + PrintSongListAction.PDF_FILE_EXTENSION));
-
-			int result = chooser.showSaveDialog(null);
-			if (result == JFileChooser.APPROVE_OPTION) {
-				File file = chooser.getSelectedFile();
-				if (!file.getAbsolutePath().endsWith(PrintSongListAction.PDF_FILE_EXTENSION)) {
-					file = new File(file.getAbsolutePath() + PrintSongListAction.PDF_FILE_EXTENSION);
-				}
-				PdfGenerator generator = new PdfGenerator();
-				generator.generate(this.list, file);
-
-				if (file.exists()) {
-					try {
-						Desktop.getDesktop().open(file);
-					} catch (IOException exception) {
-						Logger.getLogger(SongListEditContainer.class.getCanonicalName()).log(Level.WARNING,
-								"Could not open file: " + file.getAbsolutePath(), exception);
-					}
-				}
-			}
-
+			new PdfGeneratorDialog(this.list).showDialog();
 		}
 
 	}

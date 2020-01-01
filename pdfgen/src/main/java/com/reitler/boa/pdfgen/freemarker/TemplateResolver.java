@@ -6,7 +6,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.reitler.boa.core.interfaces.ISongList;
+import com.reitler.boa.pdfgen.PdfGenerationParameter;
 
 import freemarker.cache.TemplateLoader;
 import freemarker.cache.URLTemplateLoader;
@@ -15,8 +15,8 @@ import freemarker.template.Template;
 
 public class TemplateResolver {
 
-	public String resolve(final ISongList list) {
-		ViewModel dataModel = new ViewModel(list);
+	public String resolve(final PdfGenerationParameter parameter) {
+		ViewModel dataModel = new ViewModel(parameter);
 
 		TemplateLoader loader = new URLTemplateLoader() {
 

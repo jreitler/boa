@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.reitler.boa.app.gui.AbstractTableModel;
-import com.reitler.boa.app.gui.UIConstants;
+import com.reitler.boa.core.api.Constants;
 import com.reitler.boa.core.interfaces.ISongList;
 
 public class SongListManagementTableModel extends AbstractTableModel {
@@ -28,7 +28,7 @@ public class SongListManagementTableModel extends AbstractTableModel {
 	@Override
 	public String getColumnName(final int columnIndex) {
 		if (columnIndex == 0) {
-			return UIConstants.getSongListNameCaption();
+			return Constants.getSongListNameCaption();
 		}
 		return null;
 	}
