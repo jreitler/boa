@@ -49,7 +49,7 @@
 47;Atemlos;Kristina Bach;Johannes Thaler;Mappe;39;;;
 48;Auf dem Dach der Welt;;;;;;;
 49;Auf der Heide blühn die letzten Rosen;;;;;;;
-49;Auf der Vogelwiese;Jaroslav Jondra;Rundel;Orginal Andrea K�rsten;;;;
+49;Auf der Vogelwiese;Jaroslav Jondra;Rundel;Orginal Andrea Kürsten;;;;
 50;Auf einem persischen Markt;;;;;;;
 51;Auf uns;Andreas Bourani;Vince Colter;;;;;
 52;Auf zum Start;;;;;;;
@@ -203,9 +203,9 @@
 198;Fallada;;;;;;;
 199;Fame;Gore;Bernaerts;;;;;
 200;Fanfare for the Common Man;Aaron Copland;Manfred Schneider;;;;;
-201;"Fantasie aus ""Der Freischütz""";;;;;;;
+201;Fantasie aus "Der Freischütz";;;;;;;
 202;Fantasie aus Lohengrin;;;;;;;
-203;"Fantasie über ""O du fröhliche""";Otto M. Schwarz;;;;;;
+203;Fantasie über "O du fröhliche";Otto M. Schwarz;;;;;;
 204;Fascinating Drums;;Ted Higgens;;;;;
 205;Feliz Navidad;Viktor Lopez;;Jugend;;;;
 206;Feliz Navidad;;Barry;;;;;
@@ -362,7 +362,7 @@
 353;Kölsch -Knaller;;Züll;Heft;10;;;
 354;Kölsche Jonge bütze joot;Kreissl;Züll;K-Heft;6;;;
 355;Königin Augusta Viktoria Marsch;;;K-Heft;33;;;
-356;"Krönungsmarsch aus ""der Prophet""";;;;;;;
+356;Krönungsmarsch aus "der Prophet";;;;;;;
 357;Kuckucks-Walzer;;;;;;;
 358;Kumm loß mer fiere;;Züll/Classen;;;;;
 359;Kyrill;;Otto M. Schwarz;;;;;
@@ -430,7 +430,7 @@
 416;Oregon;;Jacob de Haan;;;;;
 417;Ouverture Leggiero;;;;;;;
 418;Ouverture Melomanie;;;;;;;
-419;"Ouverture zur Oper ""Regina""";;;;;;;
+419;Ouverture zur Oper "Regina";;;;;;;
 420;Over the Rainbow;H. Arlen;Waren Barker;;;;;
 421;Pachelbels`s Canon;Pachelbel;Steve Cortland;;;;;
 422;Parade der Zinnsoldaten;;;;;;;
@@ -496,7 +496,7 @@
 660;Santa Claus is coming to town;Jan van Kraydonk;;;;;;
 661;Saxo Trip;;;;;;;
 662;Schatzi schenk mir ein Foto;;;;;;;
-663;Schenk mir dein Herz;Höhner/Classen;Züll;Heft/K-Heft;/29/34;;;
+663;Schenk mir dein Herz;Höhner/Classen;Züll;Heft/K-Heft;29/34;;;
 664;Schenkt man sich Rosen in Tirol;;;K-Heft;19;;;
 665;Schlag auf Schlag;;;;;;;
 666;Schlager Gold;;Hermannsdörfer;;;;;
