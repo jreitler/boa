@@ -27,10 +27,6 @@ public class Constants {
 		return Constants.RESOURCES.getString("SONG_PUBLISHER");
 	}
 
-	public static final String getChangeSongMessage() {
-		return Constants.RESOURCES.getString("CHANGE_SONG_MESSAGE");
-	}
-
 	public static final String getCreateSongButton() {
 		return Constants.RESOURCES.getString("CREATE_SONG_BUTTON");
 	}
@@ -153,5 +149,17 @@ public class Constants {
 
 	public static String getSplitTable() {
 		return Constants.RESOURCES.getString("SPLIT_TABLE");
+	}
+
+	public static String getCreateSongCaption() {
+		return Constants.RESOURCES.getString("CREATE_SONG_CAPTION");
+	}
+
+	public static String getEditSongCaption() {
+		return Constants.RESOURCES.getString("EDIT_SONG_CAPTION");
+	}
+
+	public static String getSongSelectionCaption() {
+		return Constants.RESOURCES.getString("SELECT_SONGS_CAPTION");
 	}
 }

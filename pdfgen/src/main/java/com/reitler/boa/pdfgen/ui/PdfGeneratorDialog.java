@@ -64,6 +64,7 @@ public class PdfGeneratorDialog extends JDialog {
 
 		setMinimumSize(new Dimension(350, 200));
 		setSize(350, 150);
+		setBounds(320, 320, getWidth(), getHeight());
 		setTitle(Constants.getGeneratePdfCaption());
 		pack();
 		setVisible(true);

@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -37,7 +38,15 @@ public class SongChangeDialog extends JDialog {
 	private SongCreationParameter songParameter;
 
 	public SongChangeDialog(final ISong parameter) {
-		super();
+		this(parameter, Constants.getEditSongCaption());
+	}
+
+	public SongChangeDialog() {
+		this(null, Constants.getCreateSongCaption());
+	}
+
+	private SongChangeDialog(final ISong parameter, final String title) {
+		super((JFrame) null, title);
 		if (parameter != null) {
 			this.title.setText(parameter.getTitle());
 			this.artist.setText(parameter.getArtist());
@@ -45,10 +54,6 @@ public class SongChangeDialog extends JDialog {
 			this.tags.setText(String.join(" ", parameter.getTags()));
 		}
 		showDialog();
-	}
-
-	public SongChangeDialog() {
-		this(null);
 	}
 
 	private void initializeParameter() {
@@ -119,6 +124,7 @@ public class SongChangeDialog extends JDialog {
 
 		setMinimumSize(new Dimension(350, 200));
 		setSize(350, 150);
+		setBounds(320, 320, getWidth(), getHeight());
 		pack();
 
 	}

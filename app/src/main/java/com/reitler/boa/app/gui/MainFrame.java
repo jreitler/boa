@@ -55,6 +55,7 @@ public class MainFrame extends JFrame {
 
 		super.add(cards, layoutContraints);
 		super.pack();
+		setBounds(300, 300, getSize().width, getSize().height);
 		setVisible(true);
 		setEnabled(true);
 
@@ -90,7 +91,7 @@ public class MainFrame extends JFrame {
 	private void importFile() {
 
 		JFileChooser chooser = new JFileChooser(new File("."));
-		chooser.setDialogTitle(Constants.getGeneratePdfCaption());
+		chooser.setDialogTitle(Constants.getImportCsvFile());
 		chooser.setDialogType(JFileChooser.SAVE_DIALOG);
 		chooser.setFileFilter(new FileNameExtensionFilter("CSV Files", "csv", "txt"));
 

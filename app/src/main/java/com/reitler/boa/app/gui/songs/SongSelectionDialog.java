@@ -70,8 +70,10 @@ public class SongSelectionDialog extends JDialog implements ActionListener {
 		add(this.selectionContainer, BorderLayout.CENTER);
 		add(buttonPane, BorderLayout.AFTER_LAST_LINE);
 		pack();
+		setTitle(Constants.getSongSelectionCaption());
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setSize(300, 300);
+		setBounds(320, 320, getWidth(), getHeight());
 	}
 
 	@Override

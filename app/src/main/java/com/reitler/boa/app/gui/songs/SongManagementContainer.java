@@ -77,8 +77,6 @@ public class SongManagementContainer extends Container {
 
 			@Override
 			public void mouseClicked(final MouseEvent e) {
-				System.out.println(e.getClickCount());
-				System.out.println(table.getSelectedColumnCount());
 				if ((e.getClickCount() == 2) && (table.getSelectedRowCount() == 1)) {
 					changeSong(table);
 				} else if (SwingUtilities.isRightMouseButton(e)) {
