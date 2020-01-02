@@ -97,10 +97,17 @@ public class PdfGenerator {
 			}
 			table.addCell(new Phrase(left.get(i).getSong().getTitle(), font));
 
-			if (this.parameter.includePages()) {
-				table.addCell(new Phrase(right.get(i).getPage(), font));
+			if (right.size() > i) {
+				if (this.parameter.includePages()) {
+					table.addCell(new Phrase(right.get(i).getPage(), font));
+				}
+				table.addCell(new Phrase(right.get(i).getSong().getTitle(), font));
+			} else {
+				if (this.parameter.includePages()) {
+					table.addCell("");
+				}
+				table.addCell("");
 			}
-			table.addCell(new Phrase(right.get(i).getSong().getTitle(), font));
 		}
 		document.add(table);
 	}
