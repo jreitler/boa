@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -35,8 +34,7 @@ public class CSVImporter {
 
 		initCaches();
 
-		try (BufferedReader reader = new BufferedReader(
-				new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8")))) {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				if (!line.startsWith("#")) {
