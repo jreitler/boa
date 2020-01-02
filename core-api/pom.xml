@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.reitler.boa</groupId>
     <artifactId>parent</artifactId>
-    <version>0.9.0</version>
+    <version>${revision}</version>
   </parent>
   <artifactId>core-api</artifactId>
   <name>core-api</name>

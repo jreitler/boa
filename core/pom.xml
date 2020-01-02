@@ -8,7 +8,7 @@
   <parent>
   	<groupId>com.reitler.boa</groupId>
   	<artifactId>parent</artifactId>
-  	<version>0.9.0</version>
+  	<version>${revision}</version>
   </parent>
 
   <name>core</name>
@@ -18,7 +18,7 @@
   	<dependency>
   		<artifactId>core-api</artifactId>
   		<groupId>com.reitler.boa</groupId>
-  		<version>0.9.0</version>
+  		<version>${revision}</version>
   	</dependency>
   	<dependency>
 	    <groupId>org.xerial</groupId>

@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.reitler.boa</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.9.0</version>
+		<version>${revision}</version>
 	</parent>
 
 	<build>
@@ -34,7 +34,7 @@
 							<descriptorRefs>
 								<descriptorRef>jar-with-dependencies</descriptorRef>
 							</descriptorRefs>
-							<finalName>boa</finalName>
+							<finalName>boa-${project.version}</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>
 					</execution>
@@ -47,17 +47,17 @@
 		<dependency>
 			<groupId>com.reitler.boa</groupId>
 			<artifactId>core-api</artifactId>
-			<version>0.9.0</version>
+			<version>${revision}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.reitler.boa</groupId>
 			<artifactId>core</artifactId>
-			<version>0.9.0</version>
+			<version>${revision}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.reitler.boa</groupId>
 			<artifactId>pdfgen</artifactId>
-			<version>0.9.0</version>
+			<version>${revision}</version>
 		</dependency>
 	</dependencies>
 </project>
