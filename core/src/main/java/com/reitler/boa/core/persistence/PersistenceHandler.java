@@ -102,8 +102,8 @@ public class PersistenceHandler implements IPersistenceHandler {
 	private void updateSongList(final ISongList list) {
 		try (PreparedStatement statement = this.connection.prepareStatement(Queries.UPDATE_SONGLIST_QUERY)) {
 			statement.setQueryTimeout(30);
-			statement.setInt(1, list.getId());
-			statement.setString(2, list.getName());
+			statement.setString(1, list.getName());
+			statement.setInt(2, list.getId());
 			statement.executeUpdate();
 
 		} catch (SQLException e) {
