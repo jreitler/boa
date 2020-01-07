@@ -2,7 +2,6 @@ package com.reitler.boa.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -64,7 +63,7 @@ public class SongList extends ListenerSupport<ISongListListener> implements ISon
 
 	private List<ISongAssignment> getSortedByPage() {
 		List<ISongAssignment> result = new ArrayList<>(this.assignments);
-		Collections.sort(result, new PageComparator());
+		Collections.sort(result, (a, b) -> new PageComparator().compare(a.getPage(), b.getPage()));
 		return result;
 	}
 
@@ -87,13 +86,6 @@ public class SongList extends ListenerSupport<ISongListListener> implements ISon
 		this.name = name;
 		for (ISongListListener l : getListeners()) {
 			l.songListNameChanged(this, oldName, name);
-		}
-	}
-
-	private class PageComparator implements Comparator<ISongAssignment> {
-		@Override
-		public int compare(final ISongAssignment a, final ISongAssignment b) {
-			return new PageNumberComparable(a.getPage()).compareTo(new PageNumberComparable(b.getPage()));
 		}
 	}
 

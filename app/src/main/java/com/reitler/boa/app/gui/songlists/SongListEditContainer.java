@@ -47,7 +47,7 @@ public class SongListEditContainer extends Container {
 		JTable table = new JTable(this.model);
 		table.getColumnModel().getColumn(0).setMinWidth(50);
 		table.getColumnModel().getColumn(0).setMaxWidth(50);
-		FilteredTable filteredTable = new FilteredTable(table, this.model);
+		FilteredTable filteredTable = new FilteredTable(table, new SongListTableRowSorter(this.model));
 		add(filteredTable, BorderLayout.CENTER);
 
 		Container container = new Container();

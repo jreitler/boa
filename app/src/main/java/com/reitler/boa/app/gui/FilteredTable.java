@@ -26,7 +26,11 @@ public class FilteredTable extends Container {
 	private final TableRowSorter<TableModel> sorter;
 
 	public FilteredTable(final JTable table, final TableModel model) {
-		this.sorter = new TableRowSorter<>(model);
+		this(table, new TableRowSorter<>(model));
+	}
+
+	public FilteredTable(final JTable table, final TableRowSorter<TableModel> sorter) {
+		this.sorter = sorter;
 		table.setRowSorter(this.sorter);
 
 		setLayout(new BorderLayout());
@@ -36,6 +40,7 @@ public class FilteredTable extends Container {
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
+
 	}
 
 	private void updateFilter(final String text) {
